@@ -65,7 +65,7 @@ const Login = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                     /><br />
-                    {errors.otp && touched.otp?<p className="form-error" style={{color: "red"}}>{errors.otp}</p>:null}
+                    {errors.otp && touched.otp?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.otp}</p>:null}
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -79,7 +79,7 @@ const Login = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    {errors.password && touched.password?<p className="form-error" style={{color: "red"}}>{errors.password}</p>:null}
+                    {errors.password && touched.password?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.password}</p>:null}
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>

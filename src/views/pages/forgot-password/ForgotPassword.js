@@ -62,7 +62,7 @@ const Login = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                     />
-                    {errors.email && touched.email?<p className="form-error" style={{color: "red"}}>{errors.email}</p>:null}
+                    {errors.email && touched.email?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.email}</p>:null}
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
