@@ -8,6 +8,7 @@ import Page404 from "./views/pages/page404/Page404";
 import Page500 from "./views/pages/page500/Page500";
 import "./scss/style.scss";
 import DefaultLayout from "./layout/DefaultLayout";
+import Dashboard from "./views/dashboard/Dashboard";
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
         <Route path="/reset-password" element={ <ResetPassword/> } />
         <Route path="/page-404" element={ <Page404/> } />
         <Route path="/page-500" element={ <Page500/> } />
-        <Route path="dashboard" name="Home" element={<DefaultLayout />} />
+        <Route path="*" name="Home" element={<DefaultLayout />} />
+        {/* <Route path="/dashboard" element={ <Dashboard/> } /> */}
       </Routes>
     </div>
   )
