@@ -13,14 +13,17 @@ import {
   CRow,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { cilLockLocked, cilUser } from '@coreui/icons';
+import { cilLockLocked } from '@coreui/icons';
 import {useFormik} from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
-import {reset_password_schema} from "../../../schemas/index"
+import { useNavigate, useLocation } from 'react-router-dom';
+import {reset_password_schema} from "../../../schemas/index";
+import { reset_password_route } from '../../../utils/APIRoutes';
+import axios from 'axios';
 
 const Login = () => {
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const initialValues = {
     otp: "",
@@ -31,15 +34,16 @@ const Login = () => {
     initialValues: initialValues,
     validationSchema: reset_password_schema,
     onSubmit: async (values, action) => {
-      console.log(values);
       const { otp, password } = values;
-    //   const { data } = await axios.post(registerRoute, { username, email, password });
-    //   if(data.success === false) {
-    //     connsole.log(data.message);
-    // }else if(data.success === true) {
-    //     navigate("/");
-    //     console.log(data.message);
-    // };
+      console.log(">>>>",location.state.email);
+      const { data } = await axios.post(reset_password_route, { email:location.state.email, otp, password });
+      console.log("reset",data);
+      if(data.success === false) {
+        connsole.log(data.message);
+    }else if(data.success === true) {
+        navigate("/");
+        console.log(data.message);
+    };
       action.resetForm();
     }
   });
@@ -83,7 +87,7 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" type="submit" className="px-4">
                           Reset Password
                         </CButton>
                       </CCol>

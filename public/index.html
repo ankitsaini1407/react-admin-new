@@ -30,8 +30,15 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <link href="../src/assets/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css">
+
+        <!-- Plugins css -->
+        <link href="../src/assets/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css">
         <link href="../src/assets/libs/dropify/dropify.min.css" rel="stylesheet" type="text/css">
+
+        <!-- App css -->
+        <link href="../src/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="../src/assets/css/icons.min.css" rel="stylesheet" type="text/css">
+        <link href="../src/assets/css/app.min.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <noscript>
@@ -48,11 +55,16 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="../src/assets/js/vendor.min.js"></script>
 
+    <!-- Plugins js -->
     <script src="../src/assets/libs/dropzone/dropzone.min.js"></script>
-        <script src="../src/assets/libs/dropify/dropify.min.js"></script>
+    <script src="../src/assets/libs/dropify/dropify.min.js"></script>
 
-        <!-- Init js-->
-        <script src="assets/js/pages/form-fileuploads.init.js"></script>
+    <!-- Init js-->
+    <script src="../src/assets/js/pages/form-fileuploads.init.js"></script>
+
+    <!-- App js -->
+    <script src="../srcassets/js/app.min.js"></script>
   </body>
 </html>

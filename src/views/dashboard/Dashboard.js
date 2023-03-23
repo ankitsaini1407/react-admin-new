@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import {
   CAvatar,
@@ -50,9 +50,23 @@ import avatar3 from '../../assets/images/avatars/3.jpg';
 import avatar4 from '../../assets/images/avatars/4.jpg';
 import avatar5 from '../../assets/images/avatars/5.jpg';
 import avatar6 from '../../assets/images/avatars/6.jpg';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+
 
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(()=>{myFunction()},[]);
+  const myFunction = async () => {
+    const token = Cookies.get('token');
+    if(!token){
+        navigate("/");
+    }else{
+      navigate("/dashboard");
+    }
+    };
   const random = (min, max) => Math.floor(Math.random() * (max - min + 1) + min)
 
   const progressExample = [

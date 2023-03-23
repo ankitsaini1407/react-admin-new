@@ -17,6 +17,6 @@ export const forgot_password_schema = Yup.object({
 }); 
 
 export const reset_password_schema = Yup.object({
-    otp: Yup.number().required("This field is required"),
-    password: Yup.string().email().required("This field is required")
+    otp: Yup.string().required("This field is required"),
+    password: Yup.string().required("This field is required")
 }); 

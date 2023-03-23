@@ -14,7 +14,9 @@ import {
 } from '@coreui/react';
 import {useFormik} from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import {forgot_password_schema} from "../../../schemas/index"
+import {forgot_password_schema} from "../../../schemas/index";
+import { forgot_password_route } from '../../../utils/APIRoutes';
+import axios from 'axios';
 
 const Login = () => {
 
@@ -28,15 +30,15 @@ const Login = () => {
     initialValues: initialValues,
     validationSchema: forgot_password_schema,
     onSubmit: async (values, action) => {
-      console.log(values);
       const { email } = values;
-    //   const { data } = await axios.post(registerRoute, { username, email, password });
-    //   if(data.success === false) {
-    //     connsole.log(data.message);
-    // }else if(data.success === true) {
-    //     navigate("/");
-    //     console.log(data.message);
-    // };
+      const { data } = await axios.post(forgot_password_route, { email });
+      console.log(data);
+      if(data.success === false) {
+        connsole.log(data.message);
+    }else if(data.success === true) {
+        navigate("/reset-password", {state: {email:email}});
+        console.log(data.message);
+    };
       action.resetForm();
     }
   });
@@ -66,7 +68,7 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" type="submit" className="px-4">
                           Get Otp
                         </CButton>
                       </CCol>
