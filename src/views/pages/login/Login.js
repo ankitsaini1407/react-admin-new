@@ -20,6 +20,8 @@ import {login_schema} from "../../../schemas/index";
 import { loginRoute } from '../../../utils/APIRoutes';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -30,15 +32,21 @@ const Login = () => {
     const token = Cookies.get('token');
     if(token){
         navigate("/dashboard");
-    }else{
-      navigate("/");
-    }
+    };
     };
 
   const initialValues = {
     email: "",
     password: ""
   };
+
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+};
 
   const {values, errors, touched, handleBlur, handleChange, handleSubmit } =  useFormik({
     initialValues: initialValues,
@@ -48,18 +56,22 @@ const Login = () => {
       const { email, password } = values;
       const { data } = await axios.post(loginRoute, { email, password });
       if(data.success === false) {
-        connsole.log(data.message);
+        toast.error(data.message, toastOptions);
     }else if(data.success === true) {
       Cookies.set('token', data.token);
     let user = JSON.stringify(data.user);
       Cookies.set('user', user);
+      setTimeout(()=>{
         navigate("/dashboard");
+      }, 3000)
+        toast.success(data.message, toastOptions);
     };
       action.resetForm();
     }
   });
 
   return (
+    <>
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
@@ -67,7 +79,7 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <form onSubmit = { handleSubmit }>
+                  <CForm onSubmit = { handleSubmit }>
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
@@ -110,7 +122,7 @@ const Login = () => {
                         </Link>
                       </CCol>
                     </CRow>
-                  </form>
+                  </CForm>
                 </CCardBody>
               </CCard>
             </CCardGroup>
@@ -118,7 +130,9 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+      <ToastContainer />
+    </>
+  );
+};
 
 export default Login

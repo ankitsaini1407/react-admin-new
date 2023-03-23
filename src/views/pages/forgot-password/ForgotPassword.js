@@ -17,6 +17,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import {forgot_password_schema} from "../../../schemas/index";
 import { forgot_password_route } from '../../../utils/APIRoutes';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -26,24 +28,34 @@ const Login = () => {
     email: "",
   };
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+};
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit } =  useFormik({
     initialValues: initialValues,
     validationSchema: forgot_password_schema,
     onSubmit: async (values, action) => {
       const { email } = values;
       const { data } = await axios.post(forgot_password_route, { email });
-      console.log(data);
       if(data.success === false) {
-        connsole.log(data.message);
+        toast.error(data.message, toastOptions);
     }else if(data.success === true) {
+      setTimeout(()=>{
         navigate("/reset-password", {state: {email:email}});
-        console.log(data.message);
+      }, 3000);
+        toast.success(data.message, toastOptions);
     };
       action.resetForm();
     }
   });
 
   return (
+    <>
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
@@ -81,6 +93,8 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
+    <ToastContainer />
+    </>
   )
 }
 

@@ -20,3 +20,8 @@ export const reset_password_schema = Yup.object({
     otp: Yup.string().required("This field is required"),
     password: Yup.string().required("This field is required")
 }); 
+
+export const add_banner_schema = Yup.object({
+    banner: Yup.string().required("This field is required"),
+    banner_type: Yup.string().required("This field is required")
+}); 

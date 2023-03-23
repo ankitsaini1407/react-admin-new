@@ -30,7 +30,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'All Banners',
-        to: '/all-banners',
+        to: '/banners',
       }
     ],
   },

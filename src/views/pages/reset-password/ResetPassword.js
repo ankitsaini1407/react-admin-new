@@ -19,6 +19,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import {reset_password_schema} from "../../../schemas/index";
 import { reset_password_route } from '../../../utils/APIRoutes';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -30,25 +32,34 @@ const Login = () => {
     password: ""
   };
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+};
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit } =  useFormik({
     initialValues: initialValues,
     validationSchema: reset_password_schema,
     onSubmit: async (values, action) => {
       const { otp, password } = values;
-      console.log(">>>>",location.state.email);
       const { data } = await axios.post(reset_password_route, { email:location.state.email, otp, password });
-      console.log("reset",data);
       if(data.success === false) {
-        connsole.log(data.message);
+        toast.error(data.message, toastOptions);
     }else if(data.success === true) {
+      setTimeout(()=>{
         navigate("/");
-        console.log(data.message);
+      }, 3000);
+        toast.success(data.message, toastOptions);
     };
       action.resetForm();
     }
   });
 
   return (
+    <>
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
@@ -100,6 +111,8 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
+    <ToastContainer />
+    </>
   )
 }
 
