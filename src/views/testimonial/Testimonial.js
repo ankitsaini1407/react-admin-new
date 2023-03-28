@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_banner_route } from "../../utils/APIRoutes";
+import { get_testimonial_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 const Banners = () => {
 
@@ -14,7 +14,7 @@ const Banners = () => {
 
   const getData = async () => {
     try {
-      let response = await axios.get(get_banner_route);
+      let response = await axios.get(get_testimonial_route);
       console.log(response);
       setData(response.data.data);
       setFilteredData(response.data.data);
@@ -34,25 +34,33 @@ const Banners = () => {
 
   const columns = [
     {
-      name: "Banner",
+      name: "Image",
       selector: row => <img src={row.image} width={40} alt='Banner' />,
       sortable: true,
 
     },
     {
-      name: "Type",
-      selector: row => row.type,
+      name: "Amount",
+      selector: row => row.amount,
       sortable: true
     },
     {
-      name: "Status",
-      selector: row => row.status,
+        name: "Type",
+        selector: row => row.type,
+        sortable: true
+      },
+    {
+      name: "Quote",
+      selector: row => row.quote,
       sortable: true
     },
     {
       name: "Is-Active",
-      cell: row => <label className="switch">
+      cell: row => row.isActive === false? <label className="switch">
         <input type="checkbox" />
+        <span className="slider"></span>
+      </label>:<label className="switch">
+        <input type="checkbox" checked />
         <span className="slider"></span>
       </label>
     }

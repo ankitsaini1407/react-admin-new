@@ -1,10 +1,11 @@
-import React from 'react'
-import CIcon from '@coreui/icons-react'
+import React from 'react';
+import CIcon from '@coreui/icons-react';
 import {
   cilSpeedometer,
   cilStar,
-} from '@coreui/icons'
-import { CNavGroup, CNavItem } from '@coreui/react'
+} from '@coreui/icons';
+import { CNavGroup, CNavItem } from '@coreui/react';
+import { BsChatLeftQuote } from "react-icons/bs";
 
 const _nav = [
   {
@@ -31,6 +32,58 @@ const _nav = [
         component: CNavItem,
         name: 'All Banners',
         to: '/banners',
+      }
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "FAQ's",
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add FAQ',
+        to: '/add-faq',
+      },
+      {
+        component: CNavItem,
+        name: "All FAQ's",
+        to: '/faq',
+      }
+    ],
+  },
+  {
+    component: CNavGroup,
+    name: "Testimonial",
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add Testimonial',
+        to: '/add-testimonial',
+      },
+      {
+        component: CNavItem,
+        name: "All Testimonial",
+        to: '/testimonial',
+      }
+    ],
+  },
+
+  {
+    component: CNavGroup,
+    name: "CMS",
+    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Add Cms',
+        to: '/add-cms',
+      },
+      {
+        component: CNavItem,
+        name: "All Cms",
+        to: '/cms',
       }
     ],
   },

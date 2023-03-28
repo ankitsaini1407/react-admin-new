@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_banner_route } from "../../utils/APIRoutes";
-import "../../assets/css/banner-toggle-btn.css";
-const Banners = () => {
+import { get_faq_route } from "../../utils/APIRoutes";
+import "../../assets/css/banner-toggle-btn.css"
+
+const AllFaq = () => {
 
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
@@ -14,10 +15,11 @@ const Banners = () => {
 
   const getData = async () => {
     try {
-      let response = await axios.get(get_banner_route);
+      let response = await axios.get(get_faq_route);
       console.log(response);
-      setData(response.data.data);
-      setFilteredData(response.data.data);
+      console.log(response.data)
+      setData(response.data);
+      setFilteredData(response.data);
     } catch (err) {
       console.log(err);
     };
@@ -34,21 +36,35 @@ const Banners = () => {
 
   const columns = [
     {
-      name: "Banner",
-      selector: row => <img src={row.image} width={40} alt='Banner' />,
+      name: "FAQ",
+      selector: row => <div className="text-wrap">{row.ques}</div>,
       sortable: true,
-
+      maxWidth: "200px",
     },
     {
       name: "Type",
       selector: row => row.type,
-      sortable: true
+      sortable: true,
+      maxWidth: "200px",
     },
     {
-      name: "Status",
-      selector: row => row.status,
-      sortable: true
+      name: "Sub Type",
+      selector: row => row.subType?row.subType:"N/A",
+      sortable: true,
+      maxWidth: "200px",
     },
+    {
+        name: "Answer",
+        selector: row => <div className="text-wrap">{row.answer}</div>,
+        sortable: true,
+        maxWidth: "200px",
+      },
+      {
+        name: "Status",
+        selector: row => row.status,
+        sortable: true,
+        maxWidth: "200px",
+      },
     {
       name: "Is-Active",
       cell: row => <label className="switch">
@@ -74,7 +90,7 @@ const Banners = () => {
   return (
     <div className="container">
       <DataTable
-        title="Banners List"
+        title="All FAQ's"
         columns={columns}
         data={filteredData}
         pagination
@@ -94,10 +110,11 @@ const Banners = () => {
           />
         }
         subHeaderAlign="right"
-        actions={<button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button>}
+        
+
       />
     </div>
   )
 }
 
-export default Banners;
+export default AllFaq;
