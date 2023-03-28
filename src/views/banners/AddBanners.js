@@ -10,8 +10,6 @@ import { add_banner_route } from '../../utils/APIRoutes';
 import { toast } from 'react-toastify';
 
 const AddBanners = () => {
-  const [file, setFile] = useState();
-  console.log("file", file);
   const navigate = useNavigate();
 
   useEffect(() => { myFunction() }, []);
@@ -35,12 +33,12 @@ const AddBanners = () => {
     type: ""
   };
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+  const formik = useFormik({
     initialValues: initialValues,
     validationSchema: add_banner_schema,
     onSubmit: async (values, action) => {
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("image", values.image);
       console.log("formData", formData);
       const { data } = await axios.post(`${add_banner_route}?type=${values.type}`, formData);
       if (data.success === false) {
@@ -58,7 +56,7 @@ const AddBanners = () => {
   });
   return (
     <>
-      <Form onSubmit={handleSubmit} encType="multipart/form-data">
+      <Form onSubmit={formik.handleSubmit} encType="multipart/form-data">
         <Form.Group controlId="formFileLg" className="mb-3">
           <Form.Label>Select a banner</Form.Label>
           <Form.Control
@@ -66,21 +64,25 @@ const AddBanners = () => {
             name="image"
             size="lg"
             accept="image/*"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => formik.setFieldValue("image", e.target.files[0])}
+            isInvalid={!!formik.errors.image}
+            isValid={formik.touched.image && !formik.errors.image}
           />
-          {errors.image && touched.image ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{errors.image}</p> : null}
+          {formik.errors.image && formik.touched.image ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.image}</p> : null}
         </Form.Group><br />
         <Form.Select
           size="lg"
           name="type"
-          value={values.type}
-          onChange={handleChange}
-          onBlur={handleBlur}>
+          value={formik.values.type}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          isInvalid={!!formik.errors.type}
+          isValid={formik.touched.type && !formik.errors.type}>
           <option>Select banner type</option>
           <option value="home">Home</option>
           <option value="about">About Us</option>
         </Form.Select><br />
-        {errors.type && touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{errors.type}</p> : null}
+        {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
         <Button variant="primary" type="submit">
           Submit
         </Button>

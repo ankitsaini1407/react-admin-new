@@ -10,7 +10,6 @@ import Cookies from 'js-cookie';
 import axios from "axios";
 
 const AddTestimonial = () => {
-    const [file, setFile] = useState("");
     const navigate = useNavigate();
     useEffect(() => { myFunction() }, []);
     const myFunction = async () => {
@@ -35,16 +34,16 @@ const AddTestimonial = () => {
         type: ""
     };
 
-    const { values, errors, isValid, touched, handleBlur, handleChange, handleSubmit } = useFormik({
+    const formik = useFormik({
         initialValues: initialValues,
         validationSchema: add_testimonoal_schema,
         onSubmit: async (values, action) => {
-            const { amount, quote, type } = values;
+            const { image, amount, quote, type } = values;
             const formData = new FormData();
             
             const data1={"amount":amount,"quote":quote,"type":type}
            formData.append("data",JSON.stringify(data1));
-           formData.append("image", file);
+           formData.append("image", image);
             const { data } = await axios.post(add_testimonial_route, formData,{headers:{'Content-Type':'multipart/form-data'}} );
             console.log("data", data);
             if (data.success === false) {
@@ -60,17 +59,19 @@ const AddTestimonial = () => {
     });
     return (
         <>
-            <Form noValidate onSubmit={handleSubmit}>
+            <Form noValidate onSubmit={formik.handleSubmit}>
                 <Form.Group className="position-relative mb-3">
                     <Form.Label>File</Form.Label>
                     <Form.Control
                         type="file"
                         required
                         name="image"
-                        onChange={(e) => setFile(e.target.files[0])}
-                        isInvalid={!!errors.image}
-                        isValid={touched.image && !errors.image}
+                        accept="image/*"
+                        onChange={(e) => formik.setFieldValue("image", e.target.files[0])}
+                        isInvalid={!!formik.errors.image}
+                        isValid={formik.touched.image && !formik.errors.image}
                     />
+                    {formik.errors.image && formik.touched.image ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.image}</p> : null}
                 </Form.Group>
                 <Form.Group className="position-relative mb-3">
                     <Form.Label>Amount</Form.Label>
@@ -79,12 +80,13 @@ const AddTestimonial = () => {
                         placeholder="Enter amount"
                         required
                         name="amount"
-                        value={values.amount}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.amount}
-                        isValid={touched.amount && !errors.amount}
+                        value={formik.values.amount}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        isInvalid={!!formik.errors.amount}
+                        isValid={formik.touched.amount && !formik.errors.amount}
                     />
+                    {formik.errors.amount && formik.touched.amount ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.amount}</p> : null}
                 </Form.Group>
                 <Form.Group className="position-relative mb-3">
                     <Form.Label>Quote</Form.Label>
@@ -93,12 +95,13 @@ const AddTestimonial = () => {
                         placeholder="Enter quote"
                         required
                         name="quote"
-                        value={values.quote}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.quote}
-                        isValid={touched.quote && !errors.quote}
+                        value={formik.values.quote}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        isInvalid={!!formik.errors.quote}
+                        isValid={formik.touched.quote && !formik.errors.quote}
                     />
+                    {formik.errors.quote && formik.touched.quote ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.quote}</p> : null}
                 </Form.Group>
                 <Form.Group className="position-relative mb-3">
                     <Form.Label>Type</Form.Label>
@@ -107,16 +110,17 @@ const AddTestimonial = () => {
                         placeholder="Please select a type"
                         required
                         name="type"
-                        value={values.type}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                        isInvalid={!!errors.type}
-                        isValid={touched.type && !errors.type}
+                        value={formik.values.type}
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        isInvalid={!!formik.errors.type}
+                        isValid={formik.touched.type && !formik.errors.type}
                     >
                         <option>Select testimonial type</option>
                         <option value="home">Home</option>
                         <option value="about">About Us</option>
                     </Form.Select>
+                    {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
                 </Form.Group>
                 <Button type="submit">Submit</Button>
             </Form>

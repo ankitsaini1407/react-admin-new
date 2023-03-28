@@ -34,7 +34,7 @@ export const add_faq_schema = Yup.object({
 });
 
 export const add_testimonoal_schema = Yup.object({
-    // image: Yup.mixed().required("This field is required"),
+    image: Yup.mixed().required("This field is required"),
     amount: Yup.string().required("This field is required"),
     quote: Yup.string().required("This field is required"),
     type: Yup.string().required("This field is required"),
