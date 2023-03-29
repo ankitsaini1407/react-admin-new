@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useFormik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { add_faq_schema } from "../../schemas/index";
 import { add_faq_route } from '../../utils/APIRoutes';
 import axios from 'axios';
@@ -124,6 +124,7 @@ const AddFaq = () => {
           Submit
         </Button>
       </Form>
+      <ToastContainer />
     </>
   );
 };

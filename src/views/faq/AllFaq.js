@@ -4,18 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_faq_route } from "../../utils/APIRoutes";
-import "../../assets/css/banner-toggle-btn.css"
+import { get_faq_route, change_faq_status_route } from "../../utils/APIRoutes";
+import "../../assets/css/banner-toggle-btn.css";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const AllFaq = () => {
 
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [modalInfo,setModalInfo]=useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const[isActive, setIsActive] = useState(0);
 
   const getData = async () => {
     try {
-      let response = await axios.get(get_faq_route);
+      let response = await axios.get(get_faq_route, {headers:{token:Cookies.get("token")}});
       console.log(response);
       console.log(response.data)
       setData(response.data);
@@ -34,6 +39,15 @@ const AllFaq = () => {
     };
   };
 
+  const handleChange = (id, active)=>async (e) =>{
+    active=!active;
+    setIsActive(active)
+    let response = await axios.post(`${change_faq_status_route}?id=${id}&isActive=${active}`);
+    console.log(response);
+    // e.target.setAttribute('checked', active);
+    window.location.reload(true);
+  };
+
   const columns = [
     {
       name: "FAQ",
@@ -49,26 +63,25 @@ const AllFaq = () => {
     },
     {
       name: "Sub Type",
-      selector: row => row.subType?row.subType:"N/A",
+      selector: row => row.subType ? row.subType : "N/A",
       sortable: true,
       maxWidth: "200px",
     },
     {
-        name: "Answer",
-        selector: row => <div className="text-wrap">{row.answer}</div>,
-        sortable: true,
-        maxWidth: "200px",
-      },
-      {
-        name: "Status",
-        selector: row => row.status,
-        sortable: true,
-        maxWidth: "200px",
-      },
+      name: "Answer",
+      selector: row => <div><Button variant="primary" onClick={() => {setModalInfo(row.answer);setModalShow(!modalShow)}}>Show</Button>
+      </div>
+    },
+    {
+      name: "Status",
+      selector: row => row.isActive?"Activate":"In-Activate",
+      sortable: true,
+      maxWidth: "200px",
+    },
     {
       name: "Is-Active",
       cell: row => <label className="switch">
-        <input type="checkbox" />
+        <input type="checkbox" onChange={handleChange(row.id, row.isActive)} checked={row.isActive} />
         <span className="slider"></span>
       </label>
     }
@@ -110,9 +123,12 @@ const AllFaq = () => {
           />
         }
         subHeaderAlign="right"
-        
-
       />
+      {
+        modalShow?<Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
+          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Answer</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
+          <Modal.Body><div>{modalInfo}</div></Modal.Body>
+        </Modal>:""}
     </div>
   )
 }

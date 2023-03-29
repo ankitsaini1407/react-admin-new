@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { add_banner_schema } from "../../schemas";
 import { add_banner_route } from '../../utils/APIRoutes';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AddBanners = () => {
   const navigate = useNavigate();
@@ -87,6 +87,7 @@ const AddBanners = () => {
           Submit
         </Button>
       </Form>
+      <ToastContainer />
     </>
   );
 };

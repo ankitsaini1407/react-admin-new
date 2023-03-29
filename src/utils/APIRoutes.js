@@ -1,4 +1,4 @@
-const host = "http://192.168.1.5:5000";
+const host = "http://192.168.1.8:5000";
 export const loginRoute = `${host}/v1/auth/login`;
 export const forgot_password_route = `${host}/v1/auth/getotp`;
 export const reset_password_route = `${host}/v1/auth/resetpassword`;
@@ -8,3 +8,9 @@ export const add_faq_route = `${host}/v1/addfaqs`;
 export const get_faq_route = `${host}/v1/getfaqs`;
 export const add_testimonial_route = `${host}/v1/addTestimonial`;
 export const get_testimonial_route = `${host}/v1/getTestimonial`;
+export const add_cms_route = `${host}/v1/createContent`;
+export const get_cms_route = `${host}/v1/getContent`;
+export const change_banner_status_route = `${host}/v1/updateBannerStatus`;
+export const change_faq_status_route = `${host}/v1/updateFaqStatus`;
+export const change_testimonial_status_route = `${host}/v1/updateTestimonialStatus`;
+export const change_cms_status_route = `${host}/v1/updateContentStatus`;

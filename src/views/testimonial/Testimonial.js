@@ -4,17 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_testimonial_route } from "../../utils/APIRoutes";
+import { get_testimonial_route, change_testimonial_status_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 const Banners = () => {
 
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [modalInfo,setModalInfo]=useState("");
+  const [modalShow, setModalShow] = useState(false);
+  const[isActive, setIsActive] = useState(0);
 
   const getData = async () => {
     try {
-      let response = await axios.get(get_testimonial_route);
+      let response = await axios.get(get_testimonial_route, {headers:{token:Cookies.get("token")}});
       console.log(response);
       setData(response.data.data);
       setFilteredData(response.data.data);
@@ -30,6 +35,15 @@ const Banners = () => {
     if (!token) {
       navigate("/");
     };
+  };
+
+  const handleChange = (id, active)=>async (e) =>{
+    active=!active;
+    setIsActive(active)
+    let response = await axios.post(`${change_testimonial_status_route}?id=${id}&isActive=${active}`);
+    console.log(response);
+    // e.target.setAttribute('checked', active);
+    window.location.reload(true);
   };
 
   const columns = [
@@ -51,16 +65,20 @@ const Banners = () => {
       },
     {
       name: "Quote",
-      selector: row => row.quote,
+      selector: row => <div><Button variant="primary" onClick={() => {setModalInfo(row.quote);setModalShow(!modalShow)}}>Show</Button>
+      </div>,
       sortable: true
     },
     {
+      name: "Status",
+      selector: row => row.isActive?"Activate":"In-Activate",
+      sortable: true,
+      maxWidth: "200px",
+    },
+    {
       name: "Is-Active",
-      cell: row => row.isActive === false? <label className="switch">
-        <input type="checkbox" />
-        <span className="slider"></span>
-      </label>:<label className="switch">
-        <input type="checkbox" checked />
+      cell: row => <label className="switch">
+        <input type="checkbox" onChange={handleChange(row.id, row.isActive)} checked={row.isActive} />
         <span className="slider"></span>
       </label>
     }
@@ -82,7 +100,7 @@ const Banners = () => {
   return (
     <div className="container">
       <DataTable
-        title="Banners List"
+        title="Testimonial List"
         columns={columns}
         data={filteredData}
         pagination
@@ -102,8 +120,12 @@ const Banners = () => {
           />
         }
         subHeaderAlign="right"
-        actions={<button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button>}
       />
+      {
+        modalShow?<Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
+          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Quote</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
+          <Modal.Body><div>{modalInfo}</div></Modal.Body>
+        </Modal>:""}
     </div>
   )
 }

@@ -39,3 +39,7 @@ export const add_testimonoal_schema = Yup.object({
     quote: Yup.string().required("This field is required"),
     type: Yup.string().required("This field is required"),
 });
+
+export const cms_schema = Yup.object({
+    type: Yup.string().required("This field is required"),
+});
