@@ -2,7 +2,11 @@ import React from 'react';
 import CIcon from '@coreui/icons-react';
 import {
   cilSpeedometer,
-  cilStar,
+  cilWallpaper,
+  cilCommentSquare,
+  cilSpeech,
+  cilPencil
+
 } from '@coreui/icons';
 import { CNavGroup, CNavItem } from '@coreui/react';
 import { BsChatLeftQuote } from "react-icons/bs";
@@ -21,7 +25,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Banners',
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilWallpaper} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -38,7 +42,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: "FAQ's",
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilCommentSquare} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -55,7 +59,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: "Testimonial",
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilSpeech} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
@@ -73,7 +77,7 @@ const _nav = [
   {
     component: CNavGroup,
     name: "CMS",
-    icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,

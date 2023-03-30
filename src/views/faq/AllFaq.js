@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/libs/simple-datatables/style.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
@@ -11,26 +11,7 @@ import Modal from 'react-bootstrap/Modal';
 
 const AllFaq = () => {
 
-  const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [modalInfo,setModalInfo]=useState("");
-  const [modalShow, setModalShow] = useState(false);
-  const[isActive, setIsActive] = useState(0);
-
-  const getData = async () => {
-    try {
-      let response = await axios.get(get_faq_route, {headers:{token:Cookies.get("token")}});
-      console.log(response);
-      console.log(response.data)
-      setData(response.data);
-      setFilteredData(response.data);
-    } catch (err) {
-      console.log(err);
-    };
-  };
   const navigate = useNavigate();
-
   useEffect(() => { myFunction() }, []);
   const myFunction = async () => {
     const token = Cookies.get('token');
@@ -39,16 +20,39 @@ const AllFaq = () => {
     };
   };
 
-  const handleChange = (id, active)=>async (e) =>{
-    active=!active;
-    setIsActive(active)
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [modalInfo, setModalInfo] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
+  const getData = async () => {
+    try {
+      let response = await axios.get(get_faq_route, { headers: { token: Cookies.get("token") } });
+      if (response.data.success == false) {
+        Cookies.remove("token", "user");
+      };
+      setData(response.data.data);
+      setFilteredData(response.data.data);
+    } catch (err) {
+      console.log(err);
+    };
+  };
+
+
+  const handleChange = (id, active) => async (e) => {
+    active = !active;
     let response = await axios.post(`${change_faq_status_route}?id=${id}&isActive=${active}`);
     console.log(response);
-    // e.target.setAttribute('checked', active);
-    window.location.reload(true);
+    getData();
   };
 
   const columns = [
+    {
+      name: "S.No.",
+      selector: (row, index) => index + 1,
+      sortable: true
+    },
     {
       name: "FAQ",
       selector: row => <div className="text-wrap">{row.ques}</div>,
@@ -69,12 +73,12 @@ const AllFaq = () => {
     },
     {
       name: "Answer",
-      selector: row => <div><Button variant="primary" onClick={() => {setModalInfo(row.answer);setModalShow(!modalShow)}}>Show</Button>
+      selector: row => <div><Button variant="primary" onClick={() => { setModalInfo(row.answer); setModalShow(!modalShow) }}>Show</Button>
       </div>
     },
     {
       name: "Status",
-      selector: row => row.isActive?"Activate":"In-Activate",
+      selector: row => row.isActive ? "Activate" : "In-Activate",
       sortable: true,
       maxWidth: "200px",
     },
@@ -107,7 +111,6 @@ const AllFaq = () => {
         columns={columns}
         data={filteredData}
         pagination
-        selectableRows
         fixedHeader
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
@@ -122,13 +125,14 @@ const AllFaq = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         }
+        actions={<Link to="/add-faq"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
       />
       {
-        modalShow?<Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
+        modalShow ? <Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
           <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Answer</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
           <Modal.Body><div>{modalInfo}</div></Modal.Body>
-        </Modal>:""}
+        </Modal> : ""}
     </div>
   )
 }

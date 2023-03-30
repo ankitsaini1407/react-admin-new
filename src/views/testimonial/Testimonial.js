@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/libs/simple-datatables/style.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
@@ -10,23 +10,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 const Banners = () => {
 
-  const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [modalInfo,setModalInfo]=useState("");
-  const [modalShow, setModalShow] = useState(false);
-  const[isActive, setIsActive] = useState(0);
-
-  const getData = async () => {
-    try {
-      let response = await axios.get(get_testimonial_route, {headers:{token:Cookies.get("token")}});
-      console.log(response);
-      setData(response.data.data);
-      setFilteredData(response.data.data);
-    } catch (err) {
-      console.log(err);
-    };
-  };
   const navigate = useNavigate();
 
   useEffect(() => { myFunction() }, []);
@@ -37,21 +20,43 @@ const Banners = () => {
     };
   };
 
-  const handleChange = (id, active)=>async (e) =>{
-    active=!active;
-    setIsActive(active)
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [modalInfo, setModalInfo] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+
+  const getData = async () => {
+    try {
+      let response = await axios.get(get_testimonial_route, { headers: { token: Cookies.get("token") } });
+      console.log("reaponse", response);
+      if (response.data.data.success == false) {
+        Cookies.remove("token", "user");
+      };
+      setData(response.data.data);
+      setFilteredData(response.data.data);
+    } catch (err) {
+      console.log(err);
+    };
+  };
+
+  const handleChange = (id, active) => async (e) => {
+    active = !active;
     let response = await axios.post(`${change_testimonial_status_route}?id=${id}&isActive=${active}`);
     console.log(response);
-    // e.target.setAttribute('checked', active);
-    window.location.reload(true);
+    getData();
   };
 
   const columns = [
     {
+      name: "S.No.",
+      selector: (row, index) => index + 1,
+      sortable: true,
+    },
+    {
       name: "Image",
       selector: row => <img src={row.image} width={40} alt='Banner' />,
       sortable: true,
-
     },
     {
       name: "Amount",
@@ -59,19 +64,19 @@ const Banners = () => {
       sortable: true
     },
     {
-        name: "Type",
-        selector: row => row.type,
-        sortable: true
-      },
+      name: "Type",
+      selector: row => row.type,
+      sortable: true
+    },
     {
       name: "Quote",
-      selector: row => <div><Button variant="primary" onClick={() => {setModalInfo(row.quote);setModalShow(!modalShow)}}>Show</Button>
+      selector: row => <div><Button variant="primary" onClick={() => { setModalInfo(row.quote); setModalShow(!modalShow) }}>Show</Button>
       </div>,
       sortable: true
     },
     {
       name: "Status",
-      selector: row => row.isActive?"Activate":"In-Activate",
+      selector: row => row.isActive ? "Activate" : "In-Activate",
       sortable: true,
       maxWidth: "200px",
     },
@@ -104,7 +109,6 @@ const Banners = () => {
         columns={columns}
         data={filteredData}
         pagination
-        selectableRows
         fixedHeader
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
@@ -119,13 +123,14 @@ const Banners = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         }
+        actions={<Link to="/add-testimonial"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
       />
       {
-        modalShow?<Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
+        modalShow ? <Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
           <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Quote</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
           <Modal.Body><div>{modalInfo}</div></Modal.Body>
-        </Modal>:""}
+        </Modal> : ""}
     </div>
   )
 }

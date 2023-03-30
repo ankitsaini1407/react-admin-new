@@ -1,30 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../../assets/libs/simple-datatables/style.css";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import { get_banner_route, change_banner_status_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 const Banners = () => {
-
-  const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const[isActive, setIsActive] = useState(0);
-  
-  const getData = async () => {
-    try {
-      let response = await axios.get(get_banner_route, {headers:{token:Cookies.get("token")}});
-      console.log(response);
-      setData(response.data.data);
-      setFilteredData(response.data.data);
-    } catch (err) {
-      console.log(err);
-    };
-  };
   const navigate = useNavigate();
-
   useEffect(() => { myFunction() }, []);
   const myFunction = async () => {
     const token = Cookies.get('token');
@@ -33,21 +16,42 @@ const Banners = () => {
     };
   };
 
-  const handleChange = (id, active)=>async (e) =>{
-    active=!active;
-    setIsActive(active)
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
+  const getData = async () => {
+    try {
+      let response = await axios.get(get_banner_route, { headers: { token: Cookies.get("token") } });
+      if (response.data.success == false) {
+        Cookies.remove("token", "user");
+      };
+      setData(response.data.data);
+      setFilteredData(response.data.data);
+    } catch (err) {
+      console.log(err);
+    };
+  };
+
+
+
+  const handleChange = (id, active) => async (e) => {
+    active = !active;
     let response = await axios.post(`${change_banner_status_route}?id=${id}&isActive=${active}`);
     console.log(response);
-    // e.target.setAttribute('checked', active);
-    window.location.reload(true);
+    getData();
   }
 
   const columns = [
     {
+      name: "S.No.",
+      selector: (row, index) => index + 1,
+      sortable: true,
+    },
+    {
       name: "Banner",
       selector: row => <img src={row.image} width={40} alt='Banner' />,
       sortable: true,
-
     },
     {
       name: "Type",
@@ -56,7 +60,7 @@ const Banners = () => {
     },
     {
       name: "Status",
-      selector: row => row.isActive?"Activate":"In-Activate",
+      selector: row => row.isActive ? "Activate" : "In-Activate",
       sortable: true
     },
     {
@@ -81,7 +85,7 @@ const Banners = () => {
     setFilteredData(result);
   }, [search]);
 
-  
+
 
   return (
     <div className="container">
@@ -90,7 +94,6 @@ const Banners = () => {
         columns={columns}
         data={filteredData}
         pagination
-        selectableRows
         fixedHeader
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
@@ -106,7 +109,7 @@ const Banners = () => {
           />
         }
         subHeaderAlign="right"
-        actions={<button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button>}
+        actions={<Link to="/add-banners"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
       />
     </div>
   )

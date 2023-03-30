@@ -8,7 +8,6 @@ import Page404 from "./views/pages/page404/Page404";
 import Page500 from "./views/pages/page500/Page500";
 import "./scss/style.scss";
 import DefaultLayout from "./layout/DefaultLayout";
-import Dashboard from "./views/dashboard/Dashboard";
 
 
 function App() {

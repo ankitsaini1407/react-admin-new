@@ -52,6 +52,7 @@ import avatar5 from '../../assets/images/avatars/5.jpg';
 import avatar6 from '../../assets/images/avatars/6.jpg';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import log from "../../assets/images/ab-devilliers-gif.gif"
 
 
 
@@ -72,7 +73,8 @@ const Dashboard = () => {
     <>
       <CCard className="mb-4">
         <CCardBody>
-          <h1>Wlcome to real 11 admin panel!</h1>
+          <h1>Welcome to real 11 admin panel!</h1>
+          <img src={log} />
         </CCardBody>
       </CCard>
     </>

@@ -25,6 +25,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+};
+
   const navigate = useNavigate();
 
   useEffect(()=>{myFunction()},[]);
@@ -40,13 +48,7 @@ const Login = () => {
     password: ""
   };
 
-  const toastOptions = {
-    position: "top-right",
-    autoClose: 8000,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "dark",
-};
+  
 
   const {values, errors, touched, handleBlur, handleChange, handleSubmit } =  useFormik({
     initialValues: initialValues,

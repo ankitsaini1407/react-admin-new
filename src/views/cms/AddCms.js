@@ -111,7 +111,6 @@ const AddCms = () => {
                 <ToastContainer />
 
             </div>
-            <div>{value}</div>
         </div>
     );
 };
