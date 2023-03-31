@@ -6,10 +6,8 @@ import {
   cilCommentSquare,
   cilSpeech,
   cilPencil
-
 } from '@coreui/icons';
 import { CNavGroup, CNavItem } from '@coreui/react';
-import { BsChatLeftQuote } from "react-icons/bs";
 
 const _nav = [
   {
@@ -91,6 +89,6 @@ const _nav = [
       }
     ],
   },
-]
+];
 
-export default _nav
+export default _nav;

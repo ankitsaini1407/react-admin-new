@@ -29,7 +29,6 @@ const Banners = () => {
   const getData = async () => {
     try {
       let response = await axios.get(get_testimonial_route, { headers: { token: Cookies.get("token") } });
-      console.log("reaponse", response);
       if (response.data.data.success == false) {
         Cookies.remove("token", "user");
       };

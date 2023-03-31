@@ -9,7 +9,6 @@ import Page500 from "./views/pages/page500/Page500";
 import "./scss/style.scss";
 import DefaultLayout from "./layout/DefaultLayout";
 
-
 function App() {
   return (
     <div className="App">
@@ -21,10 +20,9 @@ function App() {
         <Route path="/page-404" element={ <Page404/> } />
         <Route path="/page-500" element={ <Page500/> } />
         <Route path="*" name="Home" element={<DefaultLayout />} />
-        {/* <Route path="/dashboard" element={ <Dashboard/> } /> */}
       </Routes>
     </div>
-  )
-}
+  );
+};
 
 export default App;

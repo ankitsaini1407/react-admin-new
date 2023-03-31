@@ -33,8 +33,6 @@ const Banners = () => {
     };
   };
 
-
-
   const handleChange = (id, active) => async (e) => {
     active = !active;
     let response = await axios.post(`${change_banner_status_route}?id=${id}&isActive=${active}`);

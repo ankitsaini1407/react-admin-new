@@ -10,14 +10,6 @@ import Testimonial from './views/testimonial/Testimonial';
 import AddCms from './views/cms/AddCms';
 import AllCms from './views/cms/AllCms';
 
-// Base
-
-// Buttons
-
-// Icons
-
-// Notifications
-
 const routes = [
   { path: '/dashboard', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -29,6 +21,6 @@ const routes = [
   { path: '/testimonial', name: 'Testimonials', element: Testimonial },
   { path: '/add-cms', name: 'CMS / Add-Cms', element: AddCms },
   { path: '/cms', name: 'Cms', element: AllCms },
-]
+];
 
-export default routes
+export default routes;

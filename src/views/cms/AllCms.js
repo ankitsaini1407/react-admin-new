@@ -8,8 +8,9 @@ import { get_cms_route, change_cms_status_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-const AllCms = () => {
+import { BsEyeFill, BsX } from 'react-icons/bs';
 
+const AllCms = () => {
 
   const navigate = useNavigate();
 
@@ -30,6 +31,7 @@ const AllCms = () => {
   const getData = async () => {
     try {
       let response = await axios.get(get_cms_route, { headers: { token: Cookies.get("token") } });
+      console.log("response", response);
       if (response.data.success == false) {
         Cookies.remove("token", "user");
       };
@@ -60,7 +62,7 @@ const AllCms = () => {
     },
     {
       name: "Description",
-      selector: row => <div><Button variant="primary" onClick={() => { setModalInfo(row.description); setModalShow(!modalShow) }}>Show</Button>
+      selector: row => <div><Button style={{backgroundColor:"transparent", border:"none"}} onClick={() => { setModalInfo(row.description); setModalShow(!modalShow) }}><BsEyeFill style={{color:"blue"}} /></Button>
       </div>,
       sortable: true
     },
@@ -118,7 +120,7 @@ const AllCms = () => {
       />
       {
         modalShow ? <Modal fullscreen show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
-          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Description</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
+          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Description</Modal.Title><Button style={{backgroundColor:"transparent", border:"none"}} onClick={() => setModalShow(!modalShow)}><BsX style={{color:"black", fontSize:"50px"}} /></Button></Modal.Header>
           <Modal.Body><div
             dangerouslySetInnerHTML={{ __html: modalInfo }}
           /></Modal.Body>

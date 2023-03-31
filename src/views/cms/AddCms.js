@@ -59,13 +59,13 @@ const AddCms = () => {
         pauseOnHover: true,
         draggable: true,
         theme: "light",
-      };
+    };
     const formik = useFormik({
-        initialValues: { type: "" },
+        initialValues: { type: "", title: "" },
         validationSchema: cms_schema,
         onSubmit: async (values, action) => {
-            const { type } = values;
-            const { data } = await axios.post(add_cms_route, { type, value });
+            const { type, title } = values;
+            const { data } = await axios.post(add_cms_route, { type, title,  value });
             console.log("data", data);
             if (data.success === false) {
                 toast.error(data.message, toastOptions);
@@ -95,6 +95,19 @@ const AddCms = () => {
                         <option value="about">About Us</option>
                     </Form.Select><br />
                     {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
+
+                    <Form.Control
+                        type="text"
+                        name="title"
+                        placeholder="Enter title"
+                        value={formik.values.title}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        isInvalid={!!formik.errors.title}
+                        isValid={formik.touched.title && !formik.errors.title}
+
+                    />
+                    {formik.errors.title && formik.touched.title ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.title}</p> : null}
 
                     <JoditEditor
                         ref={editor}
