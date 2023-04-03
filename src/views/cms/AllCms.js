@@ -4,11 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_cms_route, change_cms_status_route } from "../../utils/APIRoutes";
+import { get_cms_route, change_cms_status_route, delete_cms_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { BsEyeFill, BsX } from 'react-icons/bs';
+import { ToastContainer, toast } from 'react-toastify';
+import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from 'react-icons/bs';
 
 const AllCms = () => {
 
@@ -22,32 +22,38 @@ const AllCms = () => {
     };
   };
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [modalInfo, setModalInfo] = useState("");
-  const [modalShow, setModalShow] = useState(false);
 
   const getData = async () => {
     try {
-    await axios.get(get_cms_route, { headers: { token: Cookies.get("token") } })
-      .then(response => {
-        if (response) {
-          setData(response.data.data);
-          setFilteredData(response.data.data);
-        }
-
-      }).catch(function (error) {
-        if (error) {
-          if(error.response.data.token.isExpired == true){
-            setTimeout(() => {
-              Cookies.remove("token", "user")
-              navigate("/");
-            }, 3000)
-            toast.error(error.response.data.token.message, toastOptions);
+      await axios.get(get_cms_route, { headers: { token: Cookies.get("token") } })
+        .then(response => {
+          if (response) {
+            setData(response.data.data);
+            setFilteredData(response.data.data);
           }
-        }
-      });
+
+        }).catch(function (error) {
+          if (error) {
+            if (error.response.data.token.isExpired == true) {
+              setTimeout(() => {
+                Cookies.remove("token", "user")
+                navigate("/");
+              }, 3000)
+              toast.error(error.response.data.token.message, toastOptions);
+            }
+          }
+        });
     } catch (err) {
       console.log(err);
     };
@@ -55,9 +61,32 @@ const AllCms = () => {
 
   const handleChange = (id, active) => async (e) => {
     active = !active;
-    let response = await axios.post(`${change_cms_status_route}?id=${id}&isActive=${active}`);
-    console.log(response);
+    await axios.post(`${change_cms_status_route}?id=${id}&isActive=${active}`);
     getData();
+  };
+
+  const handleSlug = (slug, description) => async () => {
+    console.log("slug", slug);
+    console.log("description", description);
+    navigate(`/cms/${slug}`, { state: { description: description } });
+  };
+
+  const handleDelete = (id) => async(e) => {
+    console.log(id);
+    await axios.delete(`${delete_cms_route}?id=${id}`).then(response => {
+      console.log("response", response);
+      if (response) {
+        toast.success(response.data.message, toastOptions);
+      }
+
+    }).catch(function (error) {
+      console.log("error", error);
+      if (error) {
+        if (error.response.data.success == false) {
+          toast.error(error.response.data.message, toastOptions);
+        }
+      }
+    });
   };
 
   const columns = [
@@ -73,7 +102,10 @@ const AllCms = () => {
     },
     {
       name: "Description",
-      selector: row => <div><Button style={{backgroundColor:"transparent", border:"none"}} onClick={() => { setModalInfo(row.description); setModalShow(!modalShow) }}><BsEyeFill style={{color:"blue"}} /></Button>
+      selector: row => <div>
+        <Button style={{ backgroundColor: "transparent", border: "none" }}>
+          <BsEyeFill style={{ color: "blue" }} onClick={handleSlug(row.slug, row.description)} />
+        </Button>
       </div>,
       sortable: true
     },
@@ -89,6 +121,18 @@ const AllCms = () => {
         <input type="checkbox" onChange={handleChange(row.id, row.isActive)} checked={row.isActive} />
         <span className="slider"></span>
       </label>
+    },
+    {
+      name: "Action",
+      cell: row => <div>
+        <Button style={{ backgroundColor: "transparent", border: "none" }}>
+          <BsPencilSquare style={{ fontSize: "20px", margin: "5px", color:"blue" }} />
+        </Button>
+
+        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
+          <BsFillTrashFill style={{ fontSize: "20px", color:"blue" }}  />
+        </Button>
+      </div>
     }
   ];
 
@@ -129,13 +173,7 @@ const AllCms = () => {
         actions={<Link to="/add-cms"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
       />
-      {
-        modalShow ? <Modal fullscreen show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
-          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Description</Modal.Title><Button style={{backgroundColor:"transparent", border:"none"}} onClick={() => setModalShow(!modalShow)}><BsX style={{color:"black", fontSize:"50px"}} /></Button></Modal.Header>
-          <Modal.Body><div
-            dangerouslySetInnerHTML={{ __html: modalInfo }}
-          /></Modal.Body>
-        </Modal> : ""}
+      <ToastContainer />
     </div>
   )
 }

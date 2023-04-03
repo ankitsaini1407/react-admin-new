@@ -8,6 +8,9 @@ import { get_testimonial_route, change_testimonial_status_route } from "../../ut
 import "../../assets/css/banner-toggle-btn.css";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { ToastContainer, toast } from 'react-toastify';
+import { BsEyeFill, BsX } from 'react-icons/bs';
+
 const Banners = () => {
 
   const navigate = useNavigate();
@@ -18,6 +21,14 @@ const Banners = () => {
     if (!token) {
       navigate("/");
     };
+  };
+
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
   };
 
   const [search, setSearch] = useState("");
@@ -81,7 +92,7 @@ const Banners = () => {
     },
     {
       name: "Quote",
-      selector: row => <div><Button variant="primary" onClick={() => { setModalInfo(row.quote); setModalShow(!modalShow) }}>Show</Button>
+      selector: row => <div><Button variant="primary" style={{ backgroundColor: "transparent", border: "none" }} onClick={() => { setModalInfo(row.quote); setModalShow(!modalShow) }}><BsEyeFill style={{ color: "blue" }} /></Button>
       </div>,
       sortable: true
     },
@@ -139,9 +150,10 @@ const Banners = () => {
       />
       {
         modalShow ? <Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
-          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Quote</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
+          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Quote</Modal.Title><Button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => setModalShow(!modalShow)}><BsX style={{ fontSize: "35px", color: "black" }} /></Button></Modal.Header>
           <Modal.Body><div>{modalInfo}</div></Modal.Body>
         </Modal> : ""}
+      <ToastContainer />
     </div>
   )
 }

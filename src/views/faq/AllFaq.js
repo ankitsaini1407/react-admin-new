@@ -7,7 +7,9 @@ import axios from "axios";
 import { get_faq_route, change_faq_status_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 import Button from 'react-bootstrap/Button';
+import { ToastContainer, toast } from 'react-toastify';
 import Modal from 'react-bootstrap/Modal';
+import { BsEyeFill, BsX } from 'react-icons/bs';
 
 const AllFaq = () => {
 
@@ -20,11 +22,20 @@ const AllFaq = () => {
     };
   };
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1)
 
   const getData = async () => {
     try {
@@ -62,7 +73,7 @@ const AllFaq = () => {
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => index+1+((pageNumber - 1) * 10),
       sortable: true
     },
     {
@@ -85,7 +96,7 @@ const AllFaq = () => {
     },
     {
       name: "Answer",
-      selector: row => <div><Button variant="primary" onClick={() => { setModalInfo(row.answer); setModalShow(!modalShow) }}>Show</Button>
+      selector: row => <div><Button variant="primary" style={{ backgroundColor: "transparent", border: "none" }} onClick={() => { setModalInfo(row.answer); setModalShow(!modalShow) }}><BsEyeFill style={{ color: "blue" }} /></Button>
       </div>
     },
     {
@@ -127,6 +138,7 @@ const AllFaq = () => {
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
         highlightOnHover
+        onChangePage={(value) => setPageNumber(value)}
         subHeader
         subHeaderComponent={
           <input
@@ -142,9 +154,10 @@ const AllFaq = () => {
       />
       {
         modalShow ? <Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
-          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Answer</Modal.Title><Button onClick={() => setModalShow(!modalShow)}>Close</Button></Modal.Header>
+          <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Answer</Modal.Title><Button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => setModalShow(!modalShow)}><BsX style={{fontSize:"35px", color:'black'}} /></Button></Modal.Header>
           <Modal.Body><div>{modalInfo}</div></Modal.Body>
         </Modal> : ""}
+        <ToastContainer />
     </div>
   )
 }

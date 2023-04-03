@@ -7,6 +7,7 @@ import axios from "axios";
 import { get_banner_route, change_banner_status_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 import { ToastContainer, toast } from 'react-toastify';
+import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
 
 const Banners = () => {
   const navigate = useNavigate();
@@ -89,6 +90,13 @@ const Banners = () => {
         <input type="checkbox" onChange={handleChange(row.id, row.isActive)} checked={row.isActive} />
         <span className="slider"></span>
       </label>
+    },
+    {
+      name: "Action",
+      cell: row => <div>
+        <BsPencilSquare style={{fontSize: "20px", margin:"5px"}} />
+        <BsFillTrashFill style={{fontSize: "20px"}} />
+      </div>
     }
   ];
 

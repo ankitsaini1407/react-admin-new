@@ -15,3 +15,4 @@ export const change_banner_status_route = `${host}/v1/admin/updateBannerStatus`;
 export const change_faq_status_route = `${host}/v1/admin/updateFaqStatus`;
 export const change_testimonial_status_route = `${host}/v1/admin/updateTestimonialStatus`;
 export const change_cms_status_route = `${host}/v1/admin/updateContentStatus`;
+export const delete_cms_route = `${host}/v1/admin/deleteContent`;

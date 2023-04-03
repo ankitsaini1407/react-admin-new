@@ -9,6 +9,7 @@ import AddTestimonial from './views/testimonial/AddTestimonial';
 import Testimonial from './views/testimonial/Testimonial';
 import AddCms from './views/cms/AddCms';
 import AllCms from './views/cms/AllCms';
+import ContentSlug from './views/cms/contentSlug';
 
 const routes = [
   { path: '/dashboard', exact: true, name: 'Home' },
@@ -21,6 +22,7 @@ const routes = [
   { path: '/testimonial', name: 'Testimonials', element: Testimonial },
   { path: '/add-cms', name: 'CMS / Add-Cms', element: AddCms },
   { path: '/cms', name: 'Cms', element: AllCms },
+  { path: '/cms/:slug', element: ContentSlug },
 ];
 
 export default routes;
