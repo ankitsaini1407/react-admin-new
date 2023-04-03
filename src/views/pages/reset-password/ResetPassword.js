@@ -45,7 +45,19 @@ const Login = () => {
     validationSchema: reset_password_schema,
     onSubmit: async (values, action) => {
       const { otp, password } = values;
-      const { data } = await axios.post(reset_password_route, { email:location.state.email, otp, password });
+      const { data } = await axios.post(reset_password_route, { email:location.state.email, otp, password })
+      .then(response => {
+        if (response.data.success === true) {
+          setTimeout(()=>{
+            navigate("/");
+          }, 3000);
+          toast.success(response.data.message, toastOptions);
+        }
+      }).catch(function (error) {
+        if (error) {
+          toast.error(error.response.data.message, toastOptions);
+        }
+      });
       if(data.success === false) {
         toast.error(data.message, toastOptions);
     }else if(data.success === true) {

@@ -28,12 +28,24 @@ const AllFaq = () => {
 
   const getData = async () => {
     try {
-      let response = await axios.get(get_faq_route, { headers: { token: Cookies.get("token") } });
-      if (response.data.success == false) {
-        Cookies.remove("token", "user");
-      };
-      setData(response.data.data);
-      setFilteredData(response.data.data);
+      await axios.get(get_faq_route, { headers: { token: Cookies.get("token") } })
+      .then(response => {
+        if (response) {
+          setData(response.data.data);
+          setFilteredData(response.data.data);
+        }
+
+      }).catch(function (error) {
+        if (error) {
+          if(error.response.data.token.isExpired == true){
+            setTimeout(() => {
+              Cookies.remove("token", "user")
+              navigate("/");
+            }, 3000)
+            toast.error(error.response.data.token.message, toastOptions);
+          }
+        }
+      });
     } catch (err) {
       console.log(err);
     };

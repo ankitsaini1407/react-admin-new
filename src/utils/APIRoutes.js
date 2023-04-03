@@ -1,4 +1,5 @@
-const host = "http://192.168.1.12:5000";
+const host = "http://192.168.1.27:5000";
+
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
 export const reset_password_route = `${host}/v1/admin/auth/resetpassword`;

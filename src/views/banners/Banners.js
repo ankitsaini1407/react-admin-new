@@ -6,6 +6,8 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 import { get_banner_route, change_banner_status_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
+import { ToastContainer, toast } from 'react-toastify';
+
 const Banners = () => {
   const navigate = useNavigate();
   useEffect(() => { myFunction() }, []);
@@ -16,18 +18,38 @@ const Banners = () => {
     };
   };
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
+
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
   const getData = async () => {
     try {
-      let response = await axios.get(get_banner_route, { headers: { token: Cookies.get("token") } });
-      if (response.data.success == false) {
-        Cookies.remove("token", "user");
-      };
-      setData(response.data.data);
-      setFilteredData(response.data.data);
+      await axios.get(get_banner_route, { headers: { token: Cookies.get("token") } })
+        .then(response => {
+          if (response) {
+            setData(response.data.data);
+            setFilteredData(response.data.data);
+          }
+
+        }).catch(function (error) {
+          if (error) {
+            if(error.response.data.token.isExpired == true){
+              setTimeout(() => {
+                Cookies.remove("token", "user")
+                navigate("/");
+              }, 3000)
+              toast.error(error.response.data.token.message, toastOptions);
+            }
+          }
+        });
     } catch (err) {
       console.log(err);
     };
@@ -109,6 +131,7 @@ const Banners = () => {
         subHeaderAlign="right"
         actions={<Link to="/add-banners"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
       />
+      <ToastContainer />
     </div>
   )
 }

@@ -41,15 +41,19 @@ const Login = () => {
     validationSchema: forgot_password_schema,
     onSubmit: async (values, action) => {
       const { email } = values;
-      const { data } = await axios.post(forgot_password_route, { email });
-      if(data.success === false) {
-        toast.error(data.message, toastOptions);
-    }else if(data.success === true) {
-      setTimeout(()=>{
-        navigate("/reset-password", {state: {email:email}});
-      }, 3000);
-        toast.success(data.message, toastOptions);
-    };
+      await axios.post(forgot_password_route, { email })
+      .then(response => {
+        if (response.data.success === true) {
+          setTimeout(()=>{
+            navigate("/reset-password", {state: {email:email}});
+          }, 3000);
+          toast.success(response.data.message, toastOptions);
+        }
+      }).catch(function (error) {
+        if (error) {
+          toast.error(error.response.data.message, toastOptions);
+        }
+      });
       action.resetForm();
     }
   });
