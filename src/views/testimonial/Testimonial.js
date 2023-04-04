@@ -36,6 +36,7 @@ const Banners = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const getData = async () => {
     try {
@@ -62,17 +63,16 @@ const Banners = () => {
     };
   };
 
-  const handleChange = (id, active) => async (e) => {
+  const handleChange = (id, active) => async () => {
     active = !active;
-    let response = await axios.post(`${change_testimonial_status_route}?id=${id}&isActive=${active}`);
-    console.log(response);
+    await axios.post(`${change_testimonial_status_route}?id=${id}&isActive=${active}`);
     getData();
   };
 
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => index+1+((pageNumber - 1) * 10),
       sortable: true,
     },
     {
@@ -135,6 +135,7 @@ const Banners = () => {
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
         highlightOnHover
+        onChangePage={(value) => setPageNumber(value)}
         subHeader
         subHeaderComponent={
           <input

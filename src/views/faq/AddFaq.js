@@ -40,7 +40,6 @@ const AddFaq = () => {
     initialValues: initialValues,
     validationSchema: add_faq_schema,
     onSubmit: async (values, action) => {
-      console.log(values);
       const { ques, type, subType, answer } = values;
       const { data } = await axios.post(add_faq_route, { ques, type, subType, answer });
       if (data.success === false) {

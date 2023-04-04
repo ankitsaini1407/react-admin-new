@@ -39,7 +39,6 @@ const AddBanners = () => {
     onSubmit: async (values, action) => {
       const formData = new FormData();
       formData.append("image", values.image);
-      console.log("formData", formData);
       const { data } = await axios.post(`${add_banner_route}?type=${values.type}`, formData);
       if (data.success === false) {
         toast.error(data.message, toastOptions);
@@ -50,7 +49,6 @@ const AddBanners = () => {
         toast.success(data.message, toastOptions);
         navigate("/banners");
       };
-      console.log(values);
       action.resetForm();
     }
   });

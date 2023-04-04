@@ -26,18 +26,26 @@ const Banners = () => {
     draggable: true,
     theme: "dark",
   };
-
+  const numberOfPagePerList=[10,15,20];
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [pageNumber,setPageNumber]=useState(1);
+  const [totalImage,setTotalImage]=useState();
+  const counterPage=10;
+  const [perPage,setPerPage]=useState(10);
+
+  
+  
 
   const getData = async () => {
     try {
-      await axios.get(get_banner_route, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_banner_route}?page=${pageNumber-1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
           if (response) {
-            setData(response.data.data);
-            setFilteredData(response.data.data);
+            setData(response.data.data.result);
+            setTotalImage(response.data.data.totalItems);
+            setFilteredData(response.data.data.result);
           }
 
         }).catch(function (error) {
@@ -59,14 +67,13 @@ const Banners = () => {
   const handleChange = (id, active) => async (e) => {
     active = !active;
     let response = await axios.post(`${change_banner_status_route}?id=${id}&isActive=${active}`);
-    console.log(response);
     getData();
   }
 
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => ((pageNumber-1)*perPage)+index+1,
       sortable: true,
     },
     {
@@ -102,7 +109,8 @@ const Banners = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [pageNumber,perPage]);
+  
 
   useEffect(() => {
     let result = data.filter(elem => {
@@ -113,8 +121,9 @@ const Banners = () => {
     setFilteredData(result);
   }, [search]);
 
-
-
+  const handlePageChange=async(newPerPage,page)=>{
+    setPerPage(newPerPage);
+  }
   return (
     <div className="container">
       <DataTable
@@ -122,10 +131,19 @@ const Banners = () => {
         columns={columns}
         data={filteredData}
         pagination
+        paginationServer
+        paginationTotalRows={totalImage}
+        paginationPerPage={counterPage}
+        // paginationComponentOptions={{
+        //   noRowsPerPage:true
+        // }}
+        paginationComponentOptions={numberOfPagePerList}
         fixedHeader
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
         highlightOnHover
+        onChangePage={(value) => setPageNumber(value)}
+        onChangeRowsPerPage={handlePageChange}
         subHeader
         subHeaderComponent={
           <input

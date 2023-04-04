@@ -33,14 +33,18 @@ const AllCms = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalImage,setTotalImage]=useState();
+  const [perPage,setPerPage]=useState(10);
 
   const getData = async () => {
     try {
-      await axios.get(get_cms_route, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_cms_route}?page=${pageNumber-1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
           if (response) {
-            setData(response.data.data);
-            setFilteredData(response.data.data);
+            setData(response.data.data.result);
+            setTotalImage(response.data.data.totalItems);
+            setFilteredData(response.data.data.result);
           }
 
         }).catch(function (error) {
@@ -66,21 +70,16 @@ const AllCms = () => {
   };
 
   const handleSlug = (slug, description) => async () => {
-    console.log("slug", slug);
-    console.log("description", description);
     navigate(`/cms/${slug}`, { state: { description: description } });
   };
 
   const handleDelete = (id) => async(e) => {
-    console.log(id);
     await axios.delete(`${delete_cms_route}?id=${id}`).then(response => {
-      console.log("response", response);
+      getData();
       if (response) {
         toast.success(response.data.message, toastOptions);
       }
-
     }).catch(function (error) {
-      console.log("error", error);
       if (error) {
         if (error.response.data.success == false) {
           toast.error(error.response.data.message, toastOptions);
@@ -92,7 +91,7 @@ const AllCms = () => {
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => index + 1,
+      selector: (row, index) => ((pageNumber-1)*perPage)+index+1,
       sortable: true
     },
     {
@@ -138,7 +137,7 @@ const AllCms = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [pageNumber,perPage]);
 
   useEffect(() => {
     let result = data.filter(elem => {
@@ -148,6 +147,10 @@ const AllCms = () => {
     });
     setFilteredData(result);
   }, [search]);
+
+  const handlePageChange=async(newPerPage,page)=>{
+    setPerPage(newPerPage);
+  };
 
   return (
     <div className="container">
@@ -160,6 +163,11 @@ const AllCms = () => {
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
         highlightOnHover
+        paginationServer
+        paginationTotalRows={totalImage}
+        paginationPerPage={perPage}
+        onChangeRowsPerPage={handlePageChange}
+        onChangePage={(value) => setPageNumber(value)}
         subHeader
         subHeaderComponent={
           <input

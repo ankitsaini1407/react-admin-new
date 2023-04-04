@@ -66,7 +66,6 @@ const AddCms = () => {
         onSubmit: async (values, action) => {
             const { type, title } = values;
             const { data } = await axios.post(add_cms_route, { type, title,  value });
-            console.log("data", data);
             if (data.success === false) {
                 toast.error(data.message, toastOptions);
             } else if (data.success === true) {

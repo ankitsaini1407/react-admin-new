@@ -35,15 +35,18 @@ const AllFaq = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalImage,setTotalImage]=useState();
+  const [perPage,setPerPage]=useState(10);
 
   const getData = async () => {
     try {
-      await axios.get(get_faq_route, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_faq_route}?page=${pageNumber-1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
       .then(response => {
         if (response) {
-          setData(response.data.data);
-          setFilteredData(response.data.data);
+          setData(response.data.data.result);
+            setTotalImage(response.data.data.totalItems);
+            setFilteredData(response.data.data.result);
         }
 
       }).catch(function (error) {
@@ -66,14 +69,13 @@ const AllFaq = () => {
   const handleChange = (id, active) => async (e) => {
     active = !active;
     let response = await axios.post(`${change_faq_status_route}?id=${id}&isActive=${active}`);
-    console.log(response);
     getData();
   };
 
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => index+1+((pageNumber - 1) * 10),
+      selector: (row, index) => ((pageNumber-1)*perPage)+index+1,
       sortable: true
     },
     {
@@ -116,7 +118,7 @@ const AllFaq = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [pageNumber,perPage]);
 
   useEffect(() => {
     let result = data.filter(elem => {
@@ -126,6 +128,10 @@ const AllFaq = () => {
     });
     setFilteredData(result);
   }, [search]);
+
+  const handlePageChange=async(newPerPage,page)=>{
+    setPerPage(newPerPage);
+  };
 
   return (
     <div className="container">
@@ -138,7 +144,11 @@ const AllFaq = () => {
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
         highlightOnHover
-        onChangePage={(value) => setPageNumber(value)}
+        paginationServer
+        paginationTotalRows={totalImage}
+        paginationPerPage={perPage}
+        onChangeRowsPerPage={handlePageChange}
+        onChangePage={(value) => {setPageNumber(value)}}
         subHeader
         subHeaderComponent={
           <input

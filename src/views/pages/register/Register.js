@@ -32,7 +32,6 @@ const Register = () => {
     initialValues: initialValues,
     validationSchema: register_schema,
     onSubmit: async (values, action) => {
-      console.log(values);
       const { username, email, password } = values;
     //   const { data } = await axios.post(registerRoute, { username, email, password });
     //   if(data.success === false) {

@@ -45,7 +45,6 @@ const AddTestimonial = () => {
            formData.append("data",JSON.stringify(data1));
            formData.append("image", image);
             const { data } = await axios.post(add_testimonial_route, formData,{headers:{'Content-Type':'multipart/form-data'}} );
-            console.log("data", data);
             if (data.success === false) {
                 toast.error(data.message, toastOptions);
             } else if (data.success === true) {
