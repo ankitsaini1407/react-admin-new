@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import Form from 'react-bootstrap/Form';
-// import { cms_schema } from '../../schemas';
-// import { useFormik } from 'formik';
 import Button from 'react-bootstrap/Button';
 import { edit_cms_route } from '../../utils/APIRoutes';
 import axios from 'axios';
@@ -41,8 +39,6 @@ const EditCms = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    // console.log(typeof(location.state.type));
 
     useEffect(() => { myFunction() }, []);
     const myFunction = async () => {

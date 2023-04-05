@@ -22,6 +22,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "./login.css"
 
 const Login = () => {
 
@@ -77,8 +78,8 @@ const Login = () => {
 
   return (
     <>
-      <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-        <CContainer>
+      <div className="bg-light min-vh-100 d-flex flex-row align-items-center login-form">
+        <CContainer style={{opacity:"0.9"}}>
           <CRow className="justify-content-center">
             <CCol md={8}>
               <CCardGroup>

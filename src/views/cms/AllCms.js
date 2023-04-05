@@ -9,6 +9,8 @@ import "../../assets/css/banner-toggle-btn.css";
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from 'react-icons/bs';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 const AllCms = () => {
 
@@ -34,12 +36,12 @@ const AllCms = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
-  const [totalImage,setTotalImage]=useState();
-  const [perPage,setPerPage]=useState(10);
+  const [totalImage, setTotalImage] = useState();
+  const [perPage, setPerPage] = useState(10);
 
   const getData = async () => {
     try {
-      await axios.get(`${get_cms_route}?page=${pageNumber-1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_cms_route}?page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
           if (response) {
             setData(response.data.data.result);
@@ -73,7 +75,7 @@ const AllCms = () => {
     navigate(`/cms/${slug}`, { state: { description: description } });
   };
 
-  const handleDelete = (id) => async(e) => {
+  const handleDelete = (id) => async (e) => {
     await axios.delete(`${delete_cms_route}?id=${id}`).then(response => {
       getData();
       if (response) {
@@ -88,14 +90,14 @@ const AllCms = () => {
     });
   };
 
-  const handleEdit = (id, type, title, description) => async() => {
-    navigate(`/cms/edit/${id}`, {state: {id: id, type: type, title: title, description: description}})
+  const handleEdit = (id, type, title, description) => async () => {
+    navigate(`/cms/edit/${id}`, { state: { id: id, type: type, title: title, description: description } })
   };
 
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => ((pageNumber-1)*perPage)+index+1,
+      selector: (row, index) => ((pageNumber - 1) * perPage) + index + 1,
       sortable: true
     },
     {
@@ -106,9 +108,11 @@ const AllCms = () => {
     {
       name: "Description",
       selector: row => <div>
+        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}>
         <Button style={{ backgroundColor: "transparent", border: "none" }}>
           <BsEyeFill style={{ color: "blue" }} onClick={handleSlug(row.slug, row.description)} />
         </Button>
+        </OverlayTrigger>
       </div>,
       sortable: true
     },
@@ -128,20 +132,24 @@ const AllCms = () => {
     {
       name: "Action",
       cell: row => <div>
-        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleEdit(row.id, row.type, row.title, row.description)}>
-          <BsPencilSquare style={{ fontSize: "20px", margin: "5px", color:"blue" }} />
-        </Button>
+        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Edit</Tooltip>}>
+          <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleEdit(row.id, row.type, row.title, row.description)}>
+            <BsPencilSquare style={{ fontSize: "20px", margin: "5px", color: "blue" }} />
+          </Button>
+        </OverlayTrigger>
 
+        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}>
         <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
-          <BsFillTrashFill style={{ fontSize: "20px", color:"blue" }}  />
+          <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
         </Button>
+        </OverlayTrigger>
       </div>
     }
   ];
 
   useEffect(() => {
     getData();
-  }, [pageNumber,perPage]);
+  }, [pageNumber, perPage]);
 
   useEffect(() => {
     let result = data.filter(elem => {
@@ -152,7 +160,7 @@ const AllCms = () => {
     setFilteredData(result);
   }, [search]);
 
-  const handlePageChange=async(newPerPage,page)=>{
+  const handlePageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
   };
 
