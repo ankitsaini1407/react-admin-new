@@ -88,6 +88,10 @@ const AllCms = () => {
     });
   };
 
+  const handleEdit = (id, type, title, description) => async() => {
+    navigate(`/cms/edit/${id}`, {state: {id: id, type: type, title: title, description: description}})
+  };
+
   const columns = [
     {
       name: "S.No.",
@@ -124,7 +128,7 @@ const AllCms = () => {
     {
       name: "Action",
       cell: row => <div>
-        <Button style={{ backgroundColor: "transparent", border: "none" }}>
+        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleEdit(row.id, row.type, row.title, row.description)}>
           <BsPencilSquare style={{ fontSize: "20px", margin: "5px", color:"blue" }} />
         </Button>
 

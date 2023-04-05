@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 
 const ContentSlug = () => {
   const location = useLocation();
@@ -7,6 +8,7 @@ const ContentSlug = () => {
     return(
         <form>
         <div dangerouslySetInnerHTML={{ __html: location.state.description }} />
+        <Link to="/cms"><Button variant="primary">&laquo;back</Button></Link>
         </form>
     );
 };
