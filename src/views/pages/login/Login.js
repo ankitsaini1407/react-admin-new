@@ -61,7 +61,7 @@ const Login = () => {
             let user = JSON.stringify(response.data.user);
             Cookies.set('user', user);
             setTimeout(() => {
-              navigate("/dashboard");
+              navigate("/dashboard", {state:{user:user}});
             }, 3000)
             toast.success(response.data.message, toastOptions);
           }
