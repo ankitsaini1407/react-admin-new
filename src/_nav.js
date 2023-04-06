@@ -42,6 +42,12 @@ const _nav = [
     to: '/cms',
     icon: <CIcon icon={cilPencil} customClassName="nav-icon" />
   },
+  {
+    component: CNavItem,
+    name: "Footer",
+    to: '/footer',
+    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />
+  },
 ];
 
 export default _nav;

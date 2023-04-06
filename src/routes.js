@@ -11,6 +11,8 @@ import AddCms from './views/cms/AddCms';
 import AllCms from './views/cms/AllCms';
 import ContentSlug from './views/cms/contentSlug';
 import EditCms from './views/cms/Edit';
+import Footer from './views/footer/Footer';
+import ContactUs from './views/footer/ContactUs';
 
 const routes = [
   { path: '/dashboard', exact: true, name: 'Home' },
@@ -25,6 +27,8 @@ const routes = [
   { path: '/cms', name: 'Cms', element: AllCms },
   { path: '/cms/:slug', element: ContentSlug },
   { path: '/cms/edit/:id', name: 'CMS / Edit-Cms', element: EditCms },
+  { path: '/footer', name: 'Footer', element: Footer },
+  { path: '/footer/contact-us', name: 'Footer / Contact Us', element: ContactUs },
 ];
 
 export default routes;
