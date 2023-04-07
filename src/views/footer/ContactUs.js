@@ -42,17 +42,17 @@ const ContactUs = () => {
         validationSchema: add_footer_contact_schema,
         onSubmit: async (values, action) => {
             const { sub_type, address, email, phone } = values;
-            await axios.post(`${add_footer_contact}?type=${location.state.type}`, {sub_type, address, email, phone}, { headers: { token: Cookies.get("token") } })
-            .then(response => {
-                if (response) {
-                  setTimeout(() => {
-                    navigate("/footer");
-                  }, 3000);
-                  return toast.success(response.data.message, toastOptions);
-                }
-              }).catch(function (error) {
-                console.log("..--..", error);
-              });
+            await axios.post(`${add_footer_contact}?type=support`, { sub_type, address, email, phone }, { headers: { token: Cookies.get("token") } })
+                .then(response => {
+                    if (response) {
+                        setTimeout(() => {
+                            navigate("/footer");
+                        }, 3000);
+                        return toast.success(response.data.message, toastOptions);
+                    }
+                }).catch(function (error) {
+                    console.log("..--..", error);
+                });
             action.resetForm();
         }
     });

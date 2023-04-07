@@ -5,7 +5,8 @@ import {
   cilWallpaper,
   cilCommentSquare,
   cilSpeech,
-  cilPencil
+  cilPencil,
+  cilNotes
 } from '@coreui/icons';
 import { CNavItem } from '@coreui/react';
 
@@ -46,7 +47,7 @@ const _nav = [
     component: CNavItem,
     name: "Footer",
     to: '/footer',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />
+    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />
   },
 ];
 

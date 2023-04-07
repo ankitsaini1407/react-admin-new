@@ -47,7 +47,6 @@ const Banners = () => {
             setTotalImage(response.data.data.totalItems);
             setFilteredData(response.data.data.result);
           }
-
         }).catch(function (error) {
           if (error) {
             if(error.response.data.token.isExpired == true){

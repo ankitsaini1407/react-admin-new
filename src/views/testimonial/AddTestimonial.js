@@ -41,7 +41,7 @@ const AddTestimonial = () => {
             const { image, amount, quote, type } = values;
             const formData = new FormData();
             
-            const data1={"amount":amount,"quote":quote,"type":type}
+            const data1={"amount":amount,"quote":quote,"type":type};
            formData.append("data",JSON.stringify(data1));
            formData.append("image", image);
             const { data } = await axios.post(add_testimonial_route, formData,{headers:{'Content-Type':'multipart/form-data'}} );

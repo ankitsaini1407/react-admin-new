@@ -13,6 +13,8 @@ import ContentSlug from './views/cms/contentSlug';
 import EditCms from './views/cms/Edit';
 import Footer from './views/footer/Footer';
 import ContactUs from './views/footer/ContactUs';
+import FooterSocialMedia from './views/footer/SocialMedia';
+import FooterPaymentPartners from './views/footer/PaymentPartner';
 
 const routes = [
   { path: '/dashboard', exact: true, name: 'Home' },
@@ -29,6 +31,8 @@ const routes = [
   { path: '/cms/edit/:id', name: 'CMS / Edit-Cms', element: EditCms },
   { path: '/footer', name: 'Footer', element: Footer },
   { path: '/footer/contact-us', name: 'Footer / Contact Us', element: ContactUs },
+  { path: '/footer/social-media-link', name: 'Footer / Social Media Link', element: FooterSocialMedia },
+  { path: '/footer/payment-partners', name: 'Footer / Payment Partners', element: FooterPaymentPartners },
 ];
 
 export default routes;

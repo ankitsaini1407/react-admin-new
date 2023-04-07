@@ -22,9 +22,7 @@ export const reset_password_schema = Yup.object({
 });
 
 export const add_banner_schema = Yup.object({
-    image: Yup.mixed().required("This field is required").test('fileFormat', 'PDF only', (value) => {
-        console.log(value); return value && ['application/pdf'].includes(value.type);
-    }),
+    image: Yup.mixed().required("This field is required"),
     type: Yup.string().required("This field is required")
 });
 
@@ -52,4 +50,16 @@ export const add_footer_contact_schema = Yup.object({
     address: Yup.string().required("This field is required"),
     email: Yup.string().email().required("This field is required"),
     phone: Yup.string().required("This field is required").matches(/^[0-9]+$/, "Must be only digits").min(10, 'Must be minimum 10 digits').max(11, 'Must be maximum 11 digits')
+});
+
+export const footer_sm_schema = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    name: Yup.string().required("This field is required"),
+    hyper_link: Yup.string().required("This field is required"),
+});
+
+export const footer_payment_schema = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    name: Yup.string().required("This field is required"),
+    link: Yup.string().required("This field is required"),
 });
