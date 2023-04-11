@@ -4,10 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_banner_route, change_banner_status_route } from "../../utils/APIRoutes";
+import { get_banner_route, change_banner_status_route, delete_banner_route } from "../../utils/APIRoutes";
 import "../../assets/css/banner-toggle-btn.css";
 import { ToastContainer, toast } from 'react-toastify';
 import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Button from 'react-bootstrap/Button';
+import Swal from 'sweetalert2';
 
 const Banners = () => {
   const navigate = useNavigate();
@@ -35,9 +39,6 @@ const Banners = () => {
   const counterPage=10;
   const [perPage,setPerPage]=useState(10);
 
-  
-  
-
   const getData = async () => {
     try {
       await axios.get(`${get_banner_route}?page=${pageNumber-1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
@@ -63,11 +64,63 @@ const Banners = () => {
     };
   };
 
+  const handleDelete = (id) => async (e) => {
+    const del = async() =>{
+      console.log("id", id);
+      await axios.delete(`${delete_banner_route}?id=${id}`).then(response => {
+        getData();
+        if (response) {
+          toast.success(response.data.message, toastOptions);
+        }
+      }).catch(function (error) {
+        if (error) {
+          if (error.response.data.success == false) {
+            toast.error(error.response.data.message, toastOptions);
+          }
+        }
+      });
+    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'delete!',
+      cancelButtonText: 'cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        del();
+        swalWithBootstrapButtons.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })
+  };
+
   const handleChange = (id, active) => async (e) => {
     active = !active;
     let response = await axios.post(`${change_banner_status_route}?id=${id}&isActive=${active}`);
     getData();
-  }
+  };
 
   const columns = [
     {
@@ -100,8 +153,12 @@ const Banners = () => {
     {
       name: "Action",
       cell: row => <div>
-        <BsPencilSquare style={{fontSize: "20px", margin:"5px"}} />
-        <BsFillTrashFill style={{fontSize: "20px"}} />
+        {/* <BsPencilSquare style={{fontSize: "20px", margin:"5px"}} /> */}
+        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}>
+        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
+          <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+        </Button>
+        </OverlayTrigger>
       </div>
     }
   ];
@@ -133,9 +190,6 @@ const Banners = () => {
         paginationServer
         paginationTotalRows={totalImage}
         paginationPerPage={counterPage}
-        // paginationComponentOptions={{
-        //   noRowsPerPage:true
-        // }}
         paginationComponentOptions={numberOfPagePerList}
         fixedHeader
         fixedHeaderScrollHeight="450px"

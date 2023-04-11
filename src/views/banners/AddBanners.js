@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Button from 'react-bootstrap/Button';
@@ -20,6 +20,9 @@ const AddBanners = () => {
     };
   };
 
+  const [state, setState] = useState("");
+  const [imageError, setImageError] = useState("");
+
   const toastOptions = {
     position: "top-right",
     autoClose: 8000,
@@ -37,6 +40,7 @@ const AddBanners = () => {
     initialValues: initialValues,
     validationSchema: add_banner_schema,
     onSubmit: async (values, action) => {
+      if(imageError == ""){
       const formData = new FormData();
       formData.append("image", values.image);
       const { data } = await axios.post(`${add_banner_route}?type=${values.type}`, formData);
@@ -47,11 +51,21 @@ const AddBanners = () => {
           navigate("/banners");
         }, 3000)
         toast.success(data.message, toastOptions);
-        navigate("/banners");
       };
       action.resetForm();
     }
+    }
   });
+  var loadFile = (event) => {
+    if (event.target.files) {
+      setState(URL.createObjectURL(event.target.files[0]));
+    };
+  };
+  const checkImage = (e) => {
+    e.target.naturalWidth > 960 && e.target.naturalHeight > 1152 ? "" :
+      setImageError("Image should be under or equal to 10 x 12");
+  };
+
   return (
     <>
       <Form onSubmit={formik.handleSubmit} encType="multipart/form-data">
@@ -62,12 +76,23 @@ const AddBanners = () => {
             name="image"
             size="lg"
             accept="image/*"
-            onChange={(e) => formik.setFieldValue("image", e.target.files[0])}
+            onChange={(e) => { formik.setFieldValue("image", e.target.files[0]); loadFile(e) }}
             isInvalid={!!formik.errors.image}
             isValid={formik.touched.image && !formik.errors.image}
           />
-          {formik.errors.image && formik.touched.image ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.image}</p> : null}
+          {formik.errors.image && formik.touched.image ?
+            <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>
+              {formik.errors.image}
+            </p> : null}
         </Form.Group><br />
+        {imageError ?
+          <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{imageError}
+          </p> : <img
+            src={state}
+            id="output"
+            width="200"
+            onLoad={event => checkImage(event)}
+          />}
         <Form.Select
           size="lg"
           name="type"
@@ -76,7 +101,7 @@ const AddBanners = () => {
           onBlur={formik.handleBlur}
           isInvalid={!!formik.errors.type}
           isValid={formik.touched.type && !formik.errors.type}>
-          <option>Select banner type</option>
+          <option defaultValue hidden>Select banner type</option>
           <option value="home">Home</option>
           <option value="about">About Us</option>
         </Form.Select><br />
@@ -91,4 +116,3 @@ const AddBanners = () => {
 };
 
 export default AddBanners;
-
