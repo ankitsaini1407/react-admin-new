@@ -118,6 +118,7 @@ const AddTestimonial = () => {
                         <option>Select testimonial type</option>
                         <option value="home">Home</option>
                         <option value="about">About Us</option>
+                        <option value="india-t20-league">India T20 League</option>
                     </Form.Select>
                     {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
                 </Form.Group>

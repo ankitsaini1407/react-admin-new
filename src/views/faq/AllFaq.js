@@ -165,7 +165,7 @@ const AllFaq = () => {
       {
         modalShow ? <Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
           <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Answer</Modal.Title><Button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => setModalShow(!modalShow)}><BsX style={{fontSize:"35px", color:'black'}} /></Button></Modal.Header>
-          <Modal.Body><div>{modalInfo}</div></Modal.Body>
+          <Modal.Body><div className="content-only" dangerouslySetInnerHTML={{ __html: modalInfo }} /></Modal.Body>
         </Modal> : ""}
         <ToastContainer />
     </div>

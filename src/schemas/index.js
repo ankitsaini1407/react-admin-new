@@ -23,14 +23,14 @@ export const reset_password_schema = Yup.object({
 
 export const add_banner_schema = Yup.object({
     image: Yup.mixed().required("This field is required"),
-    type: Yup.string().required("This field is required")
+    type: Yup.string().required("This field is required"),
+    subType: Yup.string().required("This field is required")
 });
 
 export const add_faq_schema = Yup.object({
     ques: Yup.string().required("This field is required"),
     type: Yup.string().required("This field is required"),
-    subType: Yup.string().required("This field is required"),
-    answer: Yup.string().required("This field is required"),
+    subType: Yup.string().required("This field is required")
 });
 
 export const add_testimonoal_schema = Yup.object({

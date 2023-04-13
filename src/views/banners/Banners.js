@@ -13,6 +13,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
 
+
 const Banners = () => {
   const navigate = useNavigate();
   useEffect(() => { myFunction() }, []);
@@ -30,18 +31,19 @@ const Banners = () => {
     draggable: true,
     theme: "dark",
   };
-  const numberOfPagePerList=[10,15,20];
+
+  const numberOfPagePerList = [10, 15, 20];
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
-  const [pageNumber,setPageNumber]=useState(1);
-  const [totalImage,setTotalImage]=useState();
-  const counterPage=10;
-  const [perPage,setPerPage]=useState(10);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalImage, setTotalImage] = useState();
+  const counterPage = 10;
+  const [perPage, setPerPage] = useState(10);
 
   const getData = async () => {
     try {
-      await axios.get(`${get_banner_route}?page=${pageNumber-1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_banner_route}?page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
           if (response) {
             setData(response.data.data.result);
@@ -50,7 +52,7 @@ const Banners = () => {
           }
         }).catch(function (error) {
           if (error) {
-            if(error.response.data.token.isExpired == true){
+            if (error.response.data.token.isExpired == true) {
               setTimeout(() => {
                 Cookies.remove("token", "user")
                 navigate("/");
@@ -65,7 +67,7 @@ const Banners = () => {
   };
 
   const handleDelete = (id) => async (e) => {
-    const del = async() =>{
+    const del = async () => {
       console.log("id", id);
       await axios.delete(`${delete_banner_route}?id=${id}`).then(response => {
         getData();
@@ -87,7 +89,7 @@ const Banners = () => {
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -125,7 +127,7 @@ const Banners = () => {
   const columns = [
     {
       name: "S.No.",
-      selector: (row, index) => ((pageNumber-1)*perPage)+index+1,
+      selector: (row, index) => ((pageNumber - 1) * perPage) + index + 1,
       sortable: true,
     },
     {
@@ -136,6 +138,11 @@ const Banners = () => {
     {
       name: "Type",
       selector: row => row.type,
+      sortable: true
+    },
+    {
+      name: "Sub_Type",
+      selector: row => row.subType,
       sortable: true
     },
     {
@@ -153,11 +160,10 @@ const Banners = () => {
     {
       name: "Action",
       cell: row => <div>
-        {/* <BsPencilSquare style={{fontSize: "20px", margin:"5px"}} /> */}
         <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}>
-        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
-          <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
-        </Button>
+          <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
+            <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+          </Button>
         </OverlayTrigger>
       </div>
     }
@@ -165,8 +171,8 @@ const Banners = () => {
 
   useEffect(() => {
     getData();
-  }, [pageNumber,perPage]);
-  
+  }, [pageNumber, perPage]);
+
 
   useEffect(() => {
     let result = data.filter(elem => {
@@ -177,7 +183,7 @@ const Banners = () => {
     setFilteredData(result);
   }, [search]);
 
-  const handlePageChange=async(newPerPage,page)=>{
+  const handlePageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
   }
   return (

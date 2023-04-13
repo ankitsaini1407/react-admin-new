@@ -1,4 +1,4 @@
-const host = "http://192.168.1.11:5000";
+const host = "http://192.168.1.37:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
@@ -19,4 +19,4 @@ export const delete_cms_route = `${host}/v1/admin/deleteContent`;
 export const edit_cms_route = `${host}/v1/admin/editContent`;
 export const add_footer_contact = `${host}/v1/admin/addFooter`;
 export const get_footer_contact = `${host}/v1/admin/getFooter`;
-export const delete_banner_route=`${host}/v1/admin/deleteImage`
+export const delete_banner_route=`${host}/v1/admin/deleteImage`;

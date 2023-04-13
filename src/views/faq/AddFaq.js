@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useFormik } from 'formik';
@@ -9,6 +9,34 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import JoditEditor from 'jodit-react';
+
+const config = {
+  buttons: ['source', '|',
+      'bold',
+      'strikethrough',
+      'underline',
+      'italic', '|',
+      'ul',
+      'ol', '|',
+      'outdent', 'indent', '|',
+      'font',
+      'fontsize',
+      'brush',
+      'paragraph', '|',
+      'image',
+      'video',
+      'table',
+      'link', '|',
+      'align', 'undo', 'redo', '|',
+      'hr',
+      'eraser',
+      'copyformat', '|',
+      'symbol',
+      'fullsize',
+      'print',
+      'about'],
+};
 
 const AddFaq = () => {
   const navigate = useNavigate();
@@ -21,11 +49,16 @@ const AddFaq = () => {
     };
   };
 
+  const [value, setValue] = useState();
+    const getValue = (val) => {
+        setValue(val);
+    };
+    const editor = useRef(null);
+
   const initialValues = {
     ques: "",
     type: "",
-    subType: "",
-    answer: "",
+    subType: ""
   };
 
   const toastOptions = {
@@ -41,13 +74,10 @@ const AddFaq = () => {
     validationSchema: add_faq_schema,
     onSubmit: async (values, action) => {
       const { ques, type, subType, answer } = values;
-      const { data } = await axios.post(add_faq_route, { ques, type, subType, answer });
+      const { data } = await axios.post(add_faq_route, { ques, type, subType, answer:value });
       if (data.success === false) {
         toast.error(data.message, toastOptions);
       } else if (data.success === true) {
-        Cookies.set('token', data.token);
-        let user = JSON.stringify(data.user);
-        Cookies.set('user', user);
         setTimeout(() => {
           navigate("/faq");
         }, 3000)
@@ -106,19 +136,15 @@ const AddFaq = () => {
           <option value="n/a">N/A</option>
         </Form.Select><br />
         {formik.errors.subType && formik.touched.subType ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.subType}</p> : null}
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <textarea
-            className="form-control"
-            name="answer"
-            rows="12"
-            placeholder="Enter answer"
-            value={formik.values.faq_ans}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            isInvalid={!!formik.errors.answer}
-            isValid={formik.touched.answer && !formik.errors.answer} />
-          {formik.errors.answer && formik.touched.answer ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.answer}</p> : null}
-        </Form.Group>
+        
+        <JoditEditor
+          ref={editor}
+          config={config}
+          initialValue=""
+          getValue={getValue}
+          tabIndex={1}
+          onChange={(newContent) => getValue(newContent)}
+        /><br />
         <Button variant="primary" type="submit">
           Submit
         </Button>

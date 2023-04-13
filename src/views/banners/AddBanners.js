@@ -25,7 +25,7 @@ const AddBanners = () => {
 
   const toastOptions = {
     position: "top-right",
-    autoClose: 8000,
+    autoClose: 4000,
     pauseOnHover: true,
     draggable: true,
     theme: "dark",
@@ -33,36 +33,43 @@ const AddBanners = () => {
 
   const initialValues = {
     image: "",
-    type: ""
+    type: "",
+    subType: ""
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: add_banner_schema,
     onSubmit: async (values, action) => {
-      if(imageError == ""){
-      const formData = new FormData();
-      formData.append("image", values.image);
-      const { data } = await axios.post(`${add_banner_route}?type=${values.type}`, formData);
-      if (data.success === false) {
-        toast.error(data.message, toastOptions);
-      } else if (data.success === true) {
-        setTimeout(() => {
-          navigate("/banners");
-        }, 3000)
-        toast.success(data.message, toastOptions);
-      };
-      action.resetForm();
-    }
+      if (imageError == "") {
+        const formData = new FormData();
+        formData.append("subType", values.subType);
+        formData.append("image", values.image);
+        const { data } = await axios.post(`${add_banner_route}?type=${values.type}`, formData);
+        if (data.success === false) {
+          toast.error(data.message, toastOptions);
+        } else if (data.success === true) {
+          setTimeout(() => {
+            navigate("/banners");
+          }, 3000)
+          toast.success(data.message, toastOptions);
+        };
+        action.resetForm();
+      }
     }
   });
   var loadFile = (event) => {
+    event.preventDefault();
     if (event.target.files) {
       setState(URL.createObjectURL(event.target.files[0]));
     };
   };
   const checkImage = (e) => {
-    e.target.naturalWidth > 960 && e.target.naturalHeight > 1152 ? "" :
+    console.log(e.target.naturalWidth, e.target.naturalHeight);
+    (e.target.naturalWidth == 1920 && e.target.naturalHeight == 504) || 
+    (e.target.naturalWidth == 952 && e.target.naturalHeight == 1064) ||
+    (e.target.naturalWidth == 1920 && e.target.naturalHeight == 1144)||
+    (e.target.naturalWidth == 6400 && e.target.naturalHeight == 2978) ? "" :
       setImageError("Image should be under or equal to 10 x 12");
   };
 
@@ -76,7 +83,7 @@ const AddBanners = () => {
             name="image"
             size="lg"
             accept="image/*"
-            onChange={(e) => { formik.setFieldValue("image", e.target.files[0]); loadFile(e) }}
+            onChange={(e) => { formik.setFieldValue("image", e.target.files[0]); setImageError(""); loadFile(e) }}
             isInvalid={!!formik.errors.image}
             isValid={formik.touched.image && !formik.errors.image}
           />
@@ -84,7 +91,7 @@ const AddBanners = () => {
             <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>
               {formik.errors.image}
             </p> : null}
-        </Form.Group><br />
+        </Form.Group>
         {imageError ?
           <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{imageError}
           </p> : <img
@@ -93,7 +100,7 @@ const AddBanners = () => {
             width="200"
             onLoad={event => checkImage(event)}
           />}
-        <Form.Select
+        <Form.Select className="mt-3"
           size="lg"
           name="type"
           value={formik.values.type}
@@ -104,8 +111,23 @@ const AddBanners = () => {
           <option defaultValue hidden>Select banner type</option>
           <option value="home">Home</option>
           <option value="about">About Us</option>
+          <option value="india-t20-league">India T20 League</option>
         </Form.Select><br />
         {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
+        
+        <Form.Select className="mt-3"
+          size="lg"
+          name="subType"
+          value={formik.values.subType}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          isInvalid={!!formik.errors.subType}
+          isValid={formik.touched.subType && !formik.errors.subType}>
+          <option defaultValue hidden>Select banner subType</option>
+          <option value="desktop">Desktop</option>
+          <option value="mobile">mobile</option>
+        </Form.Select><br />
+        {formik.errors.subType && formik.touched.subType ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.subType}</p> : null}
         <Button variant="primary" type="submit">
           Submit
         </Button>
