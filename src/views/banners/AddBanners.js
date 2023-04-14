@@ -69,7 +69,10 @@ const AddBanners = () => {
     (e.target.naturalWidth == 1920 && e.target.naturalHeight == 504) || 
     (e.target.naturalWidth == 952 && e.target.naturalHeight == 1064) ||
     (e.target.naturalWidth == 1920 && e.target.naturalHeight == 1144)||
-    (e.target.naturalWidth == 6400 && e.target.naturalHeight == 2978) ? "" :
+    (e.target.naturalWidth == 6400 && e.target.naturalHeight == 2978)||
+    (e.target.naturalWidth == 300 && e.target.naturalHeight == 115)  ||
+    (e.target.naturalWidth == 492 && e.target.naturalHeight == 1120) ||
+    (e.target.naturalWidth == 640 && e.target.naturalHeight == 326)? "" :
       setImageError("Image should be under or equal to 10 x 12");
   };
 
@@ -112,6 +115,7 @@ const AddBanners = () => {
           <option value="home">Home</option>
           <option value="about">About Us</option>
           <option value="india-t20-league">India T20 League</option>
+          <option value="download">Download</option>
         </Form.Select><br />
         {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
         
@@ -126,6 +130,9 @@ const AddBanners = () => {
           <option defaultValue hidden>Select banner subType</option>
           <option value="desktop">Desktop</option>
           <option value="mobile">mobile</option>
+          <option value="download-page-rating-desktop">Download Page Rating Desktop</option>
+          <option value="download-page-carosel1-desktop">Download Page Carosel1 Desktop</option>
+          <option value="download-page-carosel2-desktop">Download Page Carosel2 Desktop</option>
         </Form.Select><br />
         {formik.errors.subType && formik.touched.subType ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.subType}</p> : null}
         <Button variant="primary" type="submit">
