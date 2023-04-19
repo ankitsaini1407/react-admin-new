@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-react";
 import Form from "react-bootstrap/Form";
-import { home_cms_schema } from "../../schemas";
+import { home_cms_schema } from "../../../schemas";
 import { useFormik } from "formik";
 import Button from "react-bootstrap/Button";
-import { add_home_cms_route } from "../../utils/APIRoutes";
+import { add_home_cms_route } from "../../../utils/APIRoutes";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -81,18 +81,24 @@ const AddCms = () => {
     onSubmit: async (values, action) => {
       console.log("ok");
       const { title } = values;
-      const { data } = await axios.post(`${add_home_cms_route}?type=home`, {
+      await axios.post(`${add_home_cms_route}?type=home`, {
         title,
         value,
-      });
-      if (data.success === false) {
-        toast.error(data.message, toastOptions);
-      } else if (data.success === true) {
-        setTimeout(() => {
-          navigate("/cms");
-        }, 3000);
-        toast.success(data.message, toastOptions);
-      }
+      }).then((res)=>{
+        if(res){
+          if (res.data.success === false) {
+            toast.error(res.data.message, toastOptions);
+          } else if (res.data.success === true) {
+            setTimeout(() => {
+              navigate("/home");
+            }, 3000);
+            toast.success(res.data.message, toastOptions);
+          }
+        }
+      }).catch((err)=>{
+        console.log(err);
+      })
+      
       action.resetForm();
     },
   });

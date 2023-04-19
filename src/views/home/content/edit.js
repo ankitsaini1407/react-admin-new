@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { edit_home_cms_route } from '../../utils/APIRoutes';
+import { edit_home_cms_route } from '../../../utils/APIRoutes';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -61,9 +61,9 @@ const EditCms = () => {
         theme: "light",
     };
     const handleSubmit = async () => {
-        const data = await axios.post(`${edit_cms_route}?id=${location.state.id}`, { description: value });
+        const data = await axios.post(`${edit_home_cms_route}?id=${location.state.id}`, { description: value });
         if(data.data.success === true){
-                navigate("/cms");
+                navigate("/home");
                 toast.success(data.data.message, toastOptions);
         };
     };

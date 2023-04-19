@@ -8,7 +8,7 @@ const ContentSlug = () => {
     return(
         <form>
         <div dangerouslySetInnerHTML={{ __html: location.state.description }} />
-        <Link to="/cms"><Button variant="primary">&laquo;back</Button></Link>
+        <Link to="/home"><Button variant="primary">&laquo;back</Button></Link>
         </form>
     );
 };

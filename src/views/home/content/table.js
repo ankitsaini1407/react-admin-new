@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/libs/simple-datatables/style.css";
+import "../../../assets/libs/simple-datatables/style.css";
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_home_cms_route, change_home_cms_status_route, delete_home_cms_route } from "../../utils/APIRoutes";
-import "../../assets/css/banner-toggle-btn.css";
+import { get_home_cms_route, change_home_cms_status_route, delete_home_cms_route } from "../../../utils/APIRoutes";
+import "../../../assets/css/banner-toggle-btn.css";
 import Button from 'react-bootstrap/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from 'react-icons/bs';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-const AllCms = () => {
+const HomeCms = () => {
 
   const navigate = useNavigate();
 
@@ -40,9 +40,9 @@ const AllCms = () => {
   const [perPage, setPerPage] = useState(10);
 
   const getData = async () => {
-    try {
-      await axios.get(`${get_cms_route}?page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_home_cms_route}?type=home&page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
+            console.log("dddddd", response);
           if (response) {
             setData(response.data.data.result);
             setTotalImage(response.data.data.totalItems);
@@ -50,33 +50,22 @@ const AllCms = () => {
           }
 
         }).catch(function (error) {
-          if (error) {
-            if (error.response.data.token.isExpired == true) {
-              setTimeout(() => {
-                Cookies.remove("token", "user")
-                navigate("/");
-              }, 3000)
-              toast.error(error.response.data.token.message, toastOptions);
-            }
-          }
+          console.log(error);
         });
-    } catch (err) {
-      console.log(err);
-    };
   };
 
   const handleChange = (id, active) => async (e) => {
     active = !active;
-    await axios.post(`${change_cms_status_route}?id=${id}&isActive=${active}`);
+    await axios.post(`${change_home_cms_status_route}?id=${id}&isActive=${active}`);
     getData();
   };
 
   const handleSlug = (slug, description) => async () => {
-    navigate(`/cms/${slug}`, { state: { description: description } });
+    navigate(`/home/cms/${slug}`, { state: { description: description } });
   };
 
   const handleDelete = (id) => async (e) => {
-    await axios.delete(`${delete_cms_route}?id=${id}`).then(response => {
+    await axios.delete(`${delete_home_cms_route}?id=${id}`).then(response => {
       getData();
       if (response) {
         toast.success(response.data.message, toastOptions);
@@ -91,7 +80,7 @@ const AllCms = () => {
   };
 
   const handleEdit = (id, type, title, description) => async () => {
-    navigate(`/cms/edit/${id}`, { state: { id: id, type: type, title: title, description: description } })
+    navigate(`/home/cms/edit/${id}`, { state: { id: id, type: type, title: title, description: description } })
   };
 
   const columns = [
@@ -190,7 +179,7 @@ const AllCms = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         }
-        actions={<Link to="/add-cms"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
+        actions={<Link to="/home/cms/add"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
       />
       <ToastContainer />
@@ -198,4 +187,4 @@ const AllCms = () => {
   )
 }
 
-export default AllCms;
+export default HomeCms;

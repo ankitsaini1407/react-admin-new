@@ -21,11 +21,7 @@ export const reset_password_schema = Yup.object({
     password: Yup.string().required("This field is required")
 });
 
-export const add_banner_schema = Yup.object({
-    image: Yup.mixed().required("This field is required"),
-    type: Yup.string().required("This field is required"),
-    subType: Yup.string().required("This field is required")
-});
+
 
 export const add_faq_schema = Yup.object({
     ques: Yup.string().required("This field is required"),
@@ -40,9 +36,7 @@ export const add_testimonoal_schema = Yup.object({
     type: Yup.string().required("This field is required"),
 });
 
-export const cms_schema = Yup.object({
-    type: Yup.string().required("This field is required"),
-    subType: Yup.string().required("This field is required"),
+export const home_cms_schema = Yup.object({
     title: Yup.string().required("This field is required"),
 });
 
@@ -63,4 +57,45 @@ export const footer_payment_schema = Yup.object({
     image: Yup.mixed().required("This field is required"),
     name: Yup.string().required("This field is required"),
     link: Yup.string().required("This field is required"),
+});
+
+export const home_logo = Yup.object({
+    logo: Yup.mixed().required("This field is required"),
+    url: Yup.string().required("This field is required")
+});
+
+export const home_navbar = Yup.object({
+    order: Yup.number().required("This field is required"),
+    name: Yup.string().required("This field is required"),
+    title: Yup.string().required("This field is required")
+
+});
+
+export const add_banner_schema = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    subType: Yup.string().required("This field is required")
+});
+
+export const home_square_boxes = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    title: Yup.string().required("This field is required"),
+    description: Yup.string().required("This field is required")
+});
+
+export const how_to_play = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    order: Yup.number().required("This field is required"),
+    title: Yup.string().required("This field is required"),
+    description: Yup.string().required("This field is required")
+});
+
+export const how_to_play_steps = Yup.object({
+    order: Yup.number().required("This field is required"),
+    title: Yup.string().required("This field is required"),
+    description: Yup.string().required("This field is required")
+});
+
+export const home_edit_square_boxes = Yup.object({
+    title: Yup.string().required("This field is required"),
+    description: Yup.string().required("This field is required")
 });

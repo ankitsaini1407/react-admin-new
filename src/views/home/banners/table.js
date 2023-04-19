@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/libs/simple-datatables/style.css";
+import "../../../assets/libs/simple-datatables/style.css";
 import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import DataTable from "react-data-table-component";
 import axios from "axios";
-import { get_home_cms_route, change_home_cms_status_route, delete_home_cms_route } from "../../utils/APIRoutes";
-import "../../assets/css/banner-toggle-btn.css";
-import Button from 'react-bootstrap/Button';
+import { get_banner_route, change_banner_status_route, delete_banner_route } from "../../../utils/APIRoutes";
+import "../../../assets/css/banner-toggle-btn.css";
 import { ToastContainer, toast } from 'react-toastify';
-import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from 'react-icons/bs';
+import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import Button from 'react-bootstrap/Button';
+import Swal from 'sweetalert2';
 
-const AllCms = () => {
 
+const HomeBanners = () => {
   const navigate = useNavigate();
-
   useEffect(() => { myFunction() }, []);
   const myFunction = async () => {
     const token = Cookies.get('token');
@@ -32,23 +32,24 @@ const AllCms = () => {
     theme: "dark",
   };
 
+  const numberOfPagePerList = [10, 15, 20];
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalImage, setTotalImage] = useState();
+  const counterPage = 10;
   const [perPage, setPerPage] = useState(10);
 
   const getData = async () => {
     try {
-      await axios.get(`${get_cms_route}?page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
+      await axios.get(`${get_banner_route}?type=home&page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
           if (response) {
             setData(response.data.data.result);
             setTotalImage(response.data.data.totalItems);
             setFilteredData(response.data.data.result);
           }
-
         }).catch(function (error) {
           if (error) {
             if (error.response.data.token.isExpired == true) {
@@ -65,40 +66,74 @@ const AllCms = () => {
     };
   };
 
+  const handleDelete = (id) => async (e) => {
+    const del = async () => {
+      console.log("id", id);
+      await axios.delete(`${delete_banner_route}?id=${id}`).then(response => {
+        getData();
+        if (response) {
+          toast.success(response.data.message, toastOptions);
+        }
+      }).catch(function (error) {
+        if (error) {
+          if (error.response.data.success == false) {
+            toast.error(error.response.data.message, toastOptions);
+          }
+        }
+      });
+    }
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
+    swalWithBootstrapButtons.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'delete!',
+      cancelButtonText: 'cancel!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        del();
+        swalWithBootstrapButtons.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cancelled',
+          'Your imaginary file is safe :)',
+          'error'
+        )
+      }
+    })
+  };
+
   const handleChange = (id, active) => async (e) => {
     active = !active;
-    await axios.post(`${change_cms_status_route}?id=${id}&isActive=${active}`);
+    let response = await axios.post(`${change_banner_status_route}?id=${id}&isActive=${active}`);
     getData();
-  };
-
-  const handleSlug = (slug, description) => async () => {
-    navigate(`/cms/${slug}`, { state: { description: description } });
-  };
-
-  const handleDelete = (id) => async (e) => {
-    await axios.delete(`${delete_cms_route}?id=${id}`).then(response => {
-      getData();
-      if (response) {
-        toast.success(response.data.message, toastOptions);
-      }
-    }).catch(function (error) {
-      if (error) {
-        if (error.response.data.success == false) {
-          toast.error(error.response.data.message, toastOptions);
-        }
-      }
-    });
-  };
-
-  const handleEdit = (id, type, title, description) => async () => {
-    navigate(`/cms/edit/${id}`, { state: { id: id, type: type, title: title, description: description } })
   };
 
   const columns = [
     {
       name: "S.No.",
       selector: (row, index) => ((pageNumber - 1) * perPage) + index + 1,
-      sortable: true
+      sortable: true,
+    },
+    {
+      name: "Banner",
+      selector: row => <img src={row.image} width={40} alt='Banner' />,
+      sortable: true,
     },
     {
       name: "Type",
@@ -106,21 +141,14 @@ const AllCms = () => {
       sortable: true
     },
     {
-      name: "Description",
-      selector: row => <div>
-        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}>
-        <Button style={{ backgroundColor: "transparent", border: "none" }}>
-          <BsEyeFill style={{ color: "blue" }} onClick={handleSlug(row.slug, row.description)} />
-        </Button>
-        </OverlayTrigger>
-      </div>,
+      name: "Sub_Type",
+      selector: row => row.subType,
       sortable: true
     },
     {
       name: "Status",
       selector: row => row.isActive ? "Activate" : "In-Activate",
-      sortable: true,
-      maxWidth: "200px",
+      sortable: true
     },
     {
       name: "Is-Active",
@@ -132,16 +160,10 @@ const AllCms = () => {
     {
       name: "Action",
       cell: row => <div>
-        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Edit</Tooltip>}>
-          <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleEdit(row.id, row.type, row.title, row.description)}>
-            <BsPencilSquare style={{ fontSize: "20px", margin: "5px", color: "blue" }} />
-          </Button>
-        </OverlayTrigger>
-
         <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}>
-        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
-          <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
-        </Button>
+          <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
+            <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+          </Button>
         </OverlayTrigger>
       </div>
     }
@@ -150,6 +172,7 @@ const AllCms = () => {
   useEffect(() => {
     getData();
   }, [pageNumber, perPage]);
+
 
   useEffect(() => {
     let result = data.filter(elem => {
@@ -162,24 +185,24 @@ const AllCms = () => {
 
   const handlePageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
-  };
-
+  }
   return (
     <div className="container">
       <DataTable
-        title="All Cms List"
+        title="Banners List"
         columns={columns}
         data={filteredData}
         pagination
+        paginationServer
+        paginationTotalRows={totalImage}
+        paginationPerPage={counterPage}
+        paginationComponentOptions={numberOfPagePerList}
         fixedHeader
         fixedHeaderScrollHeight="450px"
         selectableRowsHighlight
         highlightOnHover
-        paginationServer
-        paginationTotalRows={totalImage}
-        paginationPerPage={perPage}
-        onChangeRowsPerPage={handlePageChange}
         onChangePage={(value) => setPageNumber(value)}
+        onChangeRowsPerPage={handlePageChange}
         subHeader
         subHeaderComponent={
           <input
@@ -190,12 +213,12 @@ const AllCms = () => {
             onChange={(e) => setSearch(e.target.value)}
           />
         }
-        actions={<Link to="/add-cms"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
+        actions={<Link to="/home/add-banners"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
       />
       <ToastContainer />
     </div>
   )
 }
 
-export default AllCms;
+export default HomeBanners;
