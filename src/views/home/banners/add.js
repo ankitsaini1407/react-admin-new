@@ -64,7 +64,6 @@ const AddHomeBanners = () => {
     };
   };
   const checkImage = (e) => {
-    console.log(e.target.naturalWidth, e.target.naturalHeight);
     (e.target.naturalWidth == 1920 && e.target.naturalHeight == 504) || 
     (e.target.naturalWidth == 952 && e.target.naturalHeight == 1064)? "" :
       setImageError("Image size is not valid");

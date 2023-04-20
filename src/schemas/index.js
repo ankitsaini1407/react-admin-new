@@ -29,12 +29,7 @@ export const add_faq_schema = Yup.object({
     subType: Yup.string().required("This field is required")
 });
 
-export const add_testimonoal_schema = Yup.object({
-    image: Yup.mixed().required("This field is required"),
-    amount: Yup.string().required("This field is required"),
-    quote: Yup.string().required("This field is required"),
-    type: Yup.string().required("This field is required"),
-});
+
 
 export const home_cms_schema = Yup.object({
     title: Yup.string().required("This field is required"),
@@ -98,4 +93,20 @@ export const how_to_play_steps = Yup.object({
 export const home_edit_square_boxes = Yup.object({
     title: Yup.string().required("This field is required"),
     description: Yup.string().required("This field is required")
+});
+
+export const app_features = Yup.object({
+    logo: Yup.mixed().required("This field is required"),
+    title: Yup.string().required("This field is required"),
+    description: Yup.string().required("This field is required")
+});
+
+export const app_features_center_image = Yup.object({
+    image: Yup.mixed().required("This field is required")
+});
+
+export const add_home_testimonoal_schema = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    amount: Yup.string().required("This field is required"),
+    quote: Yup.string().required("This field is required")
 });

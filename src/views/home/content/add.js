@@ -79,7 +79,6 @@ const AddCms = () => {
     initialValues: {title: "" },
     validationSchema: home_cms_schema,
     onSubmit: async (values, action) => {
-      console.log("ok");
       const { title } = values;
       await axios.post(`${add_home_cms_route}?type=home`, {
         title,

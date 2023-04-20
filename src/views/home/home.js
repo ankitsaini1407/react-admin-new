@@ -7,6 +7,9 @@ import HomeSquareBoxes from "./square-boxes/table";
 import HowToPlay from "./how-to-play/table";
 import { useLocation } from "react-router-dom";
 import HomeCms from "./content/table";
+import AppFeatures from "./app-features/table";
+import HomeFaq from "./faq/table";
+import HomeWinners from "./testimonial/table";
 const Home = () => {
   const location = useLocation();
   
@@ -57,39 +60,21 @@ const Home = () => {
       <Accordion.Item eventKey="6">
         <Accordion.Header>APP FEATURES</Accordion.Header>
         <Accordion.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          <AppFeatures />
         </Accordion.Body>
       </Accordion.Item>
       <br />
       <Accordion.Item eventKey="7">
         <Accordion.Header>FREQUENTLY ASKED QUESTIONS</Accordion.Header>
         <Accordion.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          <HomeFaq />
         </Accordion.Body>
       </Accordion.Item>
       <br />
       <Accordion.Item eventKey="8">
         <Accordion.Header>WINNER</Accordion.Header>
         <Accordion.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          <HomeWinners />
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

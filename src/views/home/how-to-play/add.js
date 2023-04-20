@@ -75,7 +75,6 @@ const AddHowToPlay = () => {
     }
   };
   const checkImage = (e) => {
-    console.log(e.target.naturalWidth, e.target.naturalHeight);
     e.target.naturalWidth == 647 && e.target.naturalHeight == 198
       ? ""
       : setImageError("This image size is invalid");

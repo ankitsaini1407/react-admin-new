@@ -68,7 +68,6 @@ const HomeBanners = () => {
 
   const handleDelete = (id) => async (e) => {
     const del = async () => {
-      console.log("id", id);
       await axios.delete(`${delete_banner_route}?id=${id}`).then(response => {
         getData();
         if (response) {

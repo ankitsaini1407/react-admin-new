@@ -35,7 +35,6 @@ const Navbar = () => {
 
   const handleDelete = (id) => async (e) => {
     const del = async () => {
-      console.log("id", id);
       await axios
         .delete(`${delete_home_navbar_route }?id=${id}`, {
           headers: { token: Cookies.get("token") },

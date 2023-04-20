@@ -1,14 +1,8 @@
-const host = "http://192.168.1.11:5000";
+const host = "http://192.168.1.75:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
 export const reset_password_route = `${host}/v1/admin/auth/resetpassword`;
-export const add_faq_route = `${host}/v1/admin/addfaqs`;
-export const get_faq_route = `${host}/v1/admin/getfaqs`;
-export const add_testimonial_route = `${host}/v1/admin/addTestimonial`;
-export const get_testimonial_route = `${host}/v1/admin/getTestimonial`;
-export const change_faq_status_route = `${host}/v1/admin/updateFaqStatus`;
-export const change_testimonial_status_route = `${host}/v1/admin/updateTestimonialStatus`;
 export const add_footer_contact = `${host}/v1/admin/addFooter`;
 export const get_footer_contact = `${host}/v1/admin/getFooter`;
 
@@ -35,9 +29,17 @@ export const get_home_cms_route = `${host}/v1/admin/home/getContent`;
 export const delete_home_cms_route = `${host}/v1/admin/home/deleteContent`;
 export const edit_home_cms_route = `${host}/v1/admin/home/editContent`;
 export const change_home_cms_status_route = `${host}/v1/admin/home/updateContentStatus`;
-
-
-
-
-
-
+export const add_app_features_route = `${host}/v1/admin/home/addAppFeatures`;
+export const get_app_features_route = `${host}/v1/admin/home/getAppFeatures`;
+export const update_app_features_status = `${host}/v1/admin/home/updateAppFeaturesStatus`;
+export const delete_app_features_status = `${host}/v1/admin/home/deleteAppFeatures`;
+export const add_app_features_image = `${host}/v1/admin/home/addAppFeaturesImage`;
+export const get_app_features_image = `${host}/v1/admin/home/getAppFeaturesImage`;
+export const update_app_features_image_status = `${host}/v1/admin/home/updateAppFeaturesImageStatus`;
+export const delete_app_features_image = `${host}/v1/admin/home/deleteAppFeaturesImage`;
+export const add_faq_route = `${host}/v1/admin/home/addfaqs`;
+export const get_faq_route = `${host}/v1/admin/home/getfaqs`;
+export const change_faq_status_route = `${host}/v1/admin/home/updateFaqStatus`;
+export const add_testimonial_route = `${host}/v1/admin/home/addTestimonial`;
+export const get_testimonial_route = `${host}/v1/admin/home/getTestimonial`;
+export const change_testimonial_status_route = `${host}/v1/admin/home/updateTestimonialStatus`;

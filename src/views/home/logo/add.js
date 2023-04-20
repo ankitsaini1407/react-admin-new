@@ -75,7 +75,6 @@ const AddLogo = () => {
     }
   };
   const checkImage = (e) => {
-    console.log(e.target.naturalWidth, e.target.naturalHeight);
     e.target.naturalWidth == 279 && e.target.naturalHeight == 88
       ? ""
       : setImageError("This image size is invalid");

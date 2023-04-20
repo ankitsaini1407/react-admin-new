@@ -42,7 +42,6 @@ const HomeCms = () => {
   const getData = async () => {
       await axios.get(`${get_home_cms_route}?type=home&page=${pageNumber - 1}&size=${perPage}`, { headers: { token: Cookies.get("token") } })
         .then(response => {
-            console.log("dddddd", response);
           if (response) {
             setData(response.data.data.result);
             setTotalImage(response.data.data.totalItems);

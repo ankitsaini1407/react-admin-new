@@ -4,12 +4,12 @@ import Form from 'react-bootstrap/Form';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { add_home_testimonoal_schema } from "../../schemas";
-import { add_testimonial_route } from "../../utils/APIRoutes";
+import { add_home_testimonoal_schema } from "../../../schemas";
+import { add_testimonial_route } from "../../../utils/APIRoutes";
 import Cookies from 'js-cookie';
 import axios from "axios";
 
-const AddTestimonial = () => {
+const AddHomeTestimonial = () => {
     const navigate = useNavigate();
     useEffect(() => { myFunction() }, []);
     const myFunction = async () => {
@@ -30,26 +30,25 @@ const AddTestimonial = () => {
     const initialValues = {
         image: "",
         amount: "",
-        quote: "",
-        type: ""
+        quote: ""
     };
 
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: add_home_testimonoal_schema,
         onSubmit: async (values, action) => {
-            const { image, amount, quote, type } = values;
+            const { image, amount, quote } = values;
             const formData = new FormData();
             
-            const data1={"amount":amount,"quote":quote,"type":type};
+            const data1={"amount":amount,"quote":quote};
            formData.append("data",JSON.stringify(data1));
            formData.append("image", image);
-            const { data } = await axios.post(add_testimonial_route, formData,{headers:{'Content-Type':'multipart/form-data'}} );
+            const { data } = await axios.post(`${add_testimonial_route}?type=home`, formData,{headers:{'Content-Type':'multipart/form-data'}} );
             if (data.success === false) {
                 toast.error(data.message, toastOptions);
             } else if (data.success === true) {
                 setTimeout(() => {
-                    navigate("/testimonial");
+                    navigate("/home");
                 }, 3000)
                 toast.success(data.message, toastOptions);
             };
@@ -102,26 +101,6 @@ const AddTestimonial = () => {
                     />
                     {formik.errors.quote && formik.touched.quote ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.quote}</p> : null}
                 </Form.Group>
-                <Form.Group className="position-relative mb-3">
-                    <Form.Label>Type</Form.Label>
-                    <Form.Select
-                        type="text"
-                        placeholder="Please select a type"
-                        required
-                        name="type"
-                        value={formik.values.type}
-                        onBlur={formik.handleBlur}
-                        onChange={formik.handleChange}
-                        isInvalid={!!formik.errors.type}
-                        isValid={formik.touched.type && !formik.errors.type}
-                    >
-                        <option>Select testimonial type</option>
-                        <option value="home">Home</option>
-                        <option value="about">About Us</option>
-                        <option value="india-t20-league">India T20 League</option>
-                    </Form.Select>
-                    {formik.errors.type && formik.touched.type ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.type}</p> : null}
-                </Form.Group>
                 <Button type="submit">Submit</Button>
             </Form>
             <ToastContainer />
@@ -129,4 +108,4 @@ const AddTestimonial = () => {
     );
 };
 
-export default AddTestimonial;
+export default AddHomeTestimonial;

@@ -25,6 +25,9 @@ import AddHowToPlaySteps from './views/home/how-to-play/steps';
 import EditHomeSquareBoxes from './views/home/square-boxes/edit';
 import AddHomeCms from './views/home/content/add';
 import ContentSlug from './views/home/content/contentSlug';
+import AddAppFeatures from './views/home/app-features/add';
+import AddHomeFaq from './views/home/faq/add';
+import AddHomeTestimonial from './views/home/testimonial/add';
 
 const routes = [
   { path: '/dashboard', exact: true, name: 'Home' },
@@ -53,6 +56,9 @@ const routes = [
   { path: '/home/cms/add', name: 'Home / Cms / Add', element: AddHomeCms },
   { path: '/home/cms/:slug', element: ContentSlug },
   { path: '/home/cms/edit/:id', name: 'CMS / Edit-Cms', element: EditCms },
+  { path: '/home/app-features/add', name: 'Home / App-Features / Add', element: AddAppFeatures },
+  { path: '/home/faq/add', name: 'Home / Faq / Add', element: AddHomeFaq },
+  { path: '/home/testimonial/add', name: 'Home / Testimonial / Add', element: AddHomeTestimonial },
 ];
 
 export default routes;

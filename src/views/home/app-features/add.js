@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Cookies from "js-cookie";
 import axios from "axios";
 import { useFormik } from "formik";
-import { home_edit_square_boxes } from "../../../schemas";
-import { edit_home_square_boxes_route } from "../../../utils/APIRoutes";
-import Cookies from "js-cookie";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { app_features } from "../../../schemas";
+import { add_app_features_route } from "../../../utils/APIRoutes";
 import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
-const EditHomeSquareBoxes = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [title, setTitle] = useState(location.state.title);
-  const [description, setDescription] = useState(location.state.description);
+const AddAppFeatures = () => {
+    const navigate = useNavigate();
   useEffect(() => {
     myFunction();
   }, []);
@@ -31,31 +28,27 @@ const EditHomeSquareBoxes = () => {
     draggable: true,
     theme: "dark",
   };
-
   const [state, setState] = useState("");
   const [imageError, setImageError] = useState("");
 
   const initialValues = {
-    title: location.state.title,
-    description: location.state.description,
+    logo: "",
+    title: "",
+    description: "",
   };
 
   const formik = useFormik({
     initialValues: initialValues,
-    validationSchema: home_edit_square_boxes,
+    validationSchema: app_features,
     onSubmit: async (values, action) => {
-        const { title, description } = values;
+      if (imageError == "") {
+        const { logo, title, description } = values;
+        const formData = new FormData();
+        const data = { title: title, description: description };
+        formData.append("data", JSON.stringify(data));
+        formData.append("image", logo);
         await axios
-          .post(
-            `${edit_home_square_boxes_route}?id=${location.state.id}`,
-            {
-              title,
-              description,
-            },
-            {
-              headers: { token: Cookies.get("token") },
-            }
-          )
+          .post(`${add_app_features_route}?type=home`, formData)
           .then((response) => {
             if (response) {
               navigate("/home", { state: { active_table: "3" } });
@@ -69,8 +62,10 @@ const EditHomeSquareBoxes = () => {
                 navigate("/");
               }, 3000);
               toast.error(error.response.data.token.message, toastOptions);
-            }
+            };
           });
+        action.resetForm();
+      }
     },
   });
   var loadFile = (event) => {
@@ -79,9 +74,8 @@ const EditHomeSquareBoxes = () => {
       setState(URL.createObjectURL(event.target.files[0]));
     }
   };
-
   const checkImage = (e) => {
-    e.target.naturalWidth == 143 && e.target.naturalHeight == 147
+    e.target.naturalWidth == 67 && e.target.naturalHeight == 67
       ? ""
       : setImageError("This image size is invalid");
   };
@@ -93,26 +87,41 @@ const EditHomeSquareBoxes = () => {
           <Form.Control
             type="file"
             placeholder="Select a image"
-            disabled
-            name="image"
+            name="logo"
             size="lg"
             accept="image/*"
             onChange={(e) => {
-              formik.setFieldValue("image", e.target.files[0]);
+              formik.setFieldValue("logo", e.target.files[0]);
               setImageError("");
               loadFile(e);
             }}
+            isInvalid={!!formik.errors.logo}
+            isValid={formik.touched.logo && !formik.errors.logo}
           />
-          {
+          {formik.errors.logo && formik.touched.logo ? (
+            <p
+              className="form-error"
+              style={{ color: "red", width: "100%", display: "block" }}
+            >
+              {formik.errors.logo}
+            </p>
+          ) : null}
+          {imageError ? (
+            <p
+              className="form-error"
+              style={{ color: "red", width: "100%", display: "block" }}
+            >
+              {imageError}
+            </p>
+          ) : (
             <img
-              src={location.state.image}
+              src={state}
               id="output"
               width="200"
               onLoad={(event) => checkImage(event)}
             />
-          }
+          )}
         </Form.Group>
-
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -165,4 +174,4 @@ const EditHomeSquareBoxes = () => {
   );
 };
 
-export default EditHomeSquareBoxes;
+export default AddAppFeatures;

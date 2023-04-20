@@ -42,7 +42,6 @@ const AddNavbar = () => {
           const { order, name, title, design } = values;
           await axios.post(home_navbar_route, { order, name, title, design }, {headers:{token:Cookies.get("token")}})
           .then((response)=>{
-            console.log(response);
             navigate("/home", { state: { active_table: "1" } });
             toast.success(response.data.message, toastOptions);
           }).catch((error)=> {

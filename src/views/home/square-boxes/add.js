@@ -76,7 +76,6 @@ const AddHomeSquareBoxes = () => {
     }
   };
   const checkImage = (e) => {
-    console.log(e.target.naturalWidth, e.target.naturalHeight);
     e.target.naturalWidth == 143 && e.target.naturalHeight == 147
       ? ""
       : setImageError("This image size is invalid");

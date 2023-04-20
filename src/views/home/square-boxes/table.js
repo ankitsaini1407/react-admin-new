@@ -36,7 +36,6 @@ const HomeSquareBoxes = () => {
         headers: { token: Cookies.get("token") },
       })
       .then((response) => {
-        console.log("ress", response);
         setSquareBox(response.data.data);
       })
       .catch(function (error) {
