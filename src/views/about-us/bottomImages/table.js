@@ -5,9 +5,9 @@ import Cookies from "js-cookie";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import {
-    get_app_features_image,
-    update_app_features_image_status,
-    delete_app_features_image
+    get_about_us_bottom_image,
+    update_about_us_bottom_image,
+    delete_about_us_bottom_image
 } from "../../../utils/APIRoutes";
 import "../../../assets/css/banner-toggle-btn.css";
 import Button from "react-bootstrap/Button";
@@ -23,9 +23,10 @@ import {
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Swal from "sweetalert2";
-import AppFeaturesCenterImage from "./centerImage"
+import AboutUsBottomBasicImage from "./basicImage";
+import AboutUsDownloadImage from "./downloadImage";
 
-const AppFeatureCenterImage = () => {
+const AboutUsBottomImagesTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,13 +51,14 @@ const AppFeatureCenterImage = () => {
   const [data, setData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [modalShow1, setModalShow1] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
 
   const getData = async () => {
     try {
       await axios
-        .get(`${get_app_features_image}?type=home`, {
+        .get(get_about_us_bottom_image, {
           headers: { token: Cookies.get("token") },
         })
         .then((response) => {
@@ -84,7 +86,7 @@ const AppFeatureCenterImage = () => {
   const handleChange = (id, active) => async () => {
     active = !active;
     await axios.post(
-      `${update_app_features_image_status}?id=${id}&isActive=${active}`
+      `${update_about_us_bottom_image}?id=${id}&isActive=${active}`
     );
     getData();
   };
@@ -92,7 +94,7 @@ const AppFeatureCenterImage = () => {
   const handleDelete = (id) => async (e) => {
     const del = async () => {
       await axios
-        .delete(`${delete_app_features_image}?id=${id}`)
+        .delete(`${delete_about_us_bottom_image}?id=${id}`)
         .then((response) => {
           getData();
           if (response) {
@@ -209,7 +211,7 @@ const AppFeatureCenterImage = () => {
   return (
     <div className="container">
       <DataTable
-        title="App Features Center Image"
+        title="About Us Bottom Images"
         columns={appFeaturesColumns}
         data={filteredData}
         pagination
@@ -238,7 +240,17 @@ const AppFeatureCenterImage = () => {
                 data-target="#myModal"
                 className="btn btn-sm btn-success"
               >
-                ADD+
+                ADD Basic Image+
+              </button>
+              <button
+              onClick={() => {
+                setModalShow1(!modalShow1);
+              }}
+                data-toggle="modal"
+                data-target="#myModal"
+                className="btn btn-sm btn-success"
+              >
+                ADD Download Image+
               </button>
           </>
         }
@@ -252,7 +264,7 @@ const AppFeatureCenterImage = () => {
         >
           <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
-              Add Image
+              Add Logo
             </Modal.Title>
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
@@ -262,7 +274,31 @@ const AppFeatureCenterImage = () => {
             </Button>
           </Modal.Header>
           <Modal.Body>
-            < AppFeaturesCenterImage />
+            < AboutUsBottomBasicImage />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
+      {modalShow1 ? (
+        <Modal
+          show={modalShow1}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Add Logo
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow1(!modalShow1)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body>
+            < AboutUsDownloadImage />
           </Modal.Body>
         </Modal>
       ) : (
@@ -273,4 +309,4 @@ const AppFeatureCenterImage = () => {
   );
 };
 
-export default AppFeatureCenterImage;
+export default AboutUsBottomImagesTable;

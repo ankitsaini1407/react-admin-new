@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import {
-  add_app_features_image,
+    add_about_us_bottom_image,
 } from "../../../utils/APIRoutes";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,7 @@ import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
 import { app_features_center_image } from "../../../schemas";
 
-const AppFeaturesCenterImage = () => {
+const AboutUsBottomBasicImage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,10 +44,10 @@ const AppFeaturesCenterImage = () => {
         const formData = new FormData();
         formData.append("image", image);
         await axios
-          .post(`${add_app_features_image}?type=home`, formData)
+          .post(`${add_about_us_bottom_image}?type=aboutUsBottomImage`, formData)
           .then((response) => {
             if (response) {
-              navigate("/home", { state: { active_table: "3" } });
+              navigate("/about-us", { state: { active_table: "3" } });
               toast.success(response.data.message, toastOptions);
             }
           })
@@ -71,7 +71,8 @@ const AppFeaturesCenterImage = () => {
     }
   };
   const checkImage = (e) => {
-    e.target.naturalWidth == 1603 && e.target.naturalHeight == 3423
+    console.log(e.target.naturalWidth, e.target.naturalHeight);
+    e.target.naturalWidth == 984 && e.target.naturalHeight == 920
       ? ""
       : setImageError("This image size is invalid");
   };
@@ -79,7 +80,7 @@ const AppFeaturesCenterImage = () => {
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Image</Form.Label>
+        <Form.Label>Add Image</Form.Label>
         <Form.Control
           type="file"
           placeholder="Select a image"
@@ -125,4 +126,4 @@ const AppFeaturesCenterImage = () => {
   );
 };
 
-export default AppFeaturesCenterImage;
+export default AboutUsBottomBasicImage;

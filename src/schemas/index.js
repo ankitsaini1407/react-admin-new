@@ -110,3 +110,8 @@ export const add_home_testimonoal_schema = Yup.object({
     amount: Yup.string().required("This field is required"),
     quote: Yup.string().required("This field is required")
 });
+
+export const about_us_bottom = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    subType: Yup.string().required("This field is required")
+});

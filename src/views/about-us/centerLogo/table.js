@@ -5,9 +5,9 @@ import Cookies from "js-cookie";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import {
-    get_app_features_image,
-    update_app_features_image_status,
-    delete_app_features_image
+    get_about_us_center_logo,
+    update_about_us_center_logo,
+    delete_about_us_center_logo
 } from "../../../utils/APIRoutes";
 import "../../../assets/css/banner-toggle-btn.css";
 import Button from "react-bootstrap/Button";
@@ -23,9 +23,9 @@ import {
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Swal from "sweetalert2";
-import AppFeaturesCenterImage from "./centerImage"
+import AboutUsCenterLogo from "./add";
 
-const AppFeatureCenterImage = () => {
+const AboutUsCenterLogoTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const AppFeatureCenterImage = () => {
   const getData = async () => {
     try {
       await axios
-        .get(`${get_app_features_image}?type=home`, {
+        .get(`${get_about_us_center_logo}?type=about-us`, {
           headers: { token: Cookies.get("token") },
         })
         .then((response) => {
@@ -84,7 +84,7 @@ const AppFeatureCenterImage = () => {
   const handleChange = (id, active) => async () => {
     active = !active;
     await axios.post(
-      `${update_app_features_image_status}?id=${id}&isActive=${active}`
+      `${update_about_us_center_logo}?id=${id}&isActive=${active}`
     );
     getData();
   };
@@ -92,7 +92,7 @@ const AppFeatureCenterImage = () => {
   const handleDelete = (id) => async (e) => {
     const del = async () => {
       await axios
-        .delete(`${delete_app_features_image}?id=${id}`)
+        .delete(`${delete_about_us_center_logo}?id=${id}`)
         .then((response) => {
           getData();
           if (response) {
@@ -209,7 +209,7 @@ const AppFeatureCenterImage = () => {
   return (
     <div className="container">
       <DataTable
-        title="App Features Center Image"
+        title="About Us Center Logo"
         columns={appFeaturesColumns}
         data={filteredData}
         pagination
@@ -252,7 +252,7 @@ const AppFeatureCenterImage = () => {
         >
           <Modal.Header>
             <Modal.Title id="contained-modal-title-vcenter">
-              Add Image
+              Add Logo
             </Modal.Title>
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
@@ -262,7 +262,7 @@ const AppFeatureCenterImage = () => {
             </Button>
           </Modal.Header>
           <Modal.Body>
-            < AppFeaturesCenterImage />
+            < AboutUsCenterLogo />
           </Modal.Body>
         </Modal>
       ) : (
@@ -273,4 +273,4 @@ const AppFeatureCenterImage = () => {
   );
 };
 
-export default AppFeatureCenterImage;
+export default AboutUsCenterLogoTable;

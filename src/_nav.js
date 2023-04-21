@@ -26,6 +26,18 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'About-Us',
+    to: '/about-us',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: 'Indian-T20-League',
+    to: '/indian-t20-league',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
     name: 'Banners',
     to: '/banners',
     icon: <CIcon icon={cilWallpaper} customClassName="nav-icon" />

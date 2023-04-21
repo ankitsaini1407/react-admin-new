@@ -28,6 +28,16 @@ import ContentSlug from './views/home/content/contentSlug';
 import AddAppFeatures from './views/home/app-features/add';
 import AddHomeFaq from './views/home/faq/add';
 import AddHomeTestimonial from './views/home/testimonial/add';
+import AboutUs from './views/about-us/aboutUs';
+import AddAboutUsBanner from './views/about-us/banner/add';
+import AddAboutUsCms from './views/about-us/content/add';
+import EditAboutUsCms from './views/about-us/content/edit';
+import AboutUsContentSlug from './views/about-us/content/contentSlug';
+import IndianT20League from './views/indian-t20-league/indian-t20-league';
+import AddIndianT20LeagueBanner from './views/indian-t20-league/banner/add';
+import AddIndianT20LeagueCms from './views/indian-t20-league/content/add';
+import IndianT20LeagueContentSlug from './views/indian-t20-league/content/contentSlug';
+import EditIndianT20LeagueCms from './views/indian-t20-league/content/edit';
 
 const routes = [
   { path: '/dashboard', exact: true, name: 'Home' },
@@ -59,6 +69,17 @@ const routes = [
   { path: '/home/app-features/add', name: 'Home / App-Features / Add', element: AddAppFeatures },
   { path: '/home/faq/add', name: 'Home / Faq / Add', element: AddHomeFaq },
   { path: '/home/testimonial/add', name: 'Home / Testimonial / Add', element: AddHomeTestimonial },
+  { path: '/about-us', name: 'About-Us', element: AboutUs },
+  { path: '/about-us/banner/add', name: 'About-Us / Banner / Add', element: AddAboutUsBanner },
+  { path: '/about-us/cms/add', name: 'About-Us / Cms / Add', element: AddAboutUsCms },
+  { path: '/about-us/cms/edit/:id', name: 'CMS / Edit-Cms', element: EditAboutUsCms },
+  { path: '/about-us/cms/:slug', element: AboutUsContentSlug },
+  { path: '/indian-t20-league', name: 'Indian-T20-League', element: IndianT20League },
+  { path: '/indian-t20-league/banner/add', name: 'Indian-T20-League / Banner / Add', element: AddIndianT20LeagueBanner },
+  { path: '/indian-t20-league/content/add', name: 'Indian-T20-League / Content / Add', element: AddIndianT20LeagueCms },
+  { path: '/ndian-t20-league/cms/:slug', element: IndianT20LeagueContentSlug },
+  { path: '/indian-t20-league/banner/edit', name: 'Indian-T20-League / Banner / Edit', element: EditIndianT20LeagueCms },
+
 ];
 
 export default routes;
