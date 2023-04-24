@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import {
-  get_indianT20League_cms_route,
+  get_teamDetails_route,
   update_status_indianT20League_cms_route,
   delete_indianT20League_cms_route,
 } from "../../../utils/APIRoutes";
@@ -16,7 +16,7 @@ import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from "react-icons/bs";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-const IndianT20LeagueCms = () => {
+const IndianT20LeagueTeamDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,12 +46,9 @@ const IndianT20LeagueCms = () => {
 
   const getData = async () => {
     await axios
-      .get(
-        `${get_indianT20League_cms_route}?type=indian-t20-league&page=${
-          pageNumber - 1
-        }&size=${perPage}`,
-        { headers: { token: Cookies.get("token") } }
-      )
+      .get(`${get_teamDetails_route}?page=${pageNumber - 1}&size=${perPage}`, {
+        headers: { token: Cookies.get("token") },
+      })
       .then((response) => {
         if (response) {
           setData(response.data.data.result);
@@ -73,7 +70,9 @@ const IndianT20LeagueCms = () => {
   };
 
   const handleSlug = (slug, description) => async () => {
-    navigate(`/ndian-t20-league/cms/${slug}`, { state: { description: description } });
+    navigate(`/indian-t20-league/cms-2/${slug}`, {
+      state: { description: description },
+    });
   };
 
   const handleDelete = (id) => async (e) => {
@@ -95,7 +94,7 @@ const IndianT20LeagueCms = () => {
   };
 
   const handleEdit = (id, title, description) => async () => {
-    navigate(`/indian-t20-league/cms/edit/${id}`, {
+    navigate(`/indian-t20-league/cms-2/edit/${id}`, {
       state: { id: id, title: title, description: description },
     });
   };
@@ -107,27 +106,45 @@ const IndianT20LeagueCms = () => {
       sortable: true,
     },
     {
-      name: "Type",
-      selector: (row) => row.type,
+      name: "Player-Logo",
+      selector: (row) => (
+        <img src={row.playerlogo} width={40} alt="player logo" />
+      ),
       sortable: true,
     },
     {
-      name: "Description",
-      selector: (row) => (
-        <div>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
-          >
-            <Button style={{ backgroundColor: "transparent", border: "none" }}>
-              <BsEyeFill
-                style={{ color: "blue" }}
-                onClick={handleSlug(row.slug, row.description)}
-              />
-            </Button>
-          </OverlayTrigger>
-        </div>
-      ),
+      name: "Team-Logo",
+      selector: (row) => <img src={row.teamlogo} width={40} alt="team logo" />,
+      sortable: true,
+    },
+    {
+      name: "Year",
+      selector: (row) => row.year,
+      sortable: true,
+    },
+    {
+      name: "New Players",
+      selector: (row) => row.majorSignings,
+      sortable: true,
+    },
+    {
+      name: "Captain",
+      selector: (row) => row.captain,
+      sortable: true,
+    },
+    {
+      name: "Team",
+      selector: (row) => row.team,
+      sortable: true,
+    },
+    {
+      name: "Coach",
+      selector: (row) => row.coach,
+      sortable: true,
+    },
+    {
+      name: "Winning Titles",
+      selector: (row) => row.titles,
       sortable: true,
     },
     {
@@ -153,6 +170,18 @@ const IndianT20LeagueCms = () => {
       name: "Action",
       cell: (row) => (
         <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
+          >
+            <Button style={{ backgroundColor: "transparent", border: "none" }}>
+              <BsEyeFill
+                style={{ color: "blue" }}
+                onClick={handleSlug(row.slug, row.description)}
+              />
+            </Button>
+          </OverlayTrigger>
+
           <OverlayTrigger
             placement="bottom"
             overlay={<Tooltip id="button-tooltip-2">Edit</Tooltip>}
@@ -189,8 +218,8 @@ const IndianT20LeagueCms = () => {
 
   useEffect(() => {
     let result = data.filter((elem) => {
-      let filterVal = elem.type.toLowerCase();
-      let searchVal = search.toLocaleLowerCase();
+      // let filterVal = elem.type.toLowerCase();
+      // let searchVal = search.toLocaleLowerCase();
       return filterVal.match(searchVal);
     });
     setFilteredData(result);
@@ -203,7 +232,7 @@ const IndianT20LeagueCms = () => {
   return (
     <div className="container">
       <DataTable
-        title="All Cms List"
+        title="Team Details"
         columns={columns}
         data={filteredData}
         pagination
@@ -227,7 +256,7 @@ const IndianT20LeagueCms = () => {
           />
         }
         actions={
-          <Link to="/indian-t20-league/content/add">
+          <Link to="/indian-t20-league/team-details/add">
             <button
               data-toggle="modal"
               data-target="#myModal"
@@ -244,4 +273,4 @@ const IndianT20LeagueCms = () => {
   );
 };
 
-export default IndianT20LeagueCms;
+export default IndianT20LeagueTeamDetails;

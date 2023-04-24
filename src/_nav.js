@@ -36,38 +36,6 @@ const _nav = [
     to: '/indian-t20-league',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />
   },
-  {
-    component: CNavItem,
-    name: 'Banners',
-    to: '/banners',
-    icon: <CIcon icon={cilWallpaper} customClassName="nav-icon" />
-  },
-  {
-    component: CNavItem,
-    name: "FAQ's",
-    to: '/faq',
-    icon: <CIcon icon={cilCommentSquare} customClassName="nav-icon" />
-  },
-
-  {
-    component: CNavItem,
-    name: "Testimonial",
-    to: '/testimonial',
-    icon: <CIcon icon={cilSpeech} customClassName="nav-icon" />
-  },
-  
-  {
-    component: CNavItem,
-    name: "CMS",
-    to: '/cms',
-    icon: <CIcon icon={cilPencil} customClassName="nav-icon" />
-  },
-  {
-    component: CNavItem,
-    name: "Footer",
-    to: '/footer',
-    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />
-  },
 ];
 
 export default _nav;

@@ -115,3 +115,14 @@ export const about_us_bottom = Yup.object({
     image: Yup.mixed().required("This field is required"),
     subType: Yup.string().required("This field is required")
 });
+
+export const add_team_details_schema = Yup.object({
+    player_logo: Yup.mixed().required("This field is required"),
+    team_logo: Yup.mixed().required("This field is required"),
+    new_players: Yup.string().required("This field is required"),
+    captain_name: Yup.string().required("This field is required"),
+    team_name: Yup.string().required("This field is required"),
+    coach_name: Yup.string().required("This field is required"),
+    winning_titles: Yup.string().required("This field is required"),
+
+});

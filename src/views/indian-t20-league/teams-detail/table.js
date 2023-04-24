@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import {
-  get_indianT20League_cms_route,
+  get_indianT20League_cms2_route,
   update_status_indianT20League_cms_route,
   delete_indianT20League_cms_route,
 } from "../../../utils/APIRoutes";
@@ -16,7 +16,7 @@ import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from "react-icons/bs";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-const IndianT20LeagueCms = () => {
+const IndianT20LeagueCms2 = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const IndianT20LeagueCms = () => {
   const getData = async () => {
     await axios
       .get(
-        `${get_indianT20League_cms_route}?type=indian-t20-league&page=${
+        `${get_indianT20League_cms2_route}?type=indian-t20-league&subType=iplContent&page=${
           pageNumber - 1
         }&size=${perPage}`,
         { headers: { token: Cookies.get("token") } }
@@ -73,7 +73,7 @@ const IndianT20LeagueCms = () => {
   };
 
   const handleSlug = (slug, description) => async () => {
-    navigate(`/ndian-t20-league/cms/${slug}`, { state: { description: description } });
+    navigate(`/indian-t20-league/cms-2/${slug}`, { state: { description: description } });
   };
 
   const handleDelete = (id) => async (e) => {
@@ -95,7 +95,7 @@ const IndianT20LeagueCms = () => {
   };
 
   const handleEdit = (id, title, description) => async () => {
-    navigate(`/indian-t20-league/cms/edit/${id}`, {
+    navigate(`/indian-t20-league/cms-2/edit/${id}`, {
       state: { id: id, title: title, description: description },
     });
   };
@@ -203,7 +203,7 @@ const IndianT20LeagueCms = () => {
   return (
     <div className="container">
       <DataTable
-        title="All Cms List"
+        title="All Content 2"
         columns={columns}
         data={filteredData}
         pagination
@@ -227,7 +227,7 @@ const IndianT20LeagueCms = () => {
           />
         }
         actions={
-          <Link to="/indian-t20-league/content/add">
+          <Link to="/indian-t20-league/content-2/add">
             <button
               data-toggle="modal"
               data-target="#myModal"
@@ -244,4 +244,4 @@ const IndianT20LeagueCms = () => {
   );
 };
 
-export default IndianT20LeagueCms;
+export default IndianT20LeagueCms2;

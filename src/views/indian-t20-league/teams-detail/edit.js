@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { edit_home_cms_route } from '../../utils/APIRoutes';
+import { edit_indianT20League_cms_route } from '../../../utils/APIRoutes';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -35,7 +35,7 @@ const config = {
         'about'],
 };
 
-const EditCms = () => {
+const EditIndianT20LeagueCms2 = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -61,9 +61,9 @@ const EditCms = () => {
         theme: "light",
     };
     const handleSubmit = async () => {
-        const data = await axios.post(`${edit_cms_route}?id=${location.state.id}`, { description: value });
+        const data = await axios.post(`${edit_indianT20League_cms_route}?id=${location.state.id}`, { description: value });
         if(data.data.success === true){
-                navigate("/cms");
+                navigate("/indian-t20-league");
                 toast.success(data.data.message, toastOptions);
         };
     };
@@ -71,15 +71,6 @@ const EditCms = () => {
         <div>
             <div>
                 <Form>
-                    <Form.Select
-                        size="lg"
-                        name="type"
-                        disabled
-                        value={location.state.type}>
-                        <option>Select cms type</option>
-                        <option value="home">Home</option>
-                        <option value="about">About Us</option>
-                    </Form.Select><br />
 
                     <Form.Control
                         type="text"
@@ -109,4 +100,4 @@ const EditCms = () => {
         </div>
     );
 };
-export default EditCms;
+export default EditIndianT20LeagueCms2;

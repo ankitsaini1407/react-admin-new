@@ -1,4 +1,4 @@
-const host = "http://192.168.1.11:5000";
+const host = "http://192.168.1.13:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
@@ -70,5 +70,10 @@ export const get_indianT20League_cms_route = `${host}/v1/admin/indianT20League/g
 export const update_status_indianT20League_cms_route = `${host}/v1/admin/indianT20League/updateContentStatus`;
 export const delete_indianT20League_cms_route = `${host}/v1/admin/indianT20League/deleteContent`;
 export const edit_indianT20League_cms_route = `${host}/v1/admin/indianT20League/editContent`;
-
-
+export const add_ndianT20League_square_boxes_route=`${host}/v1/admin/indianT20League/createSquareBox`;
+export const edit_ndianT20League_square_boxes_route=`${host}/v1/admin/indianT20League/editSquareBox`;
+export const change_ndianT20League_square_boxes_status=`${host}/v1/admin/indianT20League/updateSquareBoxStatus`;
+export const get_ndianT20League_square_boxes_route=`${host}/v1/admin/indianT20League/getSquareBox`;
+export const get_indianT20League_cms2_route = `${host}/v1/admin/indianT20League/getContentBySubType`;
+export const add_teamDetails_route = `${host}/v1/admin/indianT20League/addIndianT20League`;
+export const get_teamDetails_route = `${host}/v1/admin/indianT20League/getIndianT20League`;

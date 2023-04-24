@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import JoditEditor from 'jodit-react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { edit_about_us_cms_route } from '../../../utils/APIRoutes';
+import { edit_indianT20League_cms_route } from '../../../utils/APIRoutes';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -63,7 +63,7 @@ const EditIndianT20LeagueCms = () => {
     const handleSubmit = async () => {
         const data = await axios.post(`${edit_indianT20League_cms_route}?id=${location.state.id}`, { description: value });
         if(data.data.success === true){
-                navigate("/about-us");
+                navigate("/indian-t20-league");
                 toast.success(data.data.message, toastOptions);
         };
     };
@@ -71,15 +71,6 @@ const EditIndianT20LeagueCms = () => {
         <div>
             <div>
                 <Form>
-                    <Form.Select
-                        size="lg"
-                        name="type"
-                        disabled
-                        value={location.state.type}>
-                        <option>Select cms type</option>
-                        <option value="home">Home</option>
-                        <option value="about">About Us</option>
-                    </Form.Select><br />
 
                     <Form.Control
                         type="text"
