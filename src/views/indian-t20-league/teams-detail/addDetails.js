@@ -8,7 +8,6 @@ import { useFormik } from "formik";
 import { add_team_details_schema } from "../../../schemas";
 import { ToastContainer, toast } from "react-toastify";
 import { add_teamDetails_route } from "../../../utils/APIRoutes";
-import ColorPicker, {useColorPicker} from 'react-best-gradient-color-picker'
 
 const AddTeamDetails = () => {
   const navigate = useNavigate();
@@ -27,16 +26,6 @@ const AddTeamDetails = () => {
   const [imageError, setImageError] = useState("");
   const [teamLogoState, setTeamLogoState] = useState("");
   const [teamLogoError, setTeamLogoError] = useState("");
-  const [color, setColor] = useState('rgba(255,255,255,1)');
-  const { valueToHSL, valueToHSV, valueToHex, valueToCmyk, rgbaArr, hslArr } = useColorPicker(color, setColor);
-
-  const hslString = valueToHSL();
-  const hsvString = valueToHSV();
-  const hexString = valueToHex();
-  const cmykString = valueToCmyk();
-  const rgbaArray = rgbaArr;
-  const hslArray = hslArr;
-  console.log("color", hexString);
 
   const toastOptions = {
     position: "top-right",
@@ -54,6 +43,9 @@ const AddTeamDetails = () => {
     team_name: "",
     coach_name: "",
     winning_titles: "",
+    color_1: "",
+    color_2: "",
+    color_3: "",
   };
 
   const formik = useFormik({
@@ -69,6 +61,9 @@ const AddTeamDetails = () => {
           team_name,
           coach_name,
           winning_titles,
+          color_1,
+          color_2,
+          color_3
         } = values;
         const formData = new FormData();
         const data = {
@@ -77,6 +72,9 @@ const AddTeamDetails = () => {
           team_name: team_name,
           coach_name: coach_name,
           winning_titles: winning_titles,
+          color_1: color_1,
+          color_2: color_2,
+          color_3: color_3
         };
         formData.append("data", JSON.stringify(data));
         formData.append("image", player_logo);
@@ -117,7 +115,15 @@ const AddTeamDetails = () => {
     }
   };
   const checkImage = (e) => {
-    e.target.naturalWidth == 122 && e.target.naturalHeight == 250
+    console.log(e.target.naturalWidth, e.target.naturalHeight);
+    e.target.naturalWidth == 122 && e.target.naturalHeight == 250 ||
+    e.target.naturalWidth === 110 && e.target.naturalHeight === 250 ||
+    e.target.naturalWidth === 108 && e.target.naturalHeight === 250 ||
+    e.target.naturalWidth === 89 && e.target.naturalHeight === 250 ||
+    e.target.naturalWidth === 92 && e.target.naturalHeight === 250 ||
+    e.target.naturalWidth === 121 && e.target.naturalHeight === 250 ||
+    e.target.naturalWidth === 427 && e.target.naturalHeight === 1010 ||
+    e.target.naturalWidth === 441 && e.target.naturalHeight === 1038
       ? ""
       : setImageError("Image size is not valid");
   };
@@ -129,13 +135,13 @@ const AddTeamDetails = () => {
     }
   };
   const checkTeamLogoImage = (e) => {
-    e.target.naturalWidth == 108 && e.target.naturalHeight == 108
+    console.log(e.target.naturalWidth, e.target.naturalHeight);
+    e.target.naturalWidth === 108 && e.target.naturalHeight === 108
       ? ""
       : setTeamLogoError("Image size is not valid");
   };
   return (
     <>
-    <ColorPicker value={color} onChange={setColor} />
       <Form noValidate onSubmit={formik.handleSubmit}>
         <Form.Group controlId="formFileLg" className="mb-3">
           <Form.Label>Select Player Logo</Form.Label>
@@ -327,9 +333,78 @@ const AddTeamDetails = () => {
             </p>
           ) : null}
         </Form.Group>
-        <Button variant="outline-primary">Color 1</Button>
-      <Button variant="outline-secondary">Color 2</Button>
-      <Button variant="outline-success">Color 3</Button><br /><br />
+        <Form.Group className="position-relative mb-3">
+          <Form.Label>Color 1</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Color 1"
+            required
+            name="color_1"
+            value={formik.values.color_1}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            isInvalid={!!formik.errors.color_1}
+            isValid={
+              formik.touched.color_1 && !formik.errors.color_1
+            }
+          />
+          {formik.errors.color_1 && formik.touched.color_1 ? (
+            <p
+              className="form-error"
+              style={{ color: "red", width: "100%", display: "block" }}
+            >
+              {formik.errors.color_1}
+            </p>
+          ) : null}
+        </Form.Group>
+        <Form.Group className="position-relative mb-3">
+          <Form.Label>Color 2</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Color 2"
+            required
+            name="color_2"
+            value={formik.values.color_2}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            isInvalid={!!formik.errors.color_2}
+            isValid={
+              formik.touched.color_2 && !formik.errors.color_2
+            }
+          />
+          {formik.errors.color_2 && formik.touched.color_2 ? (
+            <p
+              className="form-error"
+              style={{ color: "red", width: "100%", display: "block" }}
+            >
+              {formik.errors.color_2}
+            </p>
+          ) : null}
+        </Form.Group>
+        <Form.Group className="position-relative mb-3">
+          <Form.Label>Color 3</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Color 3"
+            required
+            name="color_3"
+            value={formik.values.color_3}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            isInvalid={!!formik.errors.color_3}
+            isValid={
+              formik.touched.color_3 && !formik.errors.color_3
+            }
+          />
+          {formik.errors.color_3 && formik.touched.color_3 ? (
+            <p
+              className="form-error"
+              style={{ color: "red", width: "100%", display: "block" }}
+            >
+              {formik.errors.color_3}
+            </p>
+          ) : null}
+        </Form.Group>
         <Button type="submit">Submit</Button>
       </Form>
       <ToastContainer />

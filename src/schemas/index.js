@@ -124,5 +124,14 @@ export const add_team_details_schema = Yup.object({
     team_name: Yup.string().required("This field is required"),
     coach_name: Yup.string().required("This field is required"),
     winning_titles: Yup.string().required("This field is required"),
+    color_1: Yup.string().required("This field is required"),
+    color_2: Yup.string().required("This field is required"),
+    color_3: Yup.string().required("This field is required"),
 
+});
+
+export const tc_schema = Yup.object({
+    type: Yup.string().required("This field is required"),
+    subType: Yup.string().required("This field is required"),
+    title: Yup.string().required("This field is required")
 });

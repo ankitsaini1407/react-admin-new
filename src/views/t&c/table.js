@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-import "../../../assets/libs/simple-datatables/style.css";
+import "../../assets/libs/simple-datatables/style.css";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import DataTable from "react-data-table-component";
 import axios from "axios";
 import {
-  get_teamDetails_route,
-  update_status_indianT20League_teamDetails,
-  delete_indianT20League_cms_route,
-} from "../../../utils/APIRoutes";
-import "../../../assets/css/banner-toggle-btn.css";
+  get_term_condition,
+  update_status_term_condition,
+  delete_term_condition,
+} from "../../utils/APIRoutes";
+import "../../assets/css/banner-toggle-btn.css";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
 import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from "react-icons/bs";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-const IndianT20LeagueTeamDetails = () => {
+const TcCms = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,9 +46,12 @@ const IndianT20LeagueTeamDetails = () => {
 
   const getData = async () => {
     await axios
-      .get(`${get_teamDetails_route}?page=${pageNumber - 1}&size=${perPage}`, {
-        headers: { token: Cookies.get("token") },
-      })
+      .get(
+        `${get_term_condition}?page=${
+          pageNumber - 1
+        }&size=${perPage}`,
+        { headers: { token: Cookies.get("token") } }
+      )
       .then((response) => {
         if (response) {
           setData(response.data.data.result);
@@ -64,20 +67,20 @@ const IndianT20LeagueTeamDetails = () => {
   const handleChange = (id, active) => async (e) => {
     active = !active;
     await axios.post(
-      `${update_status_indianT20League_teamDetails}?id=${id}&isActive=${active}`
+      `${update_status_term_condition}?id=${id}&isActive=${active}`,
+      {}, { headers: { token: Cookies.get("token") } }
     );
     getData();
   };
 
   const handleSlug = (slug, description) => async () => {
-    navigate(`/indian-t20-league/cms-2/${slug}`, {
-      state: { description: description },
-    });
+    navigate(`/t&c/cms/${slug}`, { state: { description: description } });
   };
 
   const handleDelete = (id) => async (e) => {
+    console.log(Cookies.get("token"))
     await axios
-      .delete(`${delete_indianT20League_cms_route}?id=${id}`)
+      .delete(`${delete_term_condition}?id=${id}`, { headers: { token: Cookies.get("token") } })
       .then((response) => {
         getData();
         if (response) {
@@ -93,10 +96,9 @@ const IndianT20LeagueTeamDetails = () => {
       });
   };
 
-  const handleEdit = (id, title, description) => async () => {
-    navigate(`/indian-t20-league/cms-2/edit/${id}`, {
-      state: { id: id, title: title, description: description },
-    });
+  const handleEdit = (id, type, subType, title, description) => async () => {
+   
+    navigate(`/t&c/edit/${id}`, { state: { id: id, type: type, subType: subType, title: title, description: description } })
   };
 
   const columns = [
@@ -106,45 +108,32 @@ const IndianT20LeagueTeamDetails = () => {
       sortable: true,
     },
     {
-      name: "Player-Logo",
+      name: "Type",
+      selector: (row) => row.type,
+      sortable: true,
+    },
+    {
+      name: "Sub-Type",
+      selector: (row) => row.subType,
+      sortable: true,
+    },
+    {
+      name: "Description",
       selector: (row) => (
-        <img src={row.playerlogo} width={40} alt="player logo" />
+        <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
+          >
+            <Button style={{ backgroundColor: "transparent", border: "none" }}>
+              <BsEyeFill
+                style={{ color: "blue" }}
+                onClick={handleSlug(row.slug, row.description)}
+              />
+            </Button>
+          </OverlayTrigger>
+        </div>
       ),
-      sortable: true,
-    },
-    {
-      name: "Team-Logo",
-      selector: (row) => <img src={row.teamlogo} width={40} alt="team logo" />,
-      sortable: true,
-    },
-    {
-      name: "Year",
-      selector: (row) => row.year,
-      sortable: true,
-    },
-    {
-      name: "New Players",
-      selector: (row) => row.majorSignings,
-      sortable: true,
-    },
-    {
-      name: "Captain",
-      selector: (row) => row.captain,
-      sortable: true,
-    },
-    {
-      name: "Team",
-      selector: (row) => row.team,
-      sortable: true,
-    },
-    {
-      name: "Coach",
-      selector: (row) => row.coach,
-      sortable: true,
-    },
-    {
-      name: "Winning Titles",
-      selector: (row) => row.titles,
       sortable: true,
     },
     {
@@ -172,23 +161,11 @@ const IndianT20LeagueTeamDetails = () => {
         <div>
           <OverlayTrigger
             placement="bottom"
-            overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
-          >
-            <Button style={{ backgroundColor: "transparent", border: "none" }}>
-              <BsEyeFill
-                style={{ color: "blue" }}
-                onClick={handleSlug(row.slug, row.description)}
-              />
-            </Button>
-          </OverlayTrigger>
-
-          <OverlayTrigger
-            placement="bottom"
             overlay={<Tooltip id="button-tooltip-2">Edit</Tooltip>}
           >
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
-              onClick={handleEdit(row.id, row.title, row.description)}
+              onClick={handleEdit(row.id, row.type, row.subType, row.title, row.description)}
             >
               <BsPencilSquare
                 style={{ fontSize: "20px", margin: "5px", color: "blue" }}
@@ -218,8 +195,8 @@ const IndianT20LeagueTeamDetails = () => {
 
   useEffect(() => {
     let result = data.filter((elem) => {
-      // let filterVal = elem.type.toLowerCase();
-      // let searchVal = search.toLocaleLowerCase();
+      let filterVal = elem.type.toLowerCase();
+      let searchVal = search.toLocaleLowerCase();
       return filterVal.match(searchVal);
     });
     setFilteredData(result);
@@ -232,7 +209,7 @@ const IndianT20LeagueTeamDetails = () => {
   return (
     <div className="container">
       <DataTable
-        title="Team Details"
+        title="T&C Content"
         columns={columns}
         data={filteredData}
         pagination
@@ -256,7 +233,7 @@ const IndianT20LeagueTeamDetails = () => {
           />
         }
         actions={
-          <Link to="/indian-t20-league/team-details/add">
+          <Link to="/t&c/add">
             <button
               data-toggle="modal"
               data-target="#myModal"
@@ -273,4 +250,4 @@ const IndianT20LeagueTeamDetails = () => {
   );
 };
 
-export default IndianT20LeagueTeamDetails;
+export default TcCms;

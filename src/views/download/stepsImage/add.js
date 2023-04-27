@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import {
-    add_about_us_bottom_image,
+  add_download_banner,
 } from "../../../utils/APIRoutes";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,7 +11,7 @@ import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
 import { app_features_center_image } from "../../../schemas";
 
-const AboutUsBottomBasicImage = () => {
+const DownloadStepsImage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,15 +44,23 @@ const AboutUsBottomBasicImage = () => {
         const formData = new FormData();
         formData.append("image", image);
         await axios
-          .post(`${add_about_us_bottom_image}?type=aboutUsBottomImage`, formData)
+          .post(`${add_download_banner}?subType=download-steps`, formData, {
+            headers: { token: Cookies.get("token") },
+          })
           .then((response) => {
             if (response) {
-              navigate("/about-us");
+              navigate("/download", { state: { active_table: "3" } });
               toast.success(response.data.message, toastOptions);
             }
           })
           .catch(function (error) {
-            console.log(error);
+            if (error.response.data.token.isExpired == true) {
+              setTimeout(() => {
+                Cookies.remove("token", "user");
+                navigate("/");
+              }, 3000);
+              toast.error(error.response.data.token.message, toastOptions);
+            }
           });
         action.resetForm();
       }
@@ -66,7 +74,7 @@ const AboutUsBottomBasicImage = () => {
   };
   const checkImage = (e) => {
     console.log(e.target.naturalWidth, e.target.naturalHeight);
-    e.target.naturalWidth == 984 && e.target.naturalHeight == 920
+    e.target.naturalWidth === 260 && e.target.naturalHeight === 318
       ? ""
       : setImageError("This image size is invalid");
   };
@@ -74,7 +82,7 @@ const AboutUsBottomBasicImage = () => {
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Add Image</Form.Label>
+        <Form.Label>Steps Image</Form.Label>
         <Form.Control
           type="file"
           placeholder="Select a image"
@@ -120,4 +128,4 @@ const AboutUsBottomBasicImage = () => {
   );
 };
 
-export default AboutUsBottomBasicImage;
+export default DownloadStepsImage;

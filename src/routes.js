@@ -37,6 +37,21 @@ import IndianT20LeagueContentSlug2 from "./views/indian-t20-league/teams-detail/
 import AddIndianT20LeagueTestimonial from "./views/indian-t20-league/winner/add";
 import AddTeamDetails from "./views/indian-t20-league/teams-detail/addDetails";
 
+import Download from "./views/download/download";
+
+import PrivacyPolicyCms from "./views/privacy-policy/table";
+import AddPrivacyPolicyCms from "./views/privacy-policy/add";
+import EditPrivacyPolicyCms from "./views/privacy-policy/edit";
+import PrivacyPolicyContentSlug from "./views/privacy-policy/contentSlug";
+
+import AddFaq from "./views/faqs/add";
+import Faqs from "./views/faqs/table";
+
+import AddTCCms from "./views/t&c/add";
+import TcCms from "./views/t&c/table";
+import TcContentSlug from "./views/t&c/contentSlug";
+import EditTc from "./views/t&c/edit";
+
 const routes = [
   { path: "/dashboard", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
@@ -171,6 +186,60 @@ const routes = [
     name: "Indian-T20-League / Team-Details / Add",
     element: AddTeamDetails,
   },
+  {
+    path: "/download",
+    name: "Download",
+    element: Download,
+  },
+  {
+    path: "/privacy-policy",
+    name: "Privacy-Policy",
+    element: PrivacyPolicyCms,
+  },
+  {
+    path: "/t&c/add",
+    name: "T&C / Add",
+    element: AddTCCms,
+  },
+  {
+    path: "/privacy-policy/add",
+    name: "Privacy-Policy / Add",
+    element: AddPrivacyPolicyCms,
+  },
+  {
+    path: "/privacy-policy/edit/:id",
+    name: "Privacy-Policy / Edit",
+    element: EditPrivacyPolicyCms,
+  },
+  { path: "/privacy-policy/cms/:slug", element: PrivacyPolicyContentSlug },
+
+  {
+    path: "/faqs/add",
+    name: "FAQ's / Add",
+    element: AddFaq,
+  },
+
+  {
+    path: "/faqs",
+    name: "FAQ's",
+    element: Faqs,
+  },
+  {
+    path: "/t&c",
+    name: "T&C",
+    element: TcCms,
+  },
+  { path: "/t&c/cms/:slug", element: TcContentSlug },
+
+  {
+    path: "/t&c/edit/:id",
+    name: "T&C / Edit",
+    element: EditTc,
+  },
+
+
+  
+
 ];
 
 export default routes;

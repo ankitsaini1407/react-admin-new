@@ -1,4 +1,4 @@
-const host = "http://192.168.1.13:5000";
+const host = "http://192.168.1.12:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
@@ -77,3 +77,37 @@ export const get_ndianT20League_square_boxes_route=`${host}/v1/admin/indianT20Le
 export const get_indianT20League_cms2_route = `${host}/v1/admin/indianT20League/getContentBySubType`;
 export const add_teamDetails_route = `${host}/v1/admin/indianT20League/addIndianT20League`;
 export const get_teamDetails_route = `${host}/v1/admin/indianT20League/getIndianT20League`;
+export const update_status_indianT20League_teamDetails = `${host}/v1/admin/indianT20League/updateIndianT20LeagueStatus`;
+
+export const add_download_banner = `${host}/v1/admin/download/addDownloadBanner`;
+export const get_download_banner = `${host}/v1/admin/download/getDownloadBanner`;
+export const update_status_download_banner = `${host}/v1/admin/download/updateDwonloadBannerStatus`;
+export const delete_download_banner = `${host}/v1/admin/download/deleteDownloadBanner`;
+
+export const add_privacyPolicy_cms_route = `${host}/v1/admin/privacy_policy/createContent`;
+export const get_privacyPolicy_cms_route = `${host}/v1/admin/privacy_policy/getContent`;
+export const update_privacyPolicy_cms_status_route = `${host}/v1/admin/privacy_policy/updateContentStatus`;
+export const delete_privacyPolicy_cms_route = `${host}/v1/admin/privacy_policy/deleteContent`;
+export const edit_privacyPolicy_cms_route = `${host}/v1/admin/privacy_policy/editContent`;
+
+export const add_faqs = `${host}/v1/admin/faqs/addfaqs`;
+export const get_faqs = `${host}/v1/admin/faqs/getfaqs`;
+export const update_status_faqs = `${host}/v1/admin/faqs/updateFaqStatus`;
+export const delete_faqs = `${host}/v1/admin/faqs/deleteFaqs`;
+
+export const add_term_condition = `${host}/v1/admin/t&C/createTermsAndCondition`;
+export const get_term_condition = `${host}/v1/admin/t&C/getTermsAndCondition`;
+export const update_status_term_condition = `${host}/v1/admin/t&C/updateTermsAndCondition`;
+export const delete_term_condition = `${host}/v1/admin/t&C/deleteTermsAndCondition`;
+export const edit_term_condition = `${host}/v1/admin/t&C/editTermsAndCondition`;
+
+
+
+
+
+
+
+
+
+
+
