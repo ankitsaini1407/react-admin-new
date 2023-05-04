@@ -52,6 +52,27 @@ import TcCms from "./views/t&c/table";
 import TcContentSlug from "./views/t&c/contentSlug";
 import EditTc from "./views/t&c/edit";
 
+import HowToPlay from "./views/How-To-Play/howToPlay";
+import AddBanner from "./views/How-To-Play/BannerCarousel/add";
+import AddHowToPlayTableInfo from "./views/How-To-Play/Tab/table_info";
+import AddHowToPlayContent from "./views/How-To-Play/Tab/content";
+import HowToPlaySteps from "./views/How-To-Play/Tab/steps";
+import HowToPlaySlug from "./views/How-To-Play/Tab/contentSlug";
+import EditHowToPlay from "./views/How-To-Play/Tab/edit";
+import AddTrophy from "./views/How-To-Play/Tab/trophy";
+
+import FantasyCricket from './views/fantasyCricket/fantasyCricket'
+import AddFantasyCricket from "./views/fantasyCricket/add";
+import EditFantasyCricket from "./views/fantasyCricket/edit";
+import ContentFantasyCricket from "./views/fantasyCricket/contentSlug";
+import AddFantasyFaqs from "./views/fantasyCricket/faqs/add";
+
+ import FantasyPointsTable from './views/Fantasy-Point-System/index'
+ import AddFantasyPointsCricket from './views/Fantasy-Point-System/Cricket/add';
+
+ import PressReleaseTable from './views/Press-Release/pressRelease';
+ import AddPressReleaseTable from './views/Press-Release/add'
+
 const routes = [
   { path: "/dashboard", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
@@ -237,9 +258,76 @@ const routes = [
     element: EditTc,
   },
 
+  { path: "/how-to-play", name: "How To Play", element: HowToPlay },
+  {
+    path: "/how-to-play/AddBanner",
+    name: "  Add Banner Carousel",
+    element: AddBanner,
+  },
+  {
+    path: "/how-to-play/cms",
+    name: "  Add Content",
+    element: AddHowToPlayContent,
+  },
+  {
+    path: "/how-to-play/table",
+    name: "  Add Table",
+    element: AddHowToPlayTableInfo,
+  },
+  {
+    path: "/how-to-play/steps",
+    name: "  Add Steps",
+    element: HowToPlaySteps,
+  },
+  {
+    path: "/how-to-play/cms/:slug",
+    name: "How-To-Play content",
+    element: HowToPlaySlug,
+  },
+  {
+    path: "/how-to-play/cms/edit/:id",
+    name: "how-to-play / Content / Edit",
+    element: EditHowToPlay,
+  },
+  {
+    path: "/how-to-play/trophy",
+    name: "Add Trophy",
+    element: AddTrophy,
+  },
+  { path: "/fantasy-cricket", name: "Fantasy Cricket", element: FantasyCricket },
 
-  
+  {
+    path: "/fantasy-cricket/add",
+    name: "Add Content",
+    element: AddFantasyCricket,
+  },
+  {
+    path: "/fantasy-cricket/cms/edit/:id",
+    name: "Edit Content",
+    element: EditFantasyCricket,
+  },
+  {
+    path: "/fantasy-cricket/cms/:slug",
+    name: "Add Trophy",
+    element: ContentFantasyCricket,
+  },
+  {
+    path: "/fantasy-cricket/faqs",
+    name: "Add Faqs",
+    element: AddFantasyFaqs,
+  },
+
+  { path: "/fantasy-points-system", name: "Fantasy Points System Cricket", element:FantasyPointsTable  },
+  {
+    path: "/fantasy-points-system/Add",
+    name: "Add Cricket Points",
+    element: AddFantasyPointsCricket,
+  },
+
+  { path: "/press-release", name: "Press Release", element: PressReleaseTable },
+  { path: "/press-release/Add", name: "Add Press Release", element: AddPressReleaseTable },
+
 
 ];
 
-export default routes;
+export default routes
