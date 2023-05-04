@@ -60,6 +60,36 @@ const _nav = [
     to: '/t&c',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />
   },
+  {
+    component: CNavItem,
+    name: "How To Play",
+    to: '/how-to-play',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "Fantasy Cricket",
+    to: '/fantasy-cricket',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "Fantasy Point System",
+    to: '/fantasy-points-system',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "Press Release",
+    to: '/press-release',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "Footer",
+    to: '/footer',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
 ];
 
 export default _nav;

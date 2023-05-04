@@ -135,3 +135,36 @@ export const tc_schema = Yup.object({
     subType: Yup.string().required("This field is required"),
     title: Yup.string().required("This field is required")
 });
+
+export const how_to_play_table = Yup.object({
+    playerType: Yup.string().required("This field is required"),
+    Min: Yup.number().required("This field is required"),
+    Max: Yup.number().required("This field is required")
+});
+
+export const how_to_play_page_steps = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    vrline:Yup.mixed().required("This field is required"),
+    title: Yup.string().required("This field is required"),
+    // description: Yup.string().required("This field is required"),
+    type: Yup.string().required("This field is required"),
+    subType: Yup.string().required("This field is required"),
+});
+
+export const how_to_play_Trophy_steps = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    transferMoney:Yup.mixed().required("This field is required"),
+    title: Yup.string().required("This field is required"),
+    verify: Yup.string().required("This field is required"),
+});
+
+export const fantasy_cricket_add_schema=Yup.object({
+    type: Yup.string().required("This field is required"),
+});
+
+export const press_relese=Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    title:Yup.string().required("This field is required"),
+    description: Yup.string().required("This field is required"),
+    url:Yup.string().required("This field is required")
+});

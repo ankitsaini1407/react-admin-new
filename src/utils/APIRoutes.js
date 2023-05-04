@@ -1,4 +1,4 @@
-const host = "http://192.168.1.12:5000";
+const host = "http://192.168.1.3:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
@@ -102,7 +102,42 @@ export const delete_term_condition = `${host}/v1/admin/t&C/deleteTermsAndConditi
 export const edit_term_condition = `${host}/v1/admin/t&C/editTermsAndCondition`;
 
 
+export const add_how_to_play_carousel_route=`${host}/v1/admin/how-to-play/createHowToPlayCarousel`;
+export const get_how_to_play_carousel_route=`${host}/v1/admin/how-to-play/getHowToPlayCarousel`;
+export const add_how_to_play_content_route=`${host}/v1/admin/how-to-play/createContent`;
+export const get_how_to_play_content_route=`${host}/v1/admin/how-to-play/getContent`;
+export const delete_how_to_play_content_route=`${host}/v1/admin/how-to-play/deleteContent`
+export const edit_how_to_play_content_route=`${host}/v1/admin/how-to-play/editContent`
+export const update_how_to_play_content_status_route=`${host}/v1/admin/how-to-play/updateContentStatus`
+export const add_how_to_play_table_route=`${host}/v1/admin/how-to-play/createTable`
+export const get_how_to_play_table_route=`${host}/v1/admin/how-to-play/getTable`
+export const update_how_to_play_table_status_route=`${host}/v1/admin/how-to-play/updateTableStatus`;
+export const delete_how_to_play_table_route=`${host}/v1/admin/how-to-play/deleteTable`;
+export const add_how_to_play_steps_route=`${host}/v1/admin/how-to-play/createSteps`;
+export const get_how_to_play_steps_route=`${host}/v1/admin/how-to-play/getSteps`;
+export const update_how_to_play_steps_route=`${host}/v1/admin/how-to-play/updateStepsStatus`;
+export const delete_how_to_play_setsps_route=`${host}/v1/admin/how-to-play/deleteSteps`;
+export const add_how_to_play_Trophy_route=`${host}/v1/admin/how-to-play/createTrophy`;
+export const get_how_to_play_Trophy_route=`${host}/v1/admin/how-to-play/getTrophy`;
 
+
+//Fantasy Cricket
+export const add_Fantasy_Crikcet_route=`${host}/v1/admin/fantasy-cricket/createFanatasyCricket`
+export const get_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/getFanatasyCricket`
+export const update_Fantasy_Cricket_status_route=`${host}/v1/admin/fantasy-cricket/updateStatus`
+export const delete_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/deleteContent`
+ export const edit_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/editContent`
+
+
+
+ //Press Release
+ export const add_press_release_route=`${host}/v1/admin/press-release/addPressRelease`
+ export const get_press_release_route=`${host}/v1/admin/press-release/getPressRelease`
+ export const update_press_release_route=`${host}/v1/admin/press-release/updateStatus`
+export const delete_press_release_route=`${host}/v1/admin/press-release/deletePress`
+
+//  router.post("/updateStatus", verify, updateStatus);
+//router.delete("/deletePress", verify, deletePress);
 
 
 
