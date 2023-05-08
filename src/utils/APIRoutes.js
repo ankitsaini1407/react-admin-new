@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 const host = "http://192.168.1.11:5000";
+=======
+const host = "http://192.168.1.12:5000";
+>>>>>>> parent of 02ce4cb... New Change
 =======
 const host = "http://192.168.1.12:5000";
 >>>>>>> parent of 02ce4cb... New Change
@@ -106,6 +110,7 @@ export const edit_term_condition = `${host}/v1/admin/t&C/editTermsAndCondition`;
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const add_how_to_play_carousel_route=`${host}/v1/admin/how-to-play/createHowToPlayCarousel`;
 export const get_how_to_play_carousel_route=`${host}/v1/admin/how-to-play/getHowToPlayCarousel`;
 export const add_how_to_play_content_route=`${host}/v1/admin/how-to-play/createContent`;
@@ -152,6 +157,9 @@ export const add_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/creat
 export const get_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/getFindOutMore`
 export const update_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/updateFindOutMoreStatus`
 export const delete_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/deleteFindOutMore`
+=======
+
+>>>>>>> parent of 02ce4cb... New Change
 =======
 
 >>>>>>> parent of 02ce4cb... New Change

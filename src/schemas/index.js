@@ -135,6 +135,7 @@ export const tc_schema = Yup.object({
     subType: Yup.string().required("This field is required"),
     title: Yup.string().required("This field is required")
 <<<<<<< HEAD
+<<<<<<< HEAD
 });
 
 export const how_to_play_table = Yup.object({
@@ -173,6 +174,8 @@ export const press_relese=Yup.object({
 export const find_out_more=Yup.object({   
     heading:Yup.string().required("This field is required"),
     path: Yup.string().required("This field is required"),
+=======
+>>>>>>> parent of 02ce4cb... New Change
 =======
 >>>>>>> parent of 02ce4cb... New Change
 });
