@@ -168,3 +168,8 @@ export const press_relese=Yup.object({
     description: Yup.string().required("This field is required"),
     url:Yup.string().required("This field is required")
 });
+
+export const find_out_more=Yup.object({   
+    heading:Yup.string().required("This field is required"),
+    path: Yup.string().required("This field is required"),
+});

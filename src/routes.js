@@ -6,6 +6,8 @@ import Footer from "./views/footer/Footer";
 import ContactUs from "./views/footer/ContactUs";
 import FooterSocialMedia from "./views/footer/SocialMedia";
 import FooterPaymentPartners from "./views/footer/PaymentPartner";
+import FooterDisclaimer from './views/footer/Disclaimer'
+import FindOutMore from './views/footer/findOutMore'
 import Home from "./views/home/home";
 import AddLogo from "./views/home/logo/add";
 import AddNavbar from "./views/home/navbar/add";
@@ -91,6 +93,16 @@ const routes = [
     path: "/footer/payment-partners",
     name: "Footer / Payment Partners",
     element: FooterPaymentPartners,
+  },
+  {
+    path: "/footer/Disclaimer",
+    name: "Footer/Disclaimer",
+    element: FooterDisclaimer,
+  },
+  {
+    path: "/footer/find-out-more",
+    name: "Footer/find-out-more",
+    element: FindOutMore,
   },
 
   { path: "/home", name: "Home", element: Home },
