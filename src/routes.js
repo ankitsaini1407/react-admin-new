@@ -67,11 +67,14 @@ import EditFantasyCricket from "./views/fantasyCricket/edit";
 import ContentFantasyCricket from "./views/fantasyCricket/contentSlug";
 import AddFantasyFaqs from "./views/fantasyCricket/faqs/add";
 
- import FantasyPointsTable from './views/Fantasy-Point-System/index'
- import AddFantasyPointsCricket from './views/Fantasy-Point-System/Cricket/add';
-
  import PressReleaseTable from './views/Press-Release/pressRelease';
- import AddPressReleaseTable from './views/Press-Release/add'
+ import AddPressReleaseTable from './views/Press-Release/add';
+
+ import CricketFantasyPoints from "./views/Fantasy-Point-System/Cricket";
+
+ import FootballFantasyPoints from "./views/Fantasy-Point-System/Football";
+
+ import KabaddiFantasyPoints from "./views/Fantasy-Point-System/Kabaddi";
 
 const routes = [
   { path: "/dashboard", exact: true, name: "Home" },
@@ -317,15 +320,17 @@ const routes = [
     element: AddFantasyFaqs,
   },
 
-  { path: "/fantasy-points-system", name: "Fantasy Points System Cricket", element:FantasyPointsTable  },
-  {
-    path: "/fantasy-points-system/Add",
-    name: "Add Cricket Points",
-    element: AddFantasyPointsCricket,
-  },
-
   { path: "/press-release", name: "Press Release", element: PressReleaseTable },
   { path: "/press-release/Add", name: "Add Press Release", element: AddPressReleaseTable },
+
+  { path: "/fantasy-point-system/cricket", name: "Fantasy-Point-System / Cricket", element: CricketFantasyPoints },
+
+  { path: "/fantasy-point-system/football", name: "Fantasy-Point-System / Football", element: FootballFantasyPoints },
+
+  { path: "/fantasy-point-system/kabaddi", name: "Fantasy-Point-System / Kabaddi", element: KabaddiFantasyPoints },
+
+
+
 
 
 ];
