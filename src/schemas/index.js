@@ -169,7 +169,7 @@ export const press_relese=Yup.object({
     url:Yup.string().required("This field is required")
 });
 
-export const add_cricket_points_schema=Yup.object({
-    action: Yup.string().required("This field is required"),
-    points:Yup.string().required("This field is required")
+export const find_out_more=Yup.object({   
+    heading:Yup.string().required("This field is required"),
+    path: Yup.string().required("This field is required"),
 });
