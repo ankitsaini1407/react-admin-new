@@ -14,7 +14,11 @@ import {
 } from '@coreui/react';
 import {useFormik} from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import {forgot_password_schema} from "../../../schemas/index"
+import {forgot_password_schema} from "../../../schemas/index";
+import { forgot_password_route } from '../../../utils/APIRoutes';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
 
@@ -24,24 +28,38 @@ const Login = () => {
     email: "",
   };
 
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 8000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+};
+
   const {values, errors, touched, handleBlur, handleChange, handleSubmit } =  useFormik({
     initialValues: initialValues,
     validationSchema: forgot_password_schema,
     onSubmit: async (values, action) => {
-      console.log(values);
       const { email } = values;
-    //   const { data } = await axios.post(registerRoute, { username, email, password });
-    //   if(data.success === false) {
-    //     connsole.log(data.message);
-    // }else if(data.success === true) {
-    //     navigate("/");
-    //     console.log(data.message);
-    // };
+      await axios.post(forgot_password_route, { email })
+      .then(response => {
+        if (response.data.success === true) {
+          setTimeout(()=>{
+            navigate("/reset-password", {state: {email:email}});
+          }, 3000);
+          toast.success(response.data.message, toastOptions);
+        }
+      }).catch(function (error) {
+        if (error) {
+          toast.error(error.response.data.message, toastOptions);
+        }
+      });
       action.resetForm();
     }
   });
 
   return (
+    <>
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
@@ -62,11 +80,11 @@ const Login = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                     />
-                    {errors.email && touched.email?<p className="form-error" style={{color: "red"}}>{errors.email}</p>:null}
+                    {errors.email && touched.email?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.email}</p>:null}
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" type="submit" className="px-4">
                           Get Otp
                         </CButton>
                       </CCol>
@@ -79,6 +97,8 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
+    <ToastContainer />
+    </>
   )
 }
 

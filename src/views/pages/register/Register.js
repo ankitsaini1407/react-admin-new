@@ -32,7 +32,6 @@ const Register = () => {
     initialValues: initialValues,
     validationSchema: register_schema,
     onSubmit: async (values, action) => {
-      console.log(values);
       const { username, email, password } = values;
     //   const { data } = await axios.post(registerRoute, { username, email, password });
     //   if(data.success === false) {
@@ -67,7 +66,7 @@ const Register = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                     />
-                    {errors.username && touched.username?<p className="form-error" style={{color: "red"}}>{errors.username}</p>:null}
+                    {errors.username && touched.username?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.username}</p>:null}
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>@</CInputGroupText>
@@ -79,7 +78,7 @@ const Register = () => {
                      onChange={handleChange}
                      onBlur={handleBlur}
                     />
-                    {errors.email && touched.email?<p className="form-error" style={{color: "red"}}>{errors.email}</p>:null}
+                    {errors.email && touched.email?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.email}</p>:null}
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
@@ -93,7 +92,7 @@ const Register = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    {errors.password && touched.password?<p className="form-error" style={{color: "red"}}>{errors.password}</p>:null}
+                    {errors.password && touched.password?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.password}</p>:null}
                   </CInputGroup>
                   <CInputGroup className="mb-4">
                     <CInputGroupText>
@@ -107,7 +106,7 @@ const Register = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    {errors.confirm_password && touched.confirm_password?<p className="form-error" style={{color: "red"}}>{errors.confirm_password}</p>:null}
+                    {errors.confirm_password && touched.confirm_password?<p className="form-error" style={{color: "red",width:"100%",display:"block"}}>{errors.confirm_password}</p>:null}
                   </CInputGroup>
                   <div className="d-grid">
                     <CButton color="success">Create Account</CButton>
