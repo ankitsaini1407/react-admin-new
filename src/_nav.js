@@ -9,7 +9,7 @@ import {
   cilNotes,
   cilHome
 } from '@coreui/icons';
-import { CNavItem } from '@coreui/react';
+import { CNavItem, CNavGroup } from '@coreui/react';
 
 const _nav = [
   {
@@ -58,6 +58,57 @@ const _nav = [
     component: CNavItem,
     name: "Terms & Conditions",
     to: '/t&c',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "How To Play",
+    to: '/how-to-play',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "Fantasy Cricket",
+    to: '/fantasy-cricket',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavGroup,
+    name: 'Fantasy Point System',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Cricket',
+        to: '/fantasy-point-system/cricket',
+      },
+      {
+        component: CNavItem,
+        name: 'Football',
+        to: '/fantasy-point-system/football',
+      },
+      {
+        component: CNavItem,
+        name: 'Kabaddi',
+        to: '/fantasy-point-system/kabaddi',
+      },
+      {
+        component: CNavItem,
+        name: 'Spot Fantasy',
+        to: '/fantasy-point/spot-fantasy',
+      },
+    ],
+  },
+  {
+    component: CNavItem,
+    name: "Press Release",
+    to: '/press-release',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+  },
+  {
+    component: CNavItem,
+    name: "Footer",
+    to: '/footer',
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />
   },
 ];
