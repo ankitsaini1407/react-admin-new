@@ -9,7 +9,7 @@ import {
   cilNotes,
   cilHome
 } from '@coreui/icons';
-import { CNavItem } from '@coreui/react';
+import { CNavItem, CNavGroup } from '@coreui/react';
 
 const _nav = [
   {
@@ -73,10 +73,31 @@ const _nav = [
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />
   },
   {
-    component: CNavItem,
-    name: "Fantasy Point System",
-    to: '/fantasy-points-system',
-    icon: <CIcon icon={cilHome} customClassName="nav-icon" />
+    component: CNavGroup,
+    name: 'Fantasy Point System',
+    icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Cricket',
+        to: '/fantasy-point-system/cricket',
+      },
+      {
+        component: CNavItem,
+        name: 'Football',
+        to: '/fantasy-point-system/football',
+      },
+      {
+        component: CNavItem,
+        name: 'Kabaddi',
+        to: '/fantasy-point-system/kabaddi',
+      },
+      {
+        component: CNavItem,
+        name: 'Spot Fantasy',
+        to: '/fantasy-point/spot-fantasy',
+      },
+    ],
   },
   {
     component: CNavItem,

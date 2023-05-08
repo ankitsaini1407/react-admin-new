@@ -1,4 +1,4 @@
-const host = "http://192.168.1.3:5000";
+const host = "http://192.168.1.11:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
@@ -122,11 +122,11 @@ export const get_how_to_play_Trophy_route=`${host}/v1/admin/how-to-play/getTroph
 
 
 //Fantasy Cricket
-export const add_Fantasy_Crikcet_route=`${host}/v1/admin/fantasy-cricket/createFanatasyCricket`
-export const get_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/getFanatasyCricket`
-export const update_Fantasy_Cricket_status_route=`${host}/v1/admin/fantasy-cricket/updateStatus`
-export const delete_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/deleteContent`
- export const edit_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/editContent`
+export const add_Fantasy_Crikcet_route=`${host}/v1/admin/fantasy-cricket/createFanatasyCricket`;
+export const get_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/getFanatasyCricket`;
+export const update_Fantasy_Cricket_status_route=`${host}/v1/admin/fantasy-cricket/updateStatus`;
+export const delete_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/deleteContent`;
+ export const edit_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/editContent`;
 
 
 
@@ -150,6 +150,14 @@ export const delete_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/de
 
 //  router.post("/updateStatus", verify, updateStatus);
 //router.delete("/deletePress", verify, deletePress);
+ export const add_press_release_route=`${host}/v1/admin/press-release/addPressRelease`;
+ export const get_press_release_route=`${host}/v1/admin/press-release/getPressRelease`;
+ export const update_press_release_route=`${host}/v1/admin/press-release/updateStatus`;
+export const delete_press_release_route=`${host}/v1/admin/press-release/deletePress`;
+
+export const add_fantasy_cricket_points=`${host}/v1/admin/cricketpoints/createFantasyCricketPoints`;
+export const get_fantasy_cricket_points=`${host}/v1/admin/cricketpoints/getFantasyCricketPoints`;
+export const edit_fantasy_cricket_points=`${host}/v1/admin/cricketpoints/editFantasyCricketPoints`;
 
 
 
