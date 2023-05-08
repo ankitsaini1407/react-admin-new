@@ -136,6 +136,18 @@ export const delete_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/dele
  export const update_press_release_route=`${host}/v1/admin/press-release/updateStatus`
 export const delete_press_release_route=`${host}/v1/admin/press-release/deletePress`
 
+export const add_footer_contact = `${host}/v1/admin/addFooter`;
+export const get_footer_contact = `${host}/v1/admin/getFooter`;
+export const add_footer_disclaimer = `${host}/v1/admin/footer/createFooterDisclaimer`;
+export const get_footer_disclaimer = `${host}/v1/admin/footer/getFooterDisclaimer`;
+export const update_footer_disclaimer = `${host}/v1/admin/footer/updateContentStatus`;
+export const delete_footer_disclaimer = `${host}/v1/admin/footer/deleteFooterDisclaimer`;
+export const edit_footer_disclaimer = `${host}/v1/admin/footer/editFooterDisclaimer`;
+export const add_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/createFindOutMore`
+export const get_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/getFindOutMore`
+export const update_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/updateFindOutMoreStatus`
+export const delete_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/deleteFindOutMore`
+
 //  router.post("/updateStatus", verify, updateStatus);
 //router.delete("/deletePress", verify, deletePress);
 
