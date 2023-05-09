@@ -32,8 +32,7 @@ const AddAboutUsBanner = () => {
   };
 
   const initialValues = {
-    image: "",
-    subType: ""
+    image: ""
   };
 
   const formik = useFormik({
@@ -42,7 +41,6 @@ const AddAboutUsBanner = () => {
     onSubmit: async (values, action) => {
       if (imageError == "") {
         const formData = new FormData();
-        formData.append("subType", values.subType);
         formData.append("image", values.image);
         const { data } = await axios.post(`${add_about_us_banner_route}?type=about-us`, formData);
         if (data.success === false) {
@@ -97,19 +95,6 @@ const AddAboutUsBanner = () => {
             onLoad={event => checkImage(event)}
           />}
         
-        <Form.Select className="mt-3"
-          size="lg"
-          name="subType"
-          value={formik.values.subType}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          isInvalid={!!formik.errors.subType}
-          isValid={formik.touched.subType && !formik.errors.subType}>
-          <option defaultValue hidden>Select banner subType</option>
-          <option value="desktop">Desktop</option>
-          <option value="mobile">mobile</option>
-        </Form.Select><br />
-        {formik.errors.subType && formik.touched.subType ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.subType}</p> : null}
         <Button variant="primary" type="submit">
           Submit
         </Button>

@@ -47,13 +47,15 @@ const AboutUsBottomImagesTable = () => {
     theme: "dark",
   };
 
-  const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [modalShow1, setModalShow1] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
+
+  const [modalInfo2, setModalInfo2] = useState("");
+  const [modalShow2, setModalShow2] = useState(false);
 
   const getData = async () => {
     try {
@@ -69,13 +71,7 @@ const AboutUsBottomImagesTable = () => {
         })
         .catch(function (error) {
           if (error) {
-            if (error.response.data.token.isExpired == true) {
-              setTimeout(() => {
-                Cookies.remove("token", "user");
-                navigate("/");
-              }, 3000);
-              toast.error(error.response.data.token.message, toastOptions);
-            }
+            console.log(error);
           }
         });
     } catch (err) {
@@ -153,7 +149,10 @@ const AboutUsBottomImagesTable = () => {
     },
     {
       name: "Image",
-      selector: (row) => <img src={row.image} width={40} alt="Banner" />,
+      selector: (row) => <img src={row.image} width={40} alt="Banner" onClick={() => {
+        setModalShow2(!modalShow2);
+        setModalInfo2(row.image)
+      }} />,
       sortable: true,
     },
     {
@@ -199,15 +198,6 @@ const AboutUsBottomImagesTable = () => {
     getData();
   }, []);
 
-//   useEffect(() => {
-//     let result = data.filter((elem) => {
-//       let filterVal = elem.type.toLowerCase();
-//       let searchVal = search.toLocaleLowerCase();
-//       return filterVal.match(searchVal);
-//     });
-//     setFilteredData(result);
-//   }, [search]);
-
   return (
     <div className="container">
       <DataTable
@@ -221,15 +211,6 @@ const AboutUsBottomImagesTable = () => {
         highlightOnHover
         onChangePage={(value) => setPageNumber(value)}
         subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
         actions={
           <>
               <button
@@ -256,6 +237,30 @@ const AboutUsBottomImagesTable = () => {
         }
         subHeaderAlign="right"
       />
+      {modalShow2 ? (
+        <Modal
+          show={modalShow2}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow2(!modalShow2)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo2} height={300} width={400} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
       {modalShow ? (
         <Modal
           show={modalShow}

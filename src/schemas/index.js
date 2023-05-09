@@ -67,8 +67,7 @@ export const home_navbar = Yup.object({
 });
 
 export const add_banner_schema = Yup.object({
-    image: Yup.mixed().required("This field is required"),
-    subType: Yup.string().required("This field is required")
+    image: Yup.mixed().required("This field is required")
 });
 
 export const home_square_boxes = Yup.object({

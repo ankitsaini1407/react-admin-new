@@ -22,6 +22,7 @@ const AddHomeBanners = () => {
 
   const [state, setState] = useState("");
   const [imageError, setImageError] = useState("");
+  const [bannerSubType, setBannerSubType] = useState("");
 
   const toastOptions = {
     position: "top-right",
@@ -32,19 +33,17 @@ const AddHomeBanners = () => {
   };
 
   const initialValues = {
-    image: "",
-    subType: ""
+    image: ""
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: add_banner_schema,
     onSubmit: async (values, action) => {
-      if (imageError == "") {
+      if (imageError === "") {
         const formData = new FormData();
-        formData.append("subType", values.subType);
         formData.append("image", values.image);
-        const { data } = await axios.post(`${add_banner_route}?type=home`, formData);
+        const { data } = await axios.post(`${add_banner_route}?type=home&subType=${bannerSubType}`, formData);
         if (data.success === false) {
           toast.error(data.message, toastOptions);
         } else if (data.success === true) {
@@ -64,9 +63,15 @@ const AddHomeBanners = () => {
     };
   };
   const checkImage = (e) => {
-    (e.target.naturalWidth == 1920 && e.target.naturalHeight == 504) || 
-    (e.target.naturalWidth == 952 && e.target.naturalHeight == 1064)? "" :
+    
+    (e.target.naturalWidth === 1920 && e.target.naturalHeight === 504) || 
+    (e.target.naturalWidth === 952 && e.target.naturalHeight === 1064)? "" :
       setImageError("Image size is not valid");
+      if(e.target.naturalWidth === 1920){
+        setBannerSubType("desktop");
+      }else if(e.target.naturalWidth === 952){
+        setBannerSubType("mobile")
+      };
   };
 
   return (
@@ -96,20 +101,7 @@ const AddHomeBanners = () => {
             width="200"
             onLoad={event => checkImage(event)}
           />}
-        
-        <Form.Select className="mt-3"
-          size="lg"
-          name="subType"
-          value={formik.values.subType}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          isInvalid={!!formik.errors.subType}
-          isValid={formik.touched.subType && !formik.errors.subType}>
-          <option defaultValue hidden>Select banner subType</option>
-          <option value="desktop">Desktop</option>
-          <option value="mobile">mobile</option>
-        </Form.Select><br />
-        {formik.errors.subType && formik.touched.subType ? <p className="form-error" style={{ color: "red", width: "100%", display: "block" }}>{formik.errors.subType}</p> : null}
+      
         <Button variant="primary" type="submit">
           Submit
         </Button>

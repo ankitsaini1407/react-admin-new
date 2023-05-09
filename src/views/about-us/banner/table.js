@@ -7,12 +7,12 @@ import axios from "axios";
 import { get_about_us_banner_route, change_about_us_banner_status_route, delete_about_us_banner_route } from "../../../utils/APIRoutes";
 import "../../../assets/css/banner-toggle-btn.css";
 import { ToastContainer, toast } from 'react-toastify';
-import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
+import { BsFillTrashFill, BsPencilSquare, BsX } from 'react-icons/bs';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
-
+import Modal from "react-bootstrap/Modal";
 
 const AboutUsBanners = () => {
   const navigate = useNavigate();
@@ -33,13 +33,14 @@ const AboutUsBanners = () => {
   };
 
   const numberOfPagePerList = [10, 15, 20];
-  const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalImage, setTotalImage] = useState();
   const counterPage = 10;
   const [perPage, setPerPage] = useState(10);
+  const [modalInfo1, setModalInfo1] = useState("");
+  const [modalShow1, setModalShow1] = useState(false);
 
   const getData = async () => {
     try {
@@ -131,7 +132,10 @@ const AboutUsBanners = () => {
     },
     {
       name: "Banner",
-      selector: row => <img src={row.image} width={40} alt='Banner' />,
+      selector: row => <img src={row.image} width={40} alt='Banner' onClick={() => {
+        setModalShow1(!modalShow1);
+        setModalInfo1(row.image)
+      }} />,
       sortable: true,
     },
     {
@@ -172,16 +176,6 @@ const AboutUsBanners = () => {
     getData();
   }, [pageNumber, perPage]);
 
-
-  useEffect(() => {
-    let result = data.filter(elem => {
-      let filterVal = elem.type.toLowerCase();
-      let searchVal = search.toLocaleLowerCase();
-      return filterVal.match(searchVal);
-    });
-    setFilteredData(result);
-  }, [search]);
-
   const handlePageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
   }
@@ -203,18 +197,33 @@ const AboutUsBanners = () => {
         onChangePage={(value) => setPageNumber(value)}
         onChangeRowsPerPage={handlePageChange}
         subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
         subHeaderAlign="right"
         actions={<Link to="/about-us/banner/add"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
       />
+       {modalShow1 ? (
+        <Modal
+          show={modalShow1}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow1(!modalShow1)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo1} height={300} width={400} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
       <ToastContainer />
     </div>
   )

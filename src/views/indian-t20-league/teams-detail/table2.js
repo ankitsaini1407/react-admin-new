@@ -93,11 +93,37 @@ const IndianT20LeagueTeamDetails = () => {
       });
   };
 
-  const handleEdit = (id, title, description) => async () => {
-    navigate(`/indian-t20-league/cms-2/edit/${id}`, {
-      state: { id: id, title: title, description: description },
-    });
-  };
+  const handleEdit =
+    (
+      id,
+      captain,
+      team,
+      coach,
+      titles,
+      majorSignings,
+      playerlogo,
+      teamlogo,
+      color1,
+      color2,
+      color3
+    ) =>
+    async () => {
+      navigate(`/indian-t20-league/team-details/edit/${id}`, {
+        state: {
+          id: id,
+          captain: captain,
+          team: team,
+          coach: coach,
+          titles: titles,
+          majorSignings: majorSignings,
+          playerlogo: playerlogo,
+          teamlogo: teamlogo,
+          color1: color1,
+          color2: color2,
+          color3: color3
+        },
+      });
+    };
 
   const columns = [
     {
@@ -188,7 +214,19 @@ const IndianT20LeagueTeamDetails = () => {
           >
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
-              onClick={handleEdit(row.id, row.title, row.description)}
+              onClick={handleEdit(
+                row.id,
+                row.captain,
+                row.team,
+                row.coach,
+                row.titles,
+                row.majorSignings,
+                row.playerlogo,
+                row.teamlogo,
+                row.color1,
+                row.color2,
+                row.color3
+              )}
             >
               <BsPencilSquare
                 style={{ fontSize: "20px", margin: "5px", color: "blue" }}
