@@ -36,6 +36,8 @@ const EditTeamDetails = () => {
     theme: "dark",
   };
 
+  console.log("location.state.playerlogo", location.state.playerlogo);
+
   const initialValues = {
     player_logo: location.state.playerlogo,
     team_logo: location.state.teamlogo,
@@ -141,6 +143,13 @@ const EditTeamDetails = () => {
       ? ""
       : setTeamLogoError("Image size is not valid");
   };
+
+  const myFile = new File(['Hello World!'], 'myFile.txt', {
+    type: 'text/plain',
+    lastModified: new Date(),
+});
+const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(myFile);
   return (
     <>
       <Form noValidate onSubmit={formik.handleSubmit}>
