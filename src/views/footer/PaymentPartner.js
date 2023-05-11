@@ -47,7 +47,10 @@ const FooterPaymentPartners = () => {
             await axios.post(`${add_footer_contact}?type=payment_partners`, formData, { headers: { token: Cookies.get("token") } })
                 .then(response => {
                     if (response) {
-                        console.log("response", response);
+                        setTimeout(() => {
+                            navigate("/footer");
+                        }, 3000);
+                        return toast.success(response.data.message, toastOptions);
                     }
                 }).catch(function (error) {
                     if (error) {

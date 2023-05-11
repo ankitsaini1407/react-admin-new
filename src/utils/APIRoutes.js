@@ -1,4 +1,4 @@
-const host = "http://192.168.1.11:5000";
+const host = "http://192.168.1.7:5000";
 
 export const loginRoute = `${host}/v1/admin/auth/login`;
 export const forgot_password_route = `${host}/v1/admin/auth/getotp`;
@@ -136,6 +136,7 @@ export const delete_Fantasy_Cricket_route=`${host}/v1/admin/fantasy-cricket/dele
 export const delete_press_release_route=`${host}/v1/admin/press-release/deletePress`
 
 export const add_footer_contact = `${host}/v1/admin/addFooter`;
+export const update_footer_status=`${host}/v1/admin/updateFooterStatus`
 export const add_footer_disclaimer = `${host}/v1/admin/footer/createFooterDisclaimer`;
 export const get_footer_disclaimer = `${host}/v1/admin/footer/getFooterDisclaimer`;
 export const update_footer_disclaimer = `${host}/v1/admin/footer/updateContentStatus`;
@@ -145,6 +146,10 @@ export const add_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/creat
 export const get_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/getFindOutMore`
 export const update_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/updateFindOutMoreStatus`
 export const delete_footer_find_out_more=`${host}/v1/admin/footer/findOutMore/deleteFindOutMore`
+export const add_footer_about_us=`${host}/v1/admin/footer/about-us/createAboutUs`
+export const get_footer_about_us=`${host}/v1/admin/footer/about-us/getAboutUs`
+export const update_footer_about_us=`${host}/v1/admin/footer/about-us/updateAboutUs`
+export const delete_footer_about_us=`${host}/v1/admin/footer/about-us/deleteAboutUs`
 
 //  router.post("/updateStatus", verify, updateStatus);
 //router.delete("/deletePress", verify, deletePress);
