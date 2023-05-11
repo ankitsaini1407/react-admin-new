@@ -73,7 +73,7 @@ const IndianT20LeagueCms = () => {
   };
 
   const handleSlug = (slug, description) => async () => {
-    navigate(`/Indian-t20-league/cms/${slug}`, { state: { description: description } });
+    navigate(`/indian-t20-league/cms/${slug}`, { state: { description: description } });
   };
 
   const handleDelete = (id) => async (e) => {

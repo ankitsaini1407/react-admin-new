@@ -12,9 +12,10 @@ import {
 import "../../../assets/css/banner-toggle-btn.css";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
-import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from "react-icons/bs";
+import { BsEyeFill, BsPencilSquare, BsFillTrashFill, BsX } from "react-icons/bs";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import Modal from "react-bootstrap/Modal";
 
 const IndianT20LeagueTeamDetails = () => {
   const navigate = useNavigate();
@@ -43,6 +44,12 @@ const IndianT20LeagueTeamDetails = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalImage, setTotalImage] = useState();
   const [perPage, setPerPage] = useState(10);
+  const [modalInfo, setModalInfo] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+const [modalInfo1, setModalInfo1] = useState("");
+  const [modalShow1, setModalShow1] = useState(false);
+  const[playerLogo, setPlayerLogo] = useState("");
+  const[teamLogo, setTeamLogo] = useState("");
 
   const getData = async () => {
     await axios
@@ -93,11 +100,60 @@ const IndianT20LeagueTeamDetails = () => {
       });
   };
 
-  const handleEdit = (id, title, description) => async () => {
-    navigate(`/indian-t20-league/cms-2/edit/${id}`, {
-      state: { id: id, title: title, description: description },
-    });
-  };
+  const handleEdit =
+    (
+      id,
+      captain,
+      team,
+      coach,
+      titles,
+      majorSignings,
+      playerlogo,
+      teamlogo,
+      color1,
+      color2,
+      color3
+    ) =>
+    async () => {
+      
+
+//   const playerLogoURL = async(playerUrl:string) =>
+//   fetch(playerUrl)
+//   .then((response) => response.blob())
+//     .then(
+//       (blob) =>
+//         new Promise((resolve, reject) => {
+//           const reader = new FileReader();
+//           reader.onloadend = () => resolve(reader.result);
+//           reader.onerror = reject;
+//           reader.readAsDataURL(blob);
+//         })
+//     );
+
+//     playerLogoURL(
+//       playerlogo
+// ).then((dataUrl) => {
+//   setPlayerLogo(dataUrl)
+//   console.log("result", dataUrl);
+// });
+
+
+      navigate(`/indian-t20-league/team-details/edit/${id}`, {
+        state: {
+          id: id,
+          captain: captain,
+          team: team,
+          coach: coach,
+          titles: titles,
+          majorSignings: majorSignings,
+          playerlogo: playerlogo,
+          teamlogo: teamlogo,
+          color1: color1,
+          color2: color2,
+          color3: color3
+        },
+      });
+    };
 
   const columns = [
     {
@@ -108,13 +164,19 @@ const IndianT20LeagueTeamDetails = () => {
     {
       name: "Player-Logo",
       selector: (row) => (
-        <img src={row.playerlogo} width={40} alt="player logo" />
+        <img src={row.playerlogo} width={40} alt="player logo" onClick={() => {
+          setModalShow1(!modalShow1);
+          setModalInfo1(row.playerlogo)
+        }} />
       ),
       sortable: true,
     },
     {
       name: "Team-Logo",
-      selector: (row) => <img src={row.teamlogo} width={40} alt="team logo" />,
+      selector: (row) => <img src={row.teamlogo} width={40} alt="team logo" onClick={() => {
+        setModalShow(!modalShow);
+        setModalInfo(row.teamlogo)
+      }} />,
       sortable: true,
     },
     {
@@ -170,17 +232,6 @@ const IndianT20LeagueTeamDetails = () => {
       name: "Action",
       cell: (row) => (
         <div>
-          <OverlayTrigger
-            placement="bottom"
-            overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
-          >
-            <Button style={{ backgroundColor: "transparent", border: "none" }}>
-              <BsEyeFill
-                style={{ color: "blue" }}
-                onClick={handleSlug(row.slug, row.description)}
-              />
-            </Button>
-          </OverlayTrigger>
 
           <OverlayTrigger
             placement="bottom"
@@ -188,7 +239,19 @@ const IndianT20LeagueTeamDetails = () => {
           >
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
-              onClick={handleEdit(row.id, row.title, row.description)}
+              onClick={handleEdit(
+                row.id,
+                row.captain,
+                row.team,
+                row.coach,
+                row.titles,
+                row.majorSignings,
+                row.playerlogo,
+                row.teamlogo,
+                row.color1,
+                row.color2,
+                row.color3
+              )}
             >
               <BsPencilSquare
                 style={{ fontSize: "20px", margin: "5px", color: "blue" }}
@@ -216,15 +279,6 @@ const IndianT20LeagueTeamDetails = () => {
     getData();
   }, [pageNumber, perPage]);
 
-  useEffect(() => {
-    let result = data.filter((elem) => {
-      // let filterVal = elem.type.toLowerCase();
-      // let searchVal = search.toLocaleLowerCase();
-      return filterVal.match(searchVal);
-    });
-    setFilteredData(result);
-  }, [search]);
-
   const handlePageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
   };
@@ -246,15 +300,6 @@ const IndianT20LeagueTeamDetails = () => {
         onChangeRowsPerPage={handlePageChange}
         onChangePage={(value) => setPageNumber(value)}
         subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
         actions={
           <Link to="/indian-t20-league/team-details/add">
             <button
@@ -268,6 +313,54 @@ const IndianT20LeagueTeamDetails = () => {
         }
         subHeaderAlign="right"
       />
+      {modalShow1 ? (
+        <Modal
+          show={modalShow1}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow1(!modalShow1)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo1} height={400} width={400} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
+      {modalShow ? (
+        <Modal
+          show={modalShow}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow(!modalShow)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo} height={300} width={400} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
       <ToastContainer />
     </div>
   );

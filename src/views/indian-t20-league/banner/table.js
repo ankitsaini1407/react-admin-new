@@ -7,12 +7,12 @@ import axios from "axios";
 import { get_indianT20League_banner, update_status_indianT20League_banner, delete_indianT20League_banner } from "../../../utils/APIRoutes";
 import "../../../assets/css/banner-toggle-btn.css";
 import { ToastContainer, toast } from 'react-toastify';
-import { BsFillTrashFill, BsPencilSquare } from 'react-icons/bs';
+import { BsFillTrashFill, BsPencilSquare, BsX } from 'react-icons/bs';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
 import Swal from 'sweetalert2';
-
+import Modal from "react-bootstrap/Modal";
 
 const IndianT20LeagueBanner = () => {
   const navigate = useNavigate();
@@ -40,6 +40,8 @@ const IndianT20LeagueBanner = () => {
   const [totalImage, setTotalImage] = useState();
   const counterPage = 10;
   const [perPage, setPerPage] = useState(10);
+  const [modalInfo, setModalInfo] = useState("");
+  const [modalShow, setModalShow] = useState(false);
 
   const getData = async () => {
     try {
@@ -131,7 +133,10 @@ const IndianT20LeagueBanner = () => {
     },
     {
       name: "Banner",
-      selector: row => <img src={row.image} width={40} alt='Banner' />,
+      selector: row => <img src={row.image} width={40} alt='Banner' onClick={() => {
+        setModalShow(!modalShow);
+        setModalInfo(row.image)
+      }} />,
       sortable: true,
     },
     {
@@ -215,6 +220,30 @@ const IndianT20LeagueBanner = () => {
         subHeaderAlign="right"
         actions={<Link to="/indian-t20-league/banner/add"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
       />
+      {modalShow ? (
+        <Modal
+          show={modalShow}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow(!modalShow)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo} height={200} width={500} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
       <ToastContainer />
     </div>
   )

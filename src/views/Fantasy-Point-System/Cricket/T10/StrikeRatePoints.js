@@ -68,7 +68,10 @@ const CricketT10StrikePoints = () => {
   };
 
   const handleChange1 = (e, actions, i) => {
+    var numberRegex = /^[+-]*\d{1,2}\.?\d*[x]*$/;
+
     const { value } = e.target;
+    if(numberRegex.test(value) === true){
     const onchangeVal = [...data];
     data.map((elem) => {
       if (elem.action === actions) {
@@ -76,6 +79,9 @@ const CricketT10StrikePoints = () => {
       }
     });
     setPoint1(onchangeVal);
+  }else {
+    toast.error("Please Enter Only Numbers")
+  }
   };
 
   const columns = [

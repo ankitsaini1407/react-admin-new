@@ -12,9 +12,11 @@ import {
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Button from "react-bootstrap/Button";
-import { BsEyeFill, BsPencilSquare, BsFillTrashFill } from "react-icons/bs";
+import { BsEyeFill, BsPencilSquare, BsFillTrashFill, BsX } from "react-icons/bs";
 import Swal from "sweetalert2";
 import AddLogo from "./add";
+import Modal from "react-bootstrap/Modal";
+
 import "../../../assets/css/banner-toggle-btn.css";
 
 const HomeLogo = () => {
@@ -28,6 +30,9 @@ const HomeLogo = () => {
       navigate("/");
     }
   };
+
+  const [modalInfo, setModalInfo] = useState("");
+  const [modalShow, setModalShow] = useState(false);
 
   const toastOptions = {
     position: "top-right",
@@ -135,7 +140,10 @@ const HomeLogo = () => {
     },
     {
       name: "Logo",
-      selector: (row) => <img src={row.logo} />,
+      selector: (row) => <img src={row.logo} onClick={() => {
+        setModalShow(!modalShow);
+        setModalInfo(row.logo)
+      }} />,
       sortable: true,
     },
     {
@@ -206,6 +214,30 @@ const HomeLogo = () => {
         }
         subHeaderAlign="right"
       />
+      {modalShow ? (
+        <Modal
+          show={modalShow}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow(!modalShow)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo} height={150} width={200} style={{backgroundColor:"grey"}} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

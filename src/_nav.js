@@ -95,7 +95,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Spot Fantasy',
-        to: '/fantasy-point/spot-fantasy',
+        to: '/fantasy-point-system/spot-fantasy',
       },
     ],
   },

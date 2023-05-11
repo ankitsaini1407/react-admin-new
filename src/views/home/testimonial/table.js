@@ -31,12 +31,13 @@ const HomeWinners = () => {
     theme: "dark",
   };
 
-  const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
+  const [modalInfo1, setModalInfo1] = useState("");
+  const [modalShow1, setModalShow1] = useState(false);
 
   const getData = async () => {
     try {
@@ -48,13 +49,7 @@ const HomeWinners = () => {
           }
         }).catch(function (error) {
           if (error) {
-            if (error.response.data.token.isExpired == true) {
-              setTimeout(() => {
-                Cookies.remove("token", "user")
-                navigate("/");
-              }, 3000)
-              toast.error(error.response.data.token.message, toastOptions);
-            }
+            console.log(error);
           }
         });
     } catch (err) {
@@ -76,7 +71,10 @@ const HomeWinners = () => {
     },
     {
       name: "Image",
-      selector: row => <img src={row.image} width={40} alt='Banner' />,
+      selector: row => <img src={row.image} width={40} alt='Banner' onClick={() => {
+        setModalShow1(!modalShow);
+        setModalInfo1(row.image)
+      }} />,
       sortable: true,
     },
     {
@@ -114,14 +112,6 @@ const HomeWinners = () => {
     getData();
   }, []);
 
-  useEffect(() => {
-    let result = data.filter(elem => {
-      let filterVal = elem.type.toLowerCase();
-      let searchVal = search.toLocaleLowerCase();
-      return filterVal.match(searchVal);
-    });
-    setFilteredData(result);
-  }, [search]);
 
   return (
     <div className="container">
@@ -136,18 +126,33 @@ const HomeWinners = () => {
         highlightOnHover
         onChangePage={(value) => setPageNumber(value)}
         subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
         actions={<Link to="/home/testimonial/add"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
       />
+      {modalShow1 ? (
+        <Modal
+          show={modalShow1}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Image
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow1(!modalShow1)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <img src={modalInfo1} height={300} width={400} />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
       {
         modalShow ? <Modal show={modalShow} aria-labelledby="contained-modal-title-vcenter" centered>
           <Modal.Header><Modal.Title id="contained-modal-title-vcenter">Quote</Modal.Title><Button style={{ backgroundColor: "transparent", border: "none" }} onClick={() => setModalShow(!modalShow)}><BsX style={{ fontSize: "35px", color: "black" }} /></Button></Modal.Header>

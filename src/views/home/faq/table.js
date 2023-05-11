@@ -30,7 +30,6 @@ const HomeFaq = () => {
     theme: "dark",
   };
 
-  const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [modalInfo, setModalInfo] = useState("");
@@ -51,13 +50,7 @@ const HomeFaq = () => {
 
       }).catch(function (error) {
         if (error) {
-          if(error.response.data.token.isExpired == true){
-            setTimeout(() => {
-              Cookies.remove("token", "user")
-              navigate("/");
-            }, 3000)
-            toast.error(error.response.data.token.message, toastOptions);
-          }
+          console.log(error);
         }
       });
     } catch (err) {
@@ -120,14 +113,6 @@ const HomeFaq = () => {
     getData();
   }, [pageNumber,perPage]);
 
-  useEffect(() => {
-    let result = data.filter(elem => {
-      let filterVal = elem.type.toLowerCase();
-      let searchVal = search.toLocaleLowerCase();
-      return filterVal.match(searchVal);
-    });
-    setFilteredData(result);
-  }, [search]);
 
   const handlePageChange=async(newPerPage,page)=>{
     setPerPage(newPerPage);
@@ -150,15 +135,6 @@ const HomeFaq = () => {
         onChangeRowsPerPage={handlePageChange}
         onChangePage={(value) => {setPageNumber(value)}}
         subHeader
-        subHeaderComponent={
-          <input
-            type="text"
-            placeholder="Search..."
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        }
         actions={<Link to="/home/faq/add"><button data-toggle="modal" data-target="#myModal" className="btn btn-sm btn-success">ADD+</button></Link>}
         subHeaderAlign="right"
       />

@@ -31,7 +31,7 @@ const AboutUs = () => {
         </Accordion.Body>
       </Accordion.Item>
       <br />
-      <Accordion.Item eventKey="2">
+      <Accordion.Item eventKey="3">
         <Accordion.Header>BOTTOM IMAGES</Accordion.Header>
         <Accordion.Body>
         <AboutUsBottomImagesTable />

@@ -79,6 +79,10 @@ import AddFantasyFaqs from "./views/fantasyCricket/faqs/add";
 
  import KabaddiFantasyPoints from "./views/Fantasy-Point-System/Kabaddi";
 
+ import SpotFantasyPoints from "./views/Fantasy-Point-System/Spot-Fantasy/table";
+
+ import EditTeamDetails from "./views/indian-t20-league/teams-detail/editTeamDetails";
+
 const routes = [
   { path: "/dashboard", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
@@ -228,6 +232,12 @@ const routes = [
     name: "Indian-T20-League / Team-Details / Add",
     element: AddTeamDetails,
   },
+
+  {
+    path: "/indian-t20-league/team-details/edit/:id",
+    name: "Indian-T20-League / Team-Details / Edit",
+    element: EditTeamDetails,
+  },
   {
     path: "/download",
     name: "Download",
@@ -348,6 +358,9 @@ const routes = [
   { path: "/fantasy-point-system/football", name: "Fantasy-Point-System / Football", element: FootballFantasyPoints },
 
   { path: "/fantasy-point-system/kabaddi", name: "Fantasy-Point-System / Kabaddi", element: KabaddiFantasyPoints },
+
+  { path: "/fantasy-point-system/spot-fantasy", name: "Fantasy-Point-System / Kabaddi", element: SpotFantasyPoints },
+
 
 
 
