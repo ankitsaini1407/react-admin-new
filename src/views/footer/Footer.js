@@ -11,15 +11,18 @@ import {
   delete_footer_disclaimer,
   get_footer_find_out_more,
   update_footer_find_out_more,
-  delete_footer_find_out_more
+  delete_footer_find_out_more,
+  get_footer_about_us,
+  update_footer_about_us,
+  delete_footer_about_us,
+  update_footer_status
 } from "../../utils/APIRoutes";
 import { ToastContainer, toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { BsEyeFill, BsX,BsFillTrashFill } from "react-icons/bs";
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-
+import { BsEyeFill, BsX, BsFillTrashFill } from "react-icons/bs";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -47,6 +50,8 @@ const Footer = () => {
   const [footerContactData, setFooterContactData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [search, setSearch] = useState("");
+  const [modalContactInfo, setModalContactInfo] = useState("");
+  const [modalShowContact, setModalShowContact] = useState(false);
 
   const getFooterContactData = async () => {
     try {
@@ -98,7 +103,21 @@ const Footer = () => {
     },
     {
       name: "Address",
-      selector: (row) => row.address,
+      selector: (row) => (<OverlayTrigger
+      placement="bottom"
+      overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
+    >
+      <Button style={{ backgroundColor: "transparent", border: "none" }}>
+        <BsEyeFill
+          style={{ color: "blue" }}
+          onClick={() => {
+            setModalShowContact(!modalShowContact);
+            setModalContactInfo(row.address)
+    
+          }}
+        />
+      </Button>
+    </OverlayTrigger>),
       sortable: true,
     },
     {
@@ -108,14 +127,43 @@ const Footer = () => {
     },
     {
       name: "Phone",
-      selector: (row) => row.concatNo,
+      selector: (row) => row.contactNo,
       sortable: true,
     },
     {
       name: "Type",
       selector: (row) => row.type,
       sortable: true,
-    },
+    }, {
+      name: "Is-Active",
+      cell: (row) => (
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={handleSupportChange(row.id, row.isActive)}
+            checked={row.isActive}
+          />
+          <span className="slider"></span>
+        </label>
+      ),
+    }, {
+      name: "Action",
+      cell: (row) => (
+        <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}
+          >
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={handleDelete(row.id)}
+            >
+              <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+            </Button>
+          </OverlayTrigger>
+        </div>
+      ),
+    }
   ];
 
   // social media
@@ -123,6 +171,8 @@ const Footer = () => {
   const [footerSMData, setFooterSMData] = useState([]);
   const [filteredSMData, setFilteredSMData] = useState([]);
   const [searchSM, setSearchSM] = useState("");
+  const [modalInfo1, setModalInfo1] = useState("");
+  const [modalShow1, setModalShow1] = useState(false);
 
   const getFooterSMData = async () => {
     try {
@@ -156,7 +206,16 @@ const Footer = () => {
     {
       name: "Icon",
       selector: (row) => (
-        <img src={row.socialMeidaIcons} width={40} alt="icon" />
+        <img
+          src={row.socialMeidaIcons}
+          style={{ backgroundColor: "#1c1c1c" }}
+          width={40}
+          alt="steps"
+          onClick={() => {
+            setModalShow1(!modalShow1);
+            setModalInfo1(row.socialMeidaIcons);
+          }}
+        />
       ),
       sortable: true,
     },
@@ -174,6 +233,19 @@ const Footer = () => {
       name: "Type",
       selector: (row) => row.type,
       sortable: true,
+    },
+    {
+      name: "Is-Active",
+      cell: (row) => (
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={handleSupportChange(row.id, row.isActive)}
+            checked={row.isActive}
+          />
+          <span className="slider"></span>
+        </label>
+      ),
     },
   ];
 
@@ -243,6 +315,19 @@ const Footer = () => {
       selector: (row) => row.type,
       sortable: true,
     },
+    {
+      name: "Is-Active",
+      cell: (row) => (
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={handleSupportChange(row.id, row.isActive)}
+            checked={row.isActive}
+          />
+          <span className="slider"></span>
+        </label>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -285,27 +370,44 @@ const Footer = () => {
   };
   const handleChange = (id, active) => async () => {
     active = !active;
-    await axios.post(`${update_footer_disclaimer}?id=${id}&isActive=${active}`,{},{
-      headers: { token: Cookies.get("token") },
-    });
+    await axios.post(
+      `${update_footer_disclaimer}?id=${id}&isActive=${active}`,
+      {},
+      {
+        headers: { token: Cookies.get("token") },
+      }
+    );
     getFooterDisclaimerData();
   };
 
+  const handleSupportChange = (id, active) => async (e) => {
+    active = !active;
+    await axios.post(
+      `${update_footer_status}?id=${id}&isActive=${active}`,{},{
+        headers: { token: Cookies.get("token") },
+      }
+    );
+    getFooterContactData();
+  };
+
   const handleDelete = (id) => async (e) => {
-    await axios.delete(`${delete_footer_disclaimer}?id=${id}`,{
-      headers: { token: Cookies.get("token") },
-    }).then(response => {
-      getFooterDisclaimerData();
-      if (response) {
-        toast.success(response.data.message, toastOptions);
-      }
-    }).catch(function (error) {
-      if (error) {
-        if (error.response.data.success == false) {
-          toast.error(error.response.data.message, toastOptions);
+    await axios
+      .delete(`${delete_footer_disclaimer}?id=${id}`, {
+        headers: { token: Cookies.get("token") },
+      })
+      .then((response) => {
+        getFooterDisclaimerData();
+        if (response) {
+          toast.success(response.data.message, toastOptions);
         }
-      }
-    });
+      })
+      .catch(function (error) {
+        if (error) {
+          if (error.response.data.success == false) {
+            toast.error(error.response.data.message, toastOptions);
+          }
+        }
+      });
   };
 
   const DisclaimerData = [
@@ -339,29 +441,41 @@ const Footer = () => {
     },
     {
       name: "Status",
-      selector: row => row.isActive ? "Activate" : "In-Activate",
-      sortable: true
+      selector: (row) => (row.isActive ? "Activate" : "In-Activate"),
+      sortable: true,
     },
     {
       name: "Is-Active",
-      cell: row => <label className="switch">
-        <input type="checkbox" onChange={handleChange(row.id, row.isActive)} checked={row.isActive} />
-        <span className="slider"></span>
-      </label>
+      cell: (row) => (
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={handleChange(row.id, row.isActive)}
+            checked={row.isActive}
+          />
+          <span className="slider"></span>
+        </label>
+      ),
     },
     {
       name: "Action",
-      cell: row => <div>
-        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}>
-        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDelete(row.id)}>
-          <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
-        </Button>
-        </OverlayTrigger>
-      </div>
-    }
+      cell: (row) => (
+        <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}
+          >
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={handleDelete(row.id)}
+            >
+              <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+            </Button>
+          </OverlayTrigger>
+        </div>
+      ),
+    },
   ];
-
-
 
   const [findOutMore, setFindOutMore] = useState([]);
   const [filteredFindOutMore, setFilteredFindOutMore] = useState([]);
@@ -392,29 +506,35 @@ const Footer = () => {
 
   const handleFindOutMore = (id, active) => async () => {
     active = !active;
-    await axios.post(`${update_footer_find_out_more}?id=${id}&isActive=${active}`,{},{
-      headers: { token: Cookies.get("token") },
-    });
+    await axios.post(
+      `${update_footer_find_out_more}?id=${id}&isActive=${active}`,
+      {},
+      {
+        headers: { token: Cookies.get("token") },
+      }
+    );
     getFooterDisclaimerData();
   };
 
   const handleDeleteFindOutMore = (id) => async (e) => {
-    await axios.delete(`${delete_footer_find_out_more}?id=${id}`,{
-      headers: { token: Cookies.get("token") },
-    }).then(response => {
-      getFooterDisclaimerData();
-      if (response) {
-        toast.success(response.data.message, toastOptions);
-      }
-    }).catch(function (error) {
-      if (error) {
-        if (error.response.data.success == false) {
-          toast.error(error.response.data.message, toastOptions);
+    await axios
+      .delete(`${delete_footer_find_out_more}?id=${id}`, {
+        headers: { token: Cookies.get("token") },
+      })
+      .then((response) => {
+        getFooterDisclaimerData();
+        if (response) {
+          toast.success(response.data.message, toastOptions);
         }
-      }
-    });
+      })
+      .catch(function (error) {
+        if (error) {
+          if (error.response.data.success == false) {
+            toast.error(error.response.data.message, toastOptions);
+          }
+        }
+      });
   };
-
 
   const findOutMoreData = [
     {
@@ -426,33 +546,48 @@ const Footer = () => {
       name: "title",
       selector: (row) => row.title,
       sortable: true,
-    },   {
+    },
+    {
       name: "path",
       selector: (row) => row.path,
       sortable: true,
     },
     {
       name: "Status",
-      selector: row => row.isActive ? "Activate" : "In-Activate",
-      sortable: true
+      selector: (row) => (row.isActive ? "Activate" : "In-Activate"),
+      sortable: true,
     },
     {
       name: "Is-Active",
-      cell: row => <label className="switch">
-        <input type="checkbox" onChange={handleFindOutMore(row.id, row.isActive)} checked={row.isActive} />
-        <span className="slider"></span>
-      </label>
+      cell: (row) => (
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={handleFindOutMore(row.id, row.isActive)}
+            checked={row.isActive}
+          />
+          <span className="slider"></span>
+        </label>
+      ),
     },
     {
       name: "Action",
-      cell: row => <div>
-        <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}>
-        <Button style={{ backgroundColor: "transparent", border: "none" }} onClick={handleDeleteFindOutMore(row.id)}>
-          <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
-        </Button>
-        </OverlayTrigger>
-      </div>
-    }
+      cell: (row) => (
+        <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}
+          >
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={handleDeleteFindOutMore(row.id)}
+            >
+              <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+            </Button>
+          </OverlayTrigger>
+        </div>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -472,6 +607,130 @@ const Footer = () => {
     });
     setFilteredDisclaimer(result);
   }, [searchDisclaimer]);
+
+  //About Us
+  const [aboutUs, setAboutUs] = useState([]);
+  const [filteredAboutUs, setFilteredAboutUs] = useState([]);
+  const [searchAboutUs, setSearchAboutUs] = useState("");
+
+  const getAboutUS = async () => {
+    try {
+      await axios
+        .get(`${get_footer_about_us}`, {
+          headers: { token: Cookies.get("token") },
+        })
+        .then((response) => {
+          if (response) {
+            console.log("findoutmore", response.data.data);
+            setAboutUs(response.data.data);
+            setFilteredAboutUs(response.data.data);
+          }
+        })
+        .catch(function (error) {
+          if (error) {
+            console.log("--><--", error);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAboutUs = (id, active) => async () => {
+    active = !active;
+    await axios.post(
+      `${update_footer_about_us}?id=${id}&isActive=${active}`,
+      {},
+      {
+        headers: { token: Cookies.get("token") },
+      }
+    );
+    getAboutUS();
+  };
+
+  const handleDeleteAboutUs = (id) => async (e) => {
+    await axios
+      .delete(`${delete_footer_about_us}?id=${id}`, {
+        headers: { token: Cookies.get("token") },
+      })
+      .then((response) => {
+        getAboutUS();
+        if (response) {
+          toast.success(response.data.message, toastOptions);
+        }
+      })
+      .catch(function (error) {
+        if (error) {
+          if (error.response.data.success == false) {
+            toast.error(error.response.data.message, toastOptions);
+          }
+        }
+      });
+  };
+
+  const AboutUs = [
+    {
+      name: "S.No.",
+      selector: (row, index) => index + 1,
+      sortable: true,
+    },
+    {
+      name: "title",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "path",
+      selector: (row) => row.path,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => (row.isActive ? "Activate" : "In-Activate"),
+      sortable: true,
+    },
+    {
+      name: "Is-Active",
+      cell: (row) => (
+        <label className="switch">
+          <input
+            type="checkbox"
+            onChange={handleAboutUs(row.id, row.isActive)}
+            checked={row.isActive}
+          />
+          <span className="slider"></span>
+        </label>
+      ),
+    },
+    {
+      name: "Action",
+      cell: (row) => (
+        <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">Delete</Tooltip>}
+          >
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={handleDeleteAboutUs(row.id)}
+            >
+              <BsFillTrashFill style={{ fontSize: "20px", color: "blue" }} />
+            </Button>
+          </OverlayTrigger>
+        </div>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    let result = aboutUs.filter((elem) => {
+      let filterVal = elem.title.toLowerCase();
+      let searchVal = search.toLocaleLowerCase();
+      return filterVal.match(searchVal);
+    });
+    setFilteredAboutUs(result);
+  }, [searchAboutUs]);
+
   return (
     <>
       <Accordion defaultActiveKey="0">
@@ -510,9 +769,39 @@ const Footer = () => {
               }
               subHeaderAlign="right"
             />
+               {modalShowContact ? (
+          <Modal
+            show={modalShowContact}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header>
+              <Modal.Title id="contained-modal-title-vcenter">Icon</Modal.Title>
+              <Button
+                style={{ backgroundColor: "transparent", border: "none" }}
+                onClick={() => setModalShowContact(!modalShowContact)}
+              >
+                <BsX style={{ fontSize: "35px", color: "black" }} />
+              </Button>
+            </Modal.Header>
+            <Modal.Body>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+               <p>{modalContactInfo}</p>
+              </div>
+            </Modal.Body>
+          </Modal>
+        ) : (
+          ""
+        )}
           </Accordion.Body>
         </Accordion.Item>
-        <br/>
+        <br />
         <Accordion.Item eventKey="1" onClick={getFooterSMData}>
           <Accordion.Header>Social Media Links</Accordion.Header>
           <Accordion.Body>
@@ -550,7 +839,43 @@ const Footer = () => {
             />
           </Accordion.Body>
         </Accordion.Item>
-        <br/>
+        {modalShow1 ? (
+          <Modal
+            show={modalShow1}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header>
+              <Modal.Title id="contained-modal-title-vcenter">Icon</Modal.Title>
+              <Button
+                style={{ backgroundColor: "transparent", border: "none" }}
+                onClick={() => setModalShow1(!modalShow1)}
+              >
+                <BsX style={{ fontSize: "35px", color: "black" }} />
+              </Button>
+            </Modal.Header>
+            <Modal.Body>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  src={modalInfo1}
+                  style={{ backgroundColor: "#1c1c1c" }}
+                  width={40}
+                  alt="steps"
+                />
+              </div>
+            </Modal.Body>
+          </Modal>
+        ) : (
+          ""
+        )}
+
+        <br />
         <Accordion.Item eventKey="2" onClick={getFooterPPData}>
           <Accordion.Header>Payment Partners</Accordion.Header>
           <Accordion.Body>
@@ -588,7 +913,7 @@ const Footer = () => {
             />
           </Accordion.Body>
         </Accordion.Item>
-        <br/>
+        <br />
         <Accordion.Item eventKey="3" onClick={getFooterDisclaimerData}>
           <Accordion.Header>Disclaimer</Accordion.Header>
           <Accordion.Body>
@@ -650,9 +975,9 @@ const Footer = () => {
             )}
           </Accordion.Body>
         </Accordion.Item>
-        <br/>
+        <br />
         <Accordion.Item eventKey="4" onClick={getFindOutMore}>
-          <Accordion.Header>Find Out More</Accordion.Header>
+          <Accordion.Header>Find Out More Section</Accordion.Header>
           <Accordion.Body>
             <DataTable
               title="Find Out More"
@@ -674,7 +999,45 @@ const Footer = () => {
                 />
               }
               actions={
-                <Link to="/footer/find-out-more">
+                <Link to="/footer/find-more">
+                  <button
+                    data-toggle="modal"
+                    data-target="#myModal"
+                    className="btn btn-sm btn-success"
+                  >
+                    ADD+
+                  </button>
+                </Link>
+              }
+              subHeaderAlign="right"
+            />
+          </Accordion.Body>
+        </Accordion.Item>
+        <br />
+        <Accordion.Item eventKey="5" onClick={getAboutUS}>
+          <Accordion.Header>About Us Section</Accordion.Header>
+          <Accordion.Body>
+            <DataTable
+              title="About Us"
+              columns={AboutUs}
+              data={filteredAboutUs}
+              pagination
+              fixedHeader
+              fixedHeaderScrollHeight="450px"
+              selectableRowsHighlight
+              highlightOnHover
+              subHeader
+              subHeaderComponent={
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-25 form-control"
+                  value={search}
+                  onChange={(e) => setSearchPP(e.target.value)}
+                />
+              }
+              actions={
+                <Link to="/footer/about-us">
                   <button
                     data-toggle="modal"
                     data-target="#myModal"

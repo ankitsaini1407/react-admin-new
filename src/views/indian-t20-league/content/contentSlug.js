@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 const IndianT20LeagueContentSlug = () => {
   const location = useLocation();
-
+console.log("1111")
     return(
         <form>
         <div dangerouslySetInnerHTML={{ __html: location.state.description }} />

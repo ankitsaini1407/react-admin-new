@@ -41,7 +41,10 @@ const AddAboutUsBanner = () => {
     onSubmit: async (values, action) => {
       if (imageError == "") {
         const formData = new FormData();
+        formData.append("subType", values.subType);
+        console.log(values)
         formData.append("image", values.image);
+        console.log(values.image)
         const { data } = await axios.post(`${add_about_us_banner_route}?type=about-us`, formData);
         if (data.success === false) {
           toast.error(data.message, toastOptions);
