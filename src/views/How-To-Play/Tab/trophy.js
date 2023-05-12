@@ -128,12 +128,8 @@ const AddHowToPlaySteps = () => {
           }
         })
         .catch(function (error) {
-          if (error.response.data.token.isExpired == true) {
-            setTimeout(() => {
-              Cookies.remove("token", "user");
-              navigate("/");
-            }, 3000);
-            toast.error(error.response.data.token.message, toastOptions);
+          if (error) {
+            console.log(error);
           }
         });
       action.resetForm();

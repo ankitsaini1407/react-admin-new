@@ -12,7 +12,12 @@ import {
 import "../../../assets/css/banner-toggle-btn.css";
 import Button from "react-bootstrap/Button";
 import { ToastContainer, toast } from "react-toastify";
-import { BsEyeFill, BsPencilSquare, BsFillTrashFill, BsX } from "react-icons/bs";
+import {
+  BsEyeFill,
+  BsPencilSquare,
+  BsFillTrashFill,
+  BsX,
+} from "react-icons/bs";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Modal from "react-bootstrap/Modal";
@@ -46,10 +51,10 @@ const IndianT20LeagueTeamDetails = () => {
   const [perPage, setPerPage] = useState(10);
   const [modalInfo, setModalInfo] = useState("");
   const [modalShow, setModalShow] = useState(false);
-const [modalInfo1, setModalInfo1] = useState("");
+  const [modalInfo1, setModalInfo1] = useState("");
   const [modalShow1, setModalShow1] = useState(false);
-  const[playerLogo, setPlayerLogo] = useState("");
-  const[teamLogo, setTeamLogo] = useState("");
+  const [playerLogo, setPlayerLogo] = useState("");
+  const [teamLogo, setTeamLogo] = useState("");
 
   const getData = async () => {
     await axios
@@ -115,29 +120,6 @@ const [modalInfo1, setModalInfo1] = useState("");
       color3
     ) =>
     async () => {
-      
-
-//   const playerLogoURL = async(playerUrl:string) =>
-//   fetch(playerUrl)
-//   .then((response) => response.blob())
-//     .then(
-//       (blob) =>
-//         new Promise((resolve, reject) => {
-//           const reader = new FileReader();
-//           reader.onloadend = () => resolve(reader.result);
-//           reader.onerror = reject;
-//           reader.readAsDataURL(blob);
-//         })
-//     );
-
-//     playerLogoURL(
-//       playerlogo
-// ).then((dataUrl) => {
-//   setPlayerLogo(dataUrl)
-//   console.log("result", dataUrl);
-// });
-
-
       navigate(`/indian-t20-league/team-details/edit/${id}`, {
         state: {
           id: id,
@@ -150,10 +132,43 @@ const [modalInfo1, setModalInfo1] = useState("");
           teamlogo: teamlogo,
           color1: color1,
           color2: color2,
-          color3: color3
+          color3: color3,
         },
       });
     };
+
+    const handleView =
+    (
+      id,
+      captain,
+      team,
+      coach,
+      titles,
+      majorSignings,
+      playerlogo,
+      teamlogo,
+      color1,
+      color2,
+      color3
+    ) =>
+    async () => {
+      navigate(`/indian-t20-league/team-details/view/${id}`, {
+        state: {
+          id: id,
+          captain: captain,
+          team: team,
+          coach: coach,
+          titles: titles,
+          majorSignings: majorSignings,
+          playerlogo: playerlogo,
+          teamlogo: teamlogo,
+          color1: color1,
+          color2: color2,
+          color3: color3,
+        },
+      });
+    };
+
 
   const columns = [
     {
@@ -164,19 +179,31 @@ const [modalInfo1, setModalInfo1] = useState("");
     {
       name: "Player-Logo",
       selector: (row) => (
-        <img src={row.playerlogo} width={40} alt="player logo" onClick={() => {
-          setModalShow1(!modalShow1);
-          setModalInfo1(row.playerlogo)
-        }} />
+        <img
+          src={row.playerlogo}
+          width={40}
+          alt="player logo"
+          onClick={() => {
+            setModalShow1(!modalShow1);
+            setModalInfo1(row.playerlogo);
+          }}
+        />
       ),
       sortable: true,
     },
     {
       name: "Team-Logo",
-      selector: (row) => <img src={row.teamlogo} width={40} alt="team logo" onClick={() => {
-        setModalShow(!modalShow);
-        setModalInfo(row.teamlogo)
-      }} />,
+      selector: (row) => (
+        <img
+          src={row.teamlogo}
+          width={40}
+          alt="team logo"
+          onClick={() => {
+            setModalShow(!modalShow);
+            setModalInfo(row.teamlogo);
+          }}
+        />
+      ),
       sortable: true,
     },
     {
@@ -232,6 +259,27 @@ const [modalInfo1, setModalInfo1] = useState("");
       name: "Action",
       cell: (row) => (
         <div>
+          <OverlayTrigger
+            placement="bottom"
+            overlay={<Tooltip id="button-tooltip-2">View</Tooltip>}
+          >
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={handleView(row.id,
+                row.captain,
+                row.team,
+                row.coach,
+                row.titles,
+                row.majorSignings,
+                row.playerlogo,
+                row.teamlogo,
+                row.color1,
+                row.color2,
+                row.color3)}
+            >
+              <BsEyeFill style={{ fontSize: "20px", color: "blue" }} />
+            </Button>
+          </OverlayTrigger>
 
           <OverlayTrigger
             placement="bottom"
@@ -320,9 +368,7 @@ const [modalInfo1, setModalInfo1] = useState("");
           centered
         >
           <Modal.Header>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Image
-            </Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter">Image</Modal.Title>
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
               onClick={() => setModalShow1(!modalShow1)}
@@ -330,7 +376,13 @@ const [modalInfo1, setModalInfo1] = useState("");
               <BsX style={{ fontSize: "35px", color: "black" }} />
             </Button>
           </Modal.Header>
-          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <Modal.Body
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <img src={modalInfo1} height={400} width={400} />
           </Modal.Body>
         </Modal>
@@ -344,9 +396,7 @@ const [modalInfo1, setModalInfo1] = useState("");
           centered
         >
           <Modal.Header>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Image
-            </Modal.Title>
+            <Modal.Title id="contained-modal-title-vcenter">Image</Modal.Title>
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
               onClick={() => setModalShow(!modalShow)}
@@ -354,7 +404,13 @@ const [modalInfo1, setModalInfo1] = useState("");
               <BsX style={{ fontSize: "35px", color: "black" }} />
             </Button>
           </Modal.Header>
-          <Modal.Body style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <Modal.Body
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <img src={modalInfo} height={300} width={400} />
           </Modal.Body>
         </Modal>

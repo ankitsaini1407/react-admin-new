@@ -206,13 +206,7 @@ console.log("table",description)
         })
         .catch(function (error) {
           if (error) {
-            if (error.response.data.token.isExpired == true) {
-              setTimeout(() => {
-                Cookies.remove("token", "user");
-                navigate("/");
-              }, 3000);
-              toast.error(error.response.data.token.message, toastOptions);
-            }
+            console.log(error);
           }
         });
     } catch (err) {

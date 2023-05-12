@@ -80,8 +80,8 @@ const EditTeamDetails = () => {
           color_3: color_3
         };
         formData.append("data", JSON.stringify(data));
-        formData.append("image",  player_logo);
-        formData.append("image", team_logo);
+        formData.append("playerImage",  player_logo);
+        formData.append("teamImage", team_logo);
         const date = new Date();
         const fullYear = date.getFullYear();
         await axios
