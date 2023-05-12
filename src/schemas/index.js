@@ -172,3 +172,8 @@ export const find_out_more=Yup.object({
     heading:Yup.string().required("This field is required"),
     path: Yup.string().required("This field is required"),
 });
+
+export const sticky_buttons = Yup.object({
+    image: Yup.mixed().required("This field is required"),
+    link: Yup.string().required("This field is required"),
+});

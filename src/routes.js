@@ -6,9 +6,9 @@ import Footer from "./views/footer/Footer";
 import ContactUs from "./views/footer/ContactUs";
 import FooterSocialMedia from "./views/footer/SocialMedia";
 import FooterPaymentPartners from "./views/footer/PaymentPartner";
-import FooterDisclaimer from './views/footer/Disclaimer'
-import FindOutMore from './views/footer/findOutMore'
-import AboutUsFooter from './views/footer/aboutUs'
+import FooterDisclaimer from "./views/footer/Disclaimer";
+import FindOutMore from "./views/footer/findOutMore";
+import AboutUsFooter from "./views/footer/aboutUs";
 import Home from "./views/home/home";
 import AddLogo from "./views/home/logo/add";
 import AddNavbar from "./views/home/navbar/add";
@@ -64,24 +64,41 @@ import HowToPlaySlug from "./views/How-To-Play/Tab/contentSlug";
 import EditHowToPlay from "./views/How-To-Play/Tab/edit";
 import AddTrophy from "./views/How-To-Play/Tab/trophy";
 
-import FantasyCricket from './views/fantasyCricket/fantasyCricket'
+import FantasyCricket from "./views/fantasyCricket/fantasyCricket";
 import AddFantasyCricket from "./views/fantasyCricket/add";
 import EditFantasyCricket from "./views/fantasyCricket/edit";
 import ContentFantasyCricket from "./views/fantasyCricket/contentSlug";
 import AddFantasyFaqs from "./views/fantasyCricket/faqs/add";
 
- import PressReleaseTable from './views/Press-Release/pressRelease';
- import AddPressReleaseTable from './views/Press-Release/add';
+import PressReleaseTable from "./views/Press-Release/pressRelease";
+import AddPressReleaseTable from "./views/Press-Release/add";
 
- import CricketFantasyPoints from "./views/Fantasy-Point-System/Cricket";
+import CricketFantasyPoints from "./views/Fantasy-Point-System/Cricket";
 
- import FootballFantasyPoints from "./views/Fantasy-Point-System/Football";
+import FootballFantasyPoints from "./views/Fantasy-Point-System/Football";
 
- import KabaddiFantasyPoints from "./views/Fantasy-Point-System/Kabaddi";
+import KabaddiFantasyPoints from "./views/Fantasy-Point-System/Kabaddi";
 
- import SpotFantasyPoints from "./views/Fantasy-Point-System/Spot-Fantasy/table";
+import SpotFantasyPoints from "./views/Fantasy-Point-System/Spot-Fantasy/table";
 
- import EditTeamDetails from "./views/indian-t20-league/teams-detail/editTeamDetails";
+import EditTeamDetails from "./views/indian-t20-league/teams-detail/editTeamDetails";
+
+import Setting from "./views/settings/setting";
+import AddPlayResponsible from "./views/settings/playResponsible/add";
+import PlayResponsibleContentSlug from "./views/settings/playResponsible/contentSlug";
+import EditPlayResponsible  from "./views/settings/playResponsible/edit";
+
+import AddGuidelinesContent from "./views/settings/guidlines/add";
+import GuidelinesContentSlug from "./views/settings/guidlines/contentSlug";
+import EditGuidelinesContent from "./views/settings/guidlines/edit";
+
+import AddCopyrightContent from "./views/settings/copyright/add";
+import CopyrightContentSlug from "./views/settings/copyright/table";
+import EditCopyrightContent from "./views/settings/copyright/edit";
+
+
+import AddStickyButton from "./views/settings/stikcyButton/add";
+// import CopyrightContentSlug from "./views/settings/copyright/table";
 
  import ViewTeamDetails from "./views/indian-t20-league/teams-detail/viewTeamDetails";
 
@@ -296,8 +313,6 @@ const routes = [
     element: EditTc,
   },
 
-
-  
   { path: "/how-to-play", name: "How To Play", element: HowToPlay },
   {
     path: "/how-to-play/AddBanner",
@@ -334,7 +349,11 @@ const routes = [
     name: "Add Trophy",
     element: AddTrophy,
   },
-  { path: "/fantasy-cricket", name: "Fantasy Cricket", element: FantasyCricket },
+  {
+    path: "/fantasy-cricket",
+    name: "Fantasy Cricket",
+    element: FantasyCricket,
+  },
 
   {
     path: "/fantasy-cricket/add",
@@ -358,21 +377,90 @@ const routes = [
   },
 
   { path: "/press-release", name: "Press Release", element: PressReleaseTable },
-  { path: "/press-release/Add", name: "Add Press Release", element: AddPressReleaseTable },
+  {
+    path: "/press-release/Add",
+    name: "Add Press Release",
+    element: AddPressReleaseTable,
+  },
 
-  { path: "/fantasy-point-system/cricket", name: "Fantasy-Point-System / Cricket", element: CricketFantasyPoints },
+  {
+    path: "/fantasy-point-system/cricket",
+    name: "Fantasy-Point-System / Cricket",
+    element: CricketFantasyPoints,
+  },
 
-  { path: "/fantasy-point-system/football", name: "Fantasy-Point-System / Football", element: FootballFantasyPoints },
+  {
+    path: "/fantasy-point-system/football",
+    name: "Fantasy-Point-System / Football",
+    element: FootballFantasyPoints,
+  },
 
-  { path: "/fantasy-point-system/kabaddi", name: "Fantasy-Point-System / Kabaddi", element: KabaddiFantasyPoints },
+  {
+    path: "/fantasy-point-system/kabaddi",
+    name: "Fantasy-Point-System / Kabaddi",
+    element: KabaddiFantasyPoints,
+  },
 
-  { path: "/fantasy-point-system/spot-fantasy", name: "Fantasy-Point-System / Kabaddi", element: SpotFantasyPoints },
+  {
+    path: "/fantasy-point-system/spot-fantasy",
+    name: "Fantasy-Point-System / Kabaddi",
+    element: SpotFantasyPoints,
+  },
 
+  { path: "/setting", name: "Setting", element: Setting },
+  {
+    path: "/setting/Add",
+    name: "Setting/Play_Responsible_Add",
+    element: AddPlayResponsible,
+  },
+  {
+    path: "/setting/cms/:slug",
+    name: "Setting /CMS",
+    element: PlayResponsibleContentSlug,
+  },
+  {
+    path: "/setting/cms/edit/:id",
+    name: "Setting/CMS/Edit",
+    element: EditPlayResponsible,
+  },
 
+  {
+    path: "/setting/guidelines-add",
+    name: "Setting/Guidelines/Add",
+    element: AddGuidelinesContent,
+  },
 
+  {
+    path: "/setting/cms/:slug",
+    name: "Setting /Guidelines/CMS",
+    element: GuidelinesContentSlug,
+  },
+  {
+    path: "/setting/guidlines/edit/:id",
+    name: "Setting/Guidelines/Edit",
+    element: EditGuidelinesContent,
+  },
+  {
+    path: "/setting/copyright-add",
+    name: "Setting/Copyright/ Add",
+    element: AddCopyrightContent,
+  },
 
-
-
+  {
+    path: "/setting/cms/:slug",
+    name: "Setting/Copyright/CMS",
+    element: CopyrightContentSlug,
+  },
+  {
+    path: "/setting/copyright/edit/:id",
+    name: "Setting/Copyright/Edit",
+    element: EditCopyrightContent,
+  },
+  {
+    path: "/setting/stickybutton-add",
+    name: "Setting/StickyButton/ Add",
+    element: AddStickyButton,
+  },
 ];
 
 export default routes;
