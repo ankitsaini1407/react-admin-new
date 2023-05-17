@@ -102,6 +102,9 @@ import AddStickyButton from "./views/settings/stikcyButton/add";
 
  import ViewTeamDetails from "./views/indian-t20-league/teams-detail/viewTeamDetails";
 
+ import AddSubAdmin from "./views/sub-admin/add";
+ import SubAdmin from "./views/sub-admin/table";
+
 const routes = [
   { path: "/dashboard", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", element: Dashboard },
@@ -460,6 +463,17 @@ const routes = [
     path: "/setting/stickybutton-add",
     name: "Setting/StickyButton/ Add",
     element: AddStickyButton,
+  },
+
+  {
+    path: "/sub-admin/add",
+    name: "Sub-Admin / Add",
+    element: AddSubAdmin,
+  },
+  {
+    path: "/sub-admin",
+    name: "Sub-Admin",
+    element: SubAdmin,
   },
 ];
 

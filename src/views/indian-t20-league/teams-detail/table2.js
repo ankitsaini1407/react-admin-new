@@ -7,7 +7,7 @@ import axios from "axios";
 import {
   get_teamDetails_route,
   update_status_indianT20League_teamDetails,
-  delete_indianT20League_cms_route,
+  delete_indianT20League_teamDetails,
 } from "../../../utils/APIRoutes";
 import "../../../assets/css/banner-toggle-btn.css";
 import Button from "react-bootstrap/Button";
@@ -21,6 +21,7 @@ import {
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import Modal from "react-bootstrap/Modal";
+import Swal from "sweetalert2";
 
 const IndianT20LeagueTeamDetails = () => {
   const navigate = useNavigate();
@@ -88,19 +89,57 @@ const IndianT20LeagueTeamDetails = () => {
   };
 
   const handleDelete = (id) => async (e) => {
-    await axios
-      .delete(`${delete_indianT20League_cms_route}?id=${id}`)
-      .then((response) => {
-        getData();
-        if (response) {
-          toast.success(response.data.message, toastOptions);
-        }
-      })
-      .catch(function (error) {
-        if (error) {
-          if (error.response.data.success == false) {
-            toast.error(error.response.data.message, toastOptions);
+    const del = async () => {
+      await axios
+        .delete(`${delete_indianT20League_teamDetails}?id=${id}`, {
+          headers: { token: Cookies.get("token") },
+        })
+        .then((response) => {
+          getData();
+          if (response) {
+            toast.success(response.data.message, toastOptions);
           }
+        })
+        .catch(function (error) {
+          if (error) {
+            if (error.response.data.success == false) {
+              toast.error(error.response.data.message, toastOptions);
+            }
+          }
+        });
+    };
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "delete!",
+        cancelButtonText: "cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          del();
+          swalWithBootstrapButtons.fire(
+            "Deleted!",
+            "Your file has been deleted.",
+            "success"
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithBootstrapButtons.fire(
+            "Cancelled",
+            "Your imaginary file is safe :)",
+            "error"
+          );
         }
       });
   };
@@ -137,7 +176,7 @@ const IndianT20LeagueTeamDetails = () => {
       });
     };
 
-    const handleView =
+  const handleView =
     (
       id,
       captain,
@@ -168,7 +207,6 @@ const IndianT20LeagueTeamDetails = () => {
         },
       });
     };
-
 
   const columns = [
     {
@@ -265,7 +303,8 @@ const IndianT20LeagueTeamDetails = () => {
           >
             <Button
               style={{ backgroundColor: "transparent", border: "none" }}
-              onClick={handleView(row.id,
+              onClick={handleView(
+                row.id,
                 row.captain,
                 row.team,
                 row.coach,
@@ -275,7 +314,8 @@ const IndianT20LeagueTeamDetails = () => {
                 row.teamlogo,
                 row.color1,
                 row.color2,
-                row.color3)}
+                row.color3
+              )}
             >
               <BsEyeFill style={{ fontSize: "20px", color: "blue" }} />
             </Button>

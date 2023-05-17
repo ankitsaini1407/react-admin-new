@@ -15,6 +15,7 @@ import {sygnet} from "../assets/brand/sygnet";
 import navigation from '../_nav'
 
 const AppSidebar = () => {
+  console.log("navigation", navigation);
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)

@@ -184,7 +184,7 @@ const HomeBanners = () => {
 
   const handlePageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
-  }
+  };
   return (
     <div className="container">
       <DataTable

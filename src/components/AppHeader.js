@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -13,16 +13,51 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons';
-
 import { AppBreadcrumb } from './index';
 import { AppHeaderDropdown } from './header/index';
-import logo from "../assets/images/logo.png"
+import logo from "../assets/images/logo.png";
+import axios from "axios";
 
 const AppHeader = () => {
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const dispatch = useDispatch();
+  const sidebarShow = useSelector((state) => state.sidebarShow);
 
-  return (
+  const googleTranslateElementInit = () => {
+    new window.google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        autoDisplay: false
+      },
+      "google_translate_element"
+    );
+  };
+  useEffect(() => {
+    var addScript = document.createElement("script");
+    addScript.setAttribute(
+      "src",
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    );
+    document.body.appendChild(addScript);
+    window.googleTranslateElementInit = googleTranslateElementInit;
+  }, []);
+
+  useEffect(async()=>{
+    await axios.get("https://libretranslate.de/languages").then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  });
+
+//   useEffect(() => {
+//     axios.get(`https://libretranslate.de/languages`).then((response) => {
+//       console.log(response.data);
+//     });
+//   },[]);
+// }
+
+  return (<>
+    <div id="google_translate_element"></div>
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
         <CHeaderToggler
@@ -73,6 +108,7 @@ const AppHeader = () => {
         <AppBreadcrumb />
       </CContainer>
     </CHeader>
+    </>
   )
 }
 

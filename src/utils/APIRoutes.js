@@ -78,6 +78,7 @@ export const add_teamDetails_route = `${host}/v1/admin/indianT20League/addIndian
 export const edit_teamDetails_route = `${host}/v1/admin/indianT20League/editIndianT20League`;
 export const get_teamDetails_route = `${host}/v1/admin/indianT20League/getIndianT20League`;
 export const update_status_indianT20League_teamDetails = `${host}/v1/admin/indianT20League/updateIndianT20LeagueStatus`;
+export const delete_indianT20League_teamDetails = `${host}/v1/admin/indianT20League/deleteIndianT20League`;
 
 export const add_download_banner = `${host}/v1/admin/download/addDownloadBanner`;
 export const get_download_banner = `${host}/v1/admin/download/getDownloadBanner`;
