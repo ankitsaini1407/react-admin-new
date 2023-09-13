@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -17,44 +17,19 @@ import { AppBreadcrumb } from './index';
 import { AppHeaderDropdown } from './header/index';
 import logo from "../assets/images/logo.png";
 import axios from "axios";
+import Cookies from "js-cookie";
+import Language from "../views/pages/language";
+import Modal from "react-bootstrap/Modal";
+import {BsX} from "react-icons/bs";
+import Button from "react-bootstrap/Button";
+
 
 const AppHeader = () => {
+  const [modalInfo, setModalInfo] = useState("");
+  const [modalShow, setModalShow] = useState(false);
+  
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.sidebarShow);
-
-  const googleTranslateElementInit = () => {
-    new window.google.translate.TranslateElement(
-      {
-        pageLanguage: "en",
-        autoDisplay: false
-      },
-      "google_translate_element"
-    );
-  };
-  useEffect(() => {
-    var addScript = document.createElement("script");
-    addScript.setAttribute(
-      "src",
-      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-    );
-    document.body.appendChild(addScript);
-    window.googleTranslateElementInit = googleTranslateElementInit;
-  }, []);
-
-  useEffect(async()=>{
-    await axios.get("https://libretranslate.de/languages").then((res)=>{
-      console.log(res);
-    }).catch((err)=>{
-      console.log(err);
-    })
-  });
-
-//   useEffect(() => {
-//     axios.get(`https://libretranslate.de/languages`).then((response) => {
-//       console.log(response.data);
-//     });
-//   },[]);
-// }
 
   return (<>
     <div id="google_translate_element"></div>
@@ -85,9 +60,35 @@ const AppHeader = () => {
         <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
+              <CIcon icon={cilBell} size="lg" onClick={() => {
+                setModalShow(!modalShow);
+              }} />
             </CNavLink>
           </CNavItem>
+          {modalShow ? (
+        <Modal
+          show={modalShow}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Select Language
+            </Modal.Title>
+            <Button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              onClick={() => setModalShow(!modalShow)}
+            >
+              <BsX style={{ fontSize: "35px", color: "black" }} />
+            </Button>
+          </Modal.Header>
+          <Modal.Body>
+            < Language />
+          </Modal.Body>
+        </Modal>
+      ) : (
+        ""
+      )}
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilList} size="lg" />

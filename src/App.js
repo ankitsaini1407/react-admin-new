@@ -1,5 +1,5 @@
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route,useParams } from "react-router-dom";
 import Login from "./views/pages/login/Login";
 // import Register from "./views/pages/register/Register";
 import ForgotPassword from "./views/pages/forgot-password/ForgotPassword";

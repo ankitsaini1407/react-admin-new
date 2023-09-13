@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const AddLogo = () => {
   const navigate = useNavigate();
+  
   useEffect(() => {
     myFunction();
   }, []);

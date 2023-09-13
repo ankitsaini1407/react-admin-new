@@ -181,5 +181,10 @@ export const sticky_buttons = Yup.object({
 export const sub_admin_schema = Yup.object({
     name: Yup.string().min(2).max(25).required("This field is required"),
     email: Yup.string().email().required("This field is required"),
-    password: Yup.string().min(6).required("This field is required"),
+    password: Yup.string().min(6).required("This field is required")
+});
+
+export const language_schema = Yup.object({
+    language: Yup.string().required("This field is required"),
+
 });

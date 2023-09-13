@@ -5,9 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import axios from "axios";
 import {
-  get_home_logo_route,
-  delete_home_logo_route,
-  change_logo_status_route,
+  get_sub_admin,
+  delete_sub_admin,
+  change_status_sub_admin,
 } from "../../utils/APIRoutes";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
@@ -16,6 +16,7 @@ import { BsEyeFill, BsPencilSquare, BsFillTrashFill, BsX } from "react-icons/bs"
 import Swal from "sweetalert2";
 import AddLogo from "./add";
 import Modal from "react-bootstrap/Modal";
+import { ToastContainer, toast } from "react-toastify";
 
 import "../../assets/css/banner-toggle-btn.css";
 
@@ -41,15 +42,16 @@ const SubAdmin = () => {
     draggable: true,
     theme: "dark",
   };
-  const [logo, setLogo] = useState([]);
+  const [subAdmin, setSubAdmin] = useState([]);
 
-  const getLogo = async () => {
+  const getSubAdmin = async () => {
     await axios
-      .get(get_home_logo_route, {
+      .get(get_sub_admin, {
         headers: { token: Cookies.get("token") },
       })
       .then((response) => {
-        setLogo(response.data.data);
+        console.log("->>", response);
+        setSubAdmin(response.data.data.rows);
       })
       .catch(function (error) {
         if (error.response.data.token.isExpired == true) {
@@ -63,17 +65,17 @@ const SubAdmin = () => {
   };
 
   useEffect(() => {
-    getLogo();
+    getSubAdmin();
   }, []);
 
   const handleDelete = (id) => async (e) => {
     const del = async () => {
       await axios
-        .delete(`${delete_home_logo_route}?id=${id}`, {
+        .delete(`${delete_sub_admin}?id=${id}`, {
           headers: { token: Cookies.get("token") },
         })
         .then((response) => {
-          getLogo();
+          getSubAdmin();
           if (response) {
             toast.success(response.data.message, toastOptions);
           }
@@ -125,11 +127,11 @@ const SubAdmin = () => {
   const handleChange = (id, active) => async (e) => {
     active = !active;
     let response = await axios.post(
-      `${change_logo_status_route}?id=${id}&isActive=${active}`,
+      `${change_status_sub_admin}?id=${id}&isActive=${active}`,
       {},
       { headers: { token: Cookies.get("token") } }
     );
-    getLogo();
+    getSubAdmin();
   };
 
   const logoColumns = [
@@ -139,17 +141,19 @@ const SubAdmin = () => {
       sortable: true,
     },
     {
-      name: "Logo",
-      selector: (row) => <img src={row.logo} onClick={() => {
-        setModalShow(!modalShow);
-        setModalInfo(row.logo)
-      }} />,
+      name: "Name",
+      selector: (row) => row.username,
       sortable: true,
     },
     {
-      name: "Url",
-      selector: (row) => row.url,
+      name: "E-mail",
+      selector: (row) => row.email,
       sortable: true,
+    },
+    {
+      name: "Access-Module",
+      selector: row => row.accessModule,
+      sortable: true
     },
     {
       name: "Status",
@@ -194,7 +198,7 @@ const SubAdmin = () => {
       <DataTable
         title="Logo"
         columns={logoColumns}
-        data={logo}
+        data={subAdmin}
         pagination
         fixedHeader
         fixedHeaderScrollHeight="450px"

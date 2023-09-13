@@ -163,3 +163,8 @@ export const add_sticky_button= `${host}/v1/admin/setting/createStickyButton`;
 export const get_sticky_button = `${host}/v1/admin/setting/getStickyButton`;
 
 //setting/createContent
+
+export const add_sub_admin = `${host}/v1/admin/subAdmin/create`;
+export const get_sub_admin = `${host}/v1/admin/subAdmin/getSubAmdin`;
+export const change_status_sub_admin = `${host}/v1/admin/subAdmin/updateSubAdminStatus`;
+export const delete_sub_admin = `${host}/v1/admin/subAdmin/deleteSubAdmin`;

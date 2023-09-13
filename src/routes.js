@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 import EditCms from "./views/home/content/edit";
@@ -104,6 +105,8 @@ import AddStickyButton from "./views/settings/stikcyButton/add";
 
  import AddSubAdmin from "./views/sub-admin/add";
  import SubAdmin from "./views/sub-admin/table";
+ import Page404 from "./views/pages/page404/Page404";
+
 
 const routes = [
   { path: "/dashboard", exact: true, name: "Home" },
@@ -474,6 +477,11 @@ const routes = [
     path: "/sub-admin",
     name: "Sub-Admin",
     element: SubAdmin,
+  },
+  {
+    path: "/404",
+    name: "404",
+    element: Page404,
   },
 ];
 

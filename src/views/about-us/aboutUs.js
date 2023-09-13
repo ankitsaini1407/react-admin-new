@@ -1,12 +1,14 @@
 import React from "react";
 import Accordion from "react-bootstrap/Accordion";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import AboutUsBanners from "./banner/table";
 import AboutUsCenterLogoTable from "./centerLogo/table";
 import AboutUsCms from "./content/table";
 import AboutUsBottomImagesTable from "./bottomImages/table";
 const AboutUs = () => {
   const location = useLocation();
+  const para = useParams();
+  console.log("param", para);
   
   return (
     <Accordion defaultActiveKey={["0"]} alwaysOpen>

@@ -10,15 +10,17 @@ import {
   cilHome
 } from '@coreui/icons';
 import { CNavItem, CNavGroup } from '@coreui/react';
+import {locale} from "./lib/en";
 
 const _nav = [
   {
     component: CNavItem,
-    name: 'Dashboard',
+    name: locale.DASHBOARD_LABLE,
     label: 'Dashboard',
     value:'dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />
+    
   },
   {
     component: CNavItem,

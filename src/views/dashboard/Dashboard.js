@@ -1,13 +1,26 @@
 import React, {useEffect} from 'react';
 
 import { CCard, CCardBody } from '@coreui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import log from "../../assets/images/ipl9.jpeg"
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
+  const para = useParams();
+  let currentRoute = para["*"];
+useEffect(()=>{
+  let user = Cookies.get("user");
+  user = JSON.parse(user);
+  let route = user.accessRoutes;
+  let arr = [];
+  // route.map((elem)=>{
+  //   arr.push(elem.split("/")[1])
+  //   console.log("qrr", arr);
+  //   !currentRoute.includes(arr)?navigate("/home"):"";
+  // })
+})
+  
   useEffect(()=>{myFunction()},[]);
   const myFunction = () => {
     const token = Cookies.get('token');

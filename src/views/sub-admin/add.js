@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { sub_admin_schema } from "../../schemas";
+import { add_sub_admin } from "../../utils/APIRoutes";
 
 const AddSubAdmin = () => {
   const animatedComponents = makeAnimated();
@@ -25,6 +26,8 @@ const AddSubAdmin = () => {
       navigate("/");
     }
   };
+  const [module, setModule] = useState();
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const initialValues = {
     name: "",
@@ -44,21 +47,29 @@ const AddSubAdmin = () => {
     initialValues: initialValues,
     validationSchema: sub_admin_schema,
     onSubmit: async (values, action) => {
+      setIsSubmit(true);
       const { name, email, password } = values;
-      console.log("sub-admin", value);
-      // const { data } = await axios.post(add_faq_route, {
-      //   name, email, password, module
-      // });
-      // if (data.success === false) {
-      //   toast.error(data.message, toastOptions);
-      // } else if (data.success === true) {
-      //   setTimeout(() => {
-      //     navigate("/sub-admin");
-      //   }, 3000);
-      //   toast.success(data.message, toastOptions);
-      // }
+      const modules = ["Dashboard"];
+      const routes = ["/dashboard"];
+      module.map((data)=>{
+        modules.push(data.name);
+        routes.push(data.to);
+      });
+      await axios.post(add_sub_admin, {
+        name, email, password, modules, routes
+      }, { headers: { token: Cookies.get("token") } }).then((res)=>{
+        if(res){
+        console.log("subadmin", res);
+        setTimeout(() => {
+          navigate("/sub-admin");
+        }, 3000);
+        toast.success(res.message, toastOptions);
+        }
+      }).catch((err)=>{
+        console.log(err);
+      });
       action.resetForm();
-    },
+    }
   });
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -135,7 +146,7 @@ const AddSubAdmin = () => {
           components={animatedComponents}
           isMulti
           options={navigation}
-          onChange={(e)=>console.log("vvvv", e)}
+          onChange={(e)=>setModule(e)}
         />
       </Form.Group>
 

@@ -5,13 +5,14 @@ import Navbar from "./navbar/table";
 import HomeBanners from "./banners/table";
 import HomeSquareBoxes from "./square-boxes/table";
 import HowToPlay from "./how-to-play/table";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import HomeCms from "./content/table";
 import AppFeatures from "./app-features/table";
 import HomeFaq from "./faq/table";
 import HomeWinners from "./testimonial/table";
 const Home = () => {
   const location = useLocation();
+  const para = useParams();
   
   return (
     <Accordion defaultActiveKey={["0"]} alwaysOpen>
